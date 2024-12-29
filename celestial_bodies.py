@@ -36,7 +36,7 @@ class CelestialBody(Entity):
             model='sphere',
             texture=assets_manager.get_texture(texture),
             scale=radius * 2,
-            subdivisions=3,
+            subdivisions=kwargs.pop('subdivisions', 3),
             **kwargs
         )
         self.name = name
@@ -76,24 +76,25 @@ class Star(CelestialBody):
             name=name,
             radius=radius,
             texture=texture,
-            rotation_speed=rotation_speed
+            rotation_speed=rotation_speed,
+            subdivisions=8
         )
         # Add emissive material for stars
         self.color = color.yellow
         self.shader = 'lit_with_shadows_shader'  # Using built-in Ursina shader
         
-        # Add point light for star illumination
+        # Add sunlight for star illumination
         if light_manager:
-            # Create point light at star's position with high intensity
-            self.light = light_manager.add_point_light(
-                position=self.position,
-                color=color.rgb(255, 253, 208),  # Warm sunlight color
-                shadows=False,  # Disable shadows for better performance
-                intensity=2.0,  # High intensity for star light
-                range=1000  # Large range to illuminate the solar system
+            # Create sunlight with directional illumination
+            self.light = light_manager.add_sun_light(
+                direction=Vec3(1, -1, -1),  # Default sunlight direction
+                shadows=True  # Enable shadows for realism
             )
             if self.light:
                 light_manager.attach_to_entity(self.light, self)
+                # Configure sunlight properties
+                self.light.color = color.rgb(255, 253, 208)  # Warm sunlight color
+                self.light.intensity = 2.0  # High intensity for star light
 
 class Planet(CelestialBody):
     """Class representing planets"""
@@ -113,7 +114,8 @@ class Planet(CelestialBody):
             name=name,
             radius=radius,
             texture=texture,
-            rotation_speed=rotation_speed
+            rotation_speed=rotation_speed,
+            subdivisions=6
         )
         self.orbit_radius = orbit_radius
         self.orbit_speed = orbit_speed

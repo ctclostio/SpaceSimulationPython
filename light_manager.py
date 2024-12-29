@@ -13,6 +13,44 @@ from typing import List, Dict, Optional, Union
 import noise
 import math
 
+class SunLight(DirectionalLight):
+    """Specialized directional light for realistic sunlight simulation"""
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.shadow_map_resolution = Vec2(2048, 2048)  # Higher resolution shadows
+        self.shadows = True
+        self._time_of_day = 0.0  # 0-1 representing day cycle
+        self._base_color = color.rgb(255, 253, 208)  # Warm sunlight color
+        self._intensity = 1.0
+        
+    @property
+    def time_of_day(self):
+        return self._time_of_day
+        
+    @time_of_day.setter
+    def time_of_day(self, value):
+        """Update light properties based on time of day (0-1)"""
+        self._time_of_day = value % 1.0
+        self.update_light_properties()
+        
+    def update_light_properties(self):
+        """Update color and intensity based on time of day"""
+        # Calculate color temperature
+        if self._time_of_day < 0.25:  # Morning
+            t = self._time_of_day * 4
+            self.color = lerp(color.rgb(255, 200, 150), self._base_color, t)
+            self._intensity = lerp(0.5, 1.0, t)
+        elif self._time_of_day < 0.75:  # Day
+            self.color = self._base_color
+            self._intensity = 1.0
+        else:  # Evening
+            t = (self._time_of_day - 0.75) * 4
+            self.color = lerp(self._base_color, color.rgb(255, 150, 100), t)
+            self._intensity = lerp(1.0, 0.5, t)
+            
+        # Update shadow intensity
+        self.shadow_intensity = self._intensity * 0.8
+        
 class LightManager:
     def __init__(self, max_lights: int = 8):
         """Initialize the light manager with a maximum number of active lights"""
@@ -20,6 +58,28 @@ class LightManager:
         self.lights: List[Entity] = []
         self.light_configs: Dict[Entity, Dict] = {}
         self.enabled = True
+        
+    def add_sun_light(self,
+                    direction: Vec3 = Vec3(1, -1, -1),
+                    shadows: bool = True) -> Optional[SunLight]:
+        """Add a sunlight to the scene"""
+        if len(self.lights) >= self.max_lights:
+            print("Warning: Maximum number of lights reached")
+            return None
+            
+        light = SunLight()
+        light.look_at(direction)
+        light.shadows = shadows
+        
+        # Store configuration for later adjustment
+        self.light_configs[light] = {
+            'type': 'sun',
+            'direction': direction,
+            'shadows': shadows
+        }
+        
+        self.lights.append(light)
+        return light
         
     def add_directional_light(self, 
                             direction: Vec3 = Vec3(1, -1, -1),
