@@ -1,0 +1,35 @@
+---
+title: API Reference - InputField(Button)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#InputField(Button)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# InputField(Button)
+
+| .default_value= default_value |  |
+| --- | --- |
+| .limit_content_to = None |  |
+| .hide_content = False | if set to True, will display content as '*'. can also be set to character instead of True. |
+| .next_field = None |  |
+| .submit_on = [] | for example: self.submit_on |
+| .on_submit = None | function to be called when you press self.submit_on. |
+| .on_value_changed = None |  |
+| .text_field = TextField(world_parent=self, x=-.45, y=.25, z=-.1, max_lines=max_lines, character_limit=character_limit, text=text, register_mouse_input=True) |  |
+| .active = active |  |
+| .text |  |
+| --- | --- |
+| .text_color |  |
+| .active |  |
+| render() |  |
+| --- | --- |
+| input( key ) |  |
+app = Ursina()
+gradient =Entity(model='quad',texture='vertical_gradient',parent=camera.ui,scale=(camera.aspect_ratio,1),color=color.hsv(240,.6,.1,.75))
+
+username_field =InputField(y=-.12, limit_content_to='0123456789', default_value='11', active=True)
+username_field.text ='0929468098'password_field =InputField(y=-.18, hide_content=True)
+username_field.next_field = password_fielddefsubmit():print('ursername:', username_field.text)print('password:',  password_field.text)
+
+Button(text='Login',scale=.1,color=color.cyan.tint(-.4),y=-.26,on_click=submit).fit_to_text()
+username_field.on_value_changed = submit
+app.run()

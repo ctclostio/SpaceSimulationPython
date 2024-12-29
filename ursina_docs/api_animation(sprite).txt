@@ -1,0 +1,29 @@
+---
+title: API Reference - Animation(Sprite)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Animation(Sprite)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Animation(Sprite)
+
+| .sequence= Sequence(loop=loop, auto_destroy=False) |  |
+| --- | --- |
+| .frame_times = frame_times |  |
+| .is_playing = False |  |
+| .autoplay = autoplay |  |
+| .duration | get the duration of the animation. you can't set it. to do so, change the fps instead. |
+| --- | --- |
+| start() |  |
+| --- | --- |
+| pause() |  |
+| resume() |  |
+| finish() |  |
+app = Ursina()'''
+    Loads an image sequence as a frame animation.
+    Consider using SpriteSheetAnimation instead if possible.
+    So if you have some frames named image_000.png, image_001.png, image_002.png and so on,
+    you can load it like this:Animation('image')
+
+    You can also load a .gif by including the file type:Animation('image.gif')'''a =Animation('ursina_wink')
+
+    app.run()

@@ -1,0 +1,47 @@
+---
+title: API Reference - Audio(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Audio(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Audio(Entity)
+
+| Audio.volume_multiplier = .5  # |  |
+| --- | --- |
+| .clip = sound_file_name |  |
+| .volume = volume |  |
+| .pitch = pitch |  |
+| .balance = balance |  |
+| .loop = loop |  |
+| .autoplay = autoplay |  |
+| .auto_destroy = auto_destroy |  |
+| .volume |  |
+| --- | --- |
+| .pitch |  |
+| .loop |  |
+| .loops |  |
+| .clip |  |
+| .length | get the duration of the audio clip. |
+| .status |  |
+| .ready |  |
+| .playing |  |
+| .time |  |
+| .balance | pan the audio. should be a value between -.5 and .5. default: 0 |
+| play(start=0) |  |
+| --- | --- |
+| pause() |  |
+| resume() |  |
+| stop( destroy=True ) |  |
+| fade( value, duration=.5, delay=0, curve=curve.in_expo, resolution=None, interrupt=True ) |  |
+| fade_in( value=1, duration=.5, delay=0, curve=curve.in_expo, resolution=None, interrupt='finish', ) |  |
+| fade_out( value=0, duration=.5, delay=0, curve=curve.in_expo, resolution=None, interrupt='finish', ) |  |
+fromursinaimportUrsinaimportrandom
+
+app = Ursina()
+a =Audio('sine', loop=True, autoplay=True)
+
+a.volume = .5print('---', a.volume)definput(key):ifkey =='space':
+        a =Audio('sine', pitch=random.uniform(.5,1), loop=True)
+
+
+app.run()

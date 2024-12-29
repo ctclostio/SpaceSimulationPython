@@ -1,0 +1,18 @@
+---
+title: API Reference - duplicate
+url: https://www.ursinaengine.org/api_reference.html#Ursina#duplicate
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# duplicate
+
+| duplicate(entity, copy_children=True, *args, **kwargs): # use a for loop instead of duplicate() | use a for loop instead of duplicate() if you can. |
+| --- | --- |
+fromursinaimport*fromursinaimportUrsina, Button, scene, EditorCamera
+app = Ursina()
+
+
+e = Button(parent=scene,scale=1,text='yolo')
+e2=duplicate(e, x=1.25)
+EditorCamera()
+app.run()

@@ -1,0 +1,24 @@
+---
+title: API Reference - ssao
+url: https://www.ursinaengine.org/api_reference.html#Ursina#ssao
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# ssao
+
+fromursinaimport*
+app = Ursina()
+
+e =Entity(model='sphere',color=color.orange)
+e =Entity(model='cube',y=-1)
+e =Entity(model='plane',scale=100,y=-1)
+camera.shader = ssao_shader
+
+EditorCamera()definput(key):ifkey =='space':ifcamera.shader:
+            camera.shader = Noneelse:
+            camera.shader = ssao_shader
+
+
+random.seed(2)fori inrange(20):
+    e =Entity(model='cube',position=Vec3(random.random(),random.random(),random.random())*3,rotation=Vec3(random.random(),random.random(),random.random())*360)
+app.run()

@@ -1,0 +1,13 @@
+---
+title: API Reference - Sky(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Sky(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Sky(Entity)
+
+| Sky.instances = [] |  |
+| --- | --- |
+| update() |  |
+| --- | --- |
+| input( key ) |  |

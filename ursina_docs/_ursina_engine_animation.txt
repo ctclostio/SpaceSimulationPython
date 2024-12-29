@@ -1,0 +1,303 @@
+---
+title:  ursina engine animation
+url: https://www.ursinaengine.org/animation.html#FrameAnimation3D (3D)
+scraped_at: Sun Dec 29 01:01:56 2024
+---
+
+
+
+
+
+[](index.html)
+
+[Download]( installation.html)
+
+[Documentation]( documentation.html)
+
+[API Reference]( api_reference.html)
+
+[Samples]( samples.html)
+
+[Asset Store]( asset_store.html)
+
+[Donate]( donate.html)
+
+
+
+
+
+
+
+
+
+
+
+[Installation](installation.html)
+
+
+
+
+[Entity Basics](entity_basics.html)
+
+•
+[What is an Entity?](entity_basics.html#What is an Entity?)
+
+•
+[Model](entity_basics.html#Model)
+
+•
+[Texture](entity_basics.html#Texture)
+
+•
+[Color](entity_basics.html#Color)
+
+•
+[Position](entity_basics.html#Position)
+
+•
+[Rotation](entity_basics.html#Rotation)
+
+•
+[Scale](entity_basics.html#Scale)
+
+•
+[Update](entity_basics.html#Update)
+
+•
+[Input](entity_basics.html#Input)
+
+•
+[Mouse Input](entity_basics.html#Mouse Input)
+
+•
+[Other Magic Functions](entity_basics.html#Other Magic Functions)
+
+
+
+
+[Coordinate System](coordinate_system.html)
+
+•
+[Entity Coordinate System](coordinate_system.html#Entity Coordinate System)
+
+•
+[UI Coordinate System](coordinate_system.html#UI Coordinate System)
+
+•
+[Rotation](coordinate_system.html#Rotation)
+
+•
+[Origin](coordinate_system.html#Origin)
+
+
+
+
+[Collision](collision.html)
+
+•
+[Adding Colliders](collision.html#Adding Colliders)
+
+•
+[raycast()](collision.html#raycast())
+
+•
+[boxcast()](collision.html#boxcast())
+
+•
+[intersects()](collision.html#intersects())
+
+•
+[HitInfo](collision.html#HitInfo)
+
+•
+[Distance Check](collision.html#Distance Check)
+
+•
+[Mouse Collision](collision.html#Mouse Collision)
+
+
+
+
+[Text](text.html)
+
+•
+[Text Size](text.html#Text Size)
+
+•
+[Font and Resolution](text.html#Font and Resolution)
+
+•
+[Text Alignment](text.html#Text Alignment)
+
+•
+[Text Colors](text.html#Text Colors)
+
+•
+[Changing Text of Prefabs](text.html#Changing Text of Prefabs)
+
+
+
+
+[Animation](animation.html)
+
+•
+[SpriteSheetAnimation (2D)](animation.html#SpriteSheetAnimation (2D))
+
+•
+[Animation (2D)](animation.html#Animation (2D))
+
+•
+[Actor (3D)](animation.html#Actor (3D))
+
+•
+[FrameAnimation3D (3D)](animation.html#FrameAnimation3D (3D))
+
+
+
+
+
+
+[Networking](networking.html)
+
+•
+[~~ Networking Concepts ~~](networking.html#~~ Networking Concepts ~~)
+
+•
+[How Data Goes from Point A to Point B](networking.html#How Data Goes from Point A to Point B)
+
+•
+[IP Addresses](networking.html#IP Addresses)
+
+•
+[Ports](networking.html#Ports)
+
+•
+[Communication Protocols](networking.html#Communication Protocols)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Game Networking Concepts ~~](networking.html#~~ Game Networking Concepts ~~)
+
+•
+[Multiplayer Preparations](networking.html#Multiplayer Preparations)
+
+•
+[Sending Inputs](networking.html#Sending Inputs)
+
+•
+[Sending Game State](networking.html#Sending Game State)
+
+•
+[Client Authoritative](networking.html#Client Authoritative)
+
+•
+[Server Authoritative](networking.html#Server Authoritative)
+
+•
+[Deterministic Lockstep](networking.html#Deterministic Lockstep)
+
+•
+[Snapshot Interpolation](networking.html#Snapshot Interpolation)
+
+•
+[Server Side Lag Compensation](networking.html#Server Side Lag Compensation)
+
+•
+[Client Side Prediction](networking.html#Client Side Prediction)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Introduction to Ursina Networking ~~](networking.html#~~ Introduction to Ursina Networking ~~)
+
+•
+[Limitations](networking.html#Limitations)
+
+•
+[Basics](networking.html#Basics)
+
+•
+[Samples](networking.html#Samples)
+
+
+
+
+[F.A.Q.](faq.html)
+
+
+
+
+[Build and Release](building.html)
+
+•
+[Building Your App with ursina.build](building.html#Building Your App with ursina.build)
+
+•
+[Building with Nuitka](building.html#Building with Nuitka)
+
+•
+[Building Your App with auto-py-to-exe](building.html#Building Your App with auto-py-to-exe)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Animation
+
+
+## SpriteSheetAnimation (2D)
+
+Use a sprite sheet to make an animation. A sprite sheet is an image
+containing the all animation frames in on image, laid out in a grid.
+[SpriteSheetAnimation Documentation](https://www.ursinaengine.org/api_reference.html#SpriteSheetAnimation)
+## Animation (2D)
+
+Loads an image sequence or a .gif as an animation.
+[Animation Documentation](https://www.ursinaengine.org/api_reference.html#Animation)
+## Actor (3D)
+
+For skeletal animations you can use panda3d's Actor.
+Export the model as .glft/.glb since that format support
+mesh data, texture data, animations and more, all in one file.
+
+```python
+ursinaimport*from direct.actor.ActorimportActor
+
+app = Ursina()
+
+entity  = Entity()#animations are stored within the fileactor = Actor("filename.gltf")
+actor.reparent_to(entity)
+
+actor.loop("animation_name")# use .play() in stead of loop() to play it once.app.run()
+```
+
+See the
+[panda3d documentation](https://docs.panda3d.org/1.10/python/programming/models-and-actors/actor-animations)
+for more info.
+## FrameAnimation3D (3D)
+
+[FrameAnimation3D Documentation](https://www.ursinaengine.org/api_reference.html#FrameAnimation3D)
+FrameAnimation3d loads a sequence of models and cycles through them so it looks like it animates.
+This a memory intensive option, so it's recommended to not have very a high poly count.
+With this method you can't interpolate animations or move a single bone like you can with Actor.
+However, FrameAnimation3D is a very solid solution that is very unlikely to break or produce
+bugs like skeletal animation often can. Also, since every frame is unique, it's possible to
+adjust each frame individually.
+First, export your animation as a sequence of 3d models.
+Assuming you have a bunch of models named run_cycle_000.obj, run_cycle_001.obj, run_cycle_002.obj and so on,
+you can load the animation like this:
+
+```python
+FrameAnimation3d('run_cycle_')
+```

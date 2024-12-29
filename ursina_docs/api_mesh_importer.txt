@@ -1,0 +1,33 @@
+---
+title: API Reference - mesh_importer
+url: https://www.ursinaengine.org/api_reference.html#Ursina#mesh_importer
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# mesh_importer
+
+| .blender_scenes= dict() |  |
+| --- | --- |
+| load_model(name, folder=Func(getattr, application, 'asset_folder'), file_types=('.bam', '.ursinamesh', '.obj', '.glb', '.gltf', '.blend'), use_deepcopy=False, gltf_no_srgb=Func(getattr, application, 'gltf_no_srgb')) |  |
+| --- | --- |
+| load_blender_scene( name, path=Func(getattr, application, 'asset_folder'), reload=False, skip_hidden=True, models_only=False, uvs=True, vertex_colors=True, normals=True, triangulate=True, decimals=4 ) |  |
+| get_blender( blend_file ) | try to get a matching blender version in case we have multiple blender version installed |
+| blend_to_obj( blend_file:Path, out_folder=Func(getattr, application, 'compressed_models_folder'), export_mtl=True ) |  |
+| obj_to_ursinamesh( folder=Func(getattr, application, 'compressed_models_folder'), out_folder=Func(getattr, application, 'compressed_models_folder'), name='*', return_mesh=True, save_to_file=False, delete_obj=False ) |  |
+| blend_to_obj_fast( model_name=None, write_to_disk=False ) |  |
+| ursina_mesh_to_obj( mesh, name='', out_path=Func(getattr, application, 'compressed_models_folder'), max_decimals=5, flip_faces=True ) |  |
+| compress_internal() |  |
+fromursinaimport*fromursinaimportUrsina,Entity, EditorCamera, Sky
+app = Ursina()
+m = obj_to_ursinamesh(folder=application.asset_folder.parent /'samples', name='procedural_rock_0', save_to_file=False, delete_obj=False)print(m.serialize())
+
+
+
+
+
+
+EditorCamera()
+Sky(texture='sky_sunset')
+
+
+app.run()

@@ -1,0 +1,60 @@
+---
+title: introduction_tutorial
+url: https://www.ursinaengine.org/introduction_tutorial.html
+scraped_at: Sun Dec 29 01:01:54 2024
+---
+
+
+Introduction Tutorial
+
+
+## Creating and running a game
+
+1) Open your preferred text editor. If you're new to programming, here are some suggestions:
+* Atom
+* Visual Studio Code
+* Sublime Text
+2) Create a new folder for your project. This will contain scripts and assets.
+For ursina to find 3d models and textures, they should be in the same folder or in
+a folder below the starting script.
+In this folder, create a new file called main.py. This will contain our little game.
+3) At the top of the file, write:
+
+```python
+ursinaimport*
+```
+
+This will import all the necessary things we need from the engine in one line.
+It means something like 'from ursina import all'. It's also possible to import parts of the engine
+like this:
+
+```python
+ursina.prefabsimportButton
+```
+
+Or import something that's not included by default:
+
+```python
+ursina.prefabs.first_person_controllerimportFirstPersonController
+```
+
+4) Here's a really basic example game with comments to explain what we're doing.
+We will simply make an orange box move right and left when we press 'd' or 'a'.
+
+```python
+ursinaimport*# create a windowapp = Ursina()# most things in ursina are Entities. AnEntityis a thing you place in the world.# you can think of them as GameObjects in Unity or Actors in Unreal.# the first parameter tells us theEntity's model will be a3d-model called 'cube'.# ursina in cludes some basic models like'cube', 'sphere'and'quad'.# the next parameter tells us the model's color should be orange.#'scale_y = 2'tells us how big the entity should be in the vertical axis, how tall it should be.# in ursina, positive x is right, positive y is up, and positive z is for ward.player  = Entity(model = 'cube', color = color.orange, scale_y = 2)# create a function called'update'.# this will automatically get called by the engine every frame.def update():
+    player.x  +=  held_keys['d'] * time.dt
+    player.x  -=  held_keys['a'] * time.dt# this part will make the player move left or right based on our in put.# to check which keys are held down, we can check the held_keys dictionary.#0meansnotpressed and1means pressed.# time.dt is simply the time since the last frame. by multiplying with this, the# player will move at the same speed regardless of how fast the game runs.def in put(key):if key == 'space':
+        player.y  +=  1invoke(setattr, player, 'y', player.y-1, delay = .25)# start running the gameapp.run()
+```
+
+5) Now we have to tell Python to run the script. To do this, open the command line and
+go to the current folder. An easy way to do this is to type 'cmd' in the address bar.
+Run the command below.
+
+```python
+python main.py
+```
+
+An alternative is to install the 'atom-python-run' package in Atom so you can start
+the game by pressing F5.

@@ -1,0 +1,31 @@
+---
+title: API Reference - lit_with_shadows_shader
+url: https://www.ursinaengine.org/api_reference.html#Ursina#lit_with_shadows_shader
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# lit_with_shadows_shader
+
+| default_input |  |
+| --- | --- |
+| 'texture_scale': Vec2(1,1), |  |
+| 'texture_offset': Vec2(0,0), |  |
+| 'shadow_color' : Color(0, .5, 1, .25), |  |
+| 'shadow_blur': .005, |  |
+| 'shadow_samples': 4 |  |
+fromursinaimport*
+
+app = Ursina()
+shader = lit_with_shadows_shader
+
+a =Entity(model='cube',shader=shader,y=1,color=color.light_gray)Entity(model='sphere',texture='shore',y=2, x=1,shader=shader)Entity(model='plane',scale=16,texture='grass',shader=lit_with_shadows_shader)fromursina.lightsimportDirectionalLight
+sun = DirectionalLight(shadow_map_resolution=(2048,2048))
+sun.look_at(Vec3(-1,-1,-10))
+scene.fog_density = (1,50)
+Sky(color=color.light_gray)
+EditorCamera()defupdate():
+    a.x += (held_keys['d'] - held_keys['a']) * time.dt *5a.y += (held_keys['e'] - held_keys['q']) * time.dt *5a.z += (held_keys['w'] - held_keys['s']) * time.dt *5definput(key):ifkey =='r':ifsun.color == color.white:
+            sun.color = color.redelse:
+            sun.color = color.white
+
+app.run()

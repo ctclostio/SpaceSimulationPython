@@ -1,0 +1,20 @@
+---
+title: API Reference - camera_grayscale
+url: https://www.ursinaengine.org/api_reference.html#Ursina#camera_grayscale
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# camera_grayscale
+
+fromursinaimport*
+app = Ursina()
+
+e =Entity(model='sphere',color=color.orange)
+e =Entity(model='cube',y=-1)
+camera.shader = camera_grayscale_shader
+EditorCamera()definput(key):ifkey =='space':ifcamera.shader:
+            camera.shader = Noneelse:
+            camera.shader = camera_grayscale_shader
+
+
+app.run()

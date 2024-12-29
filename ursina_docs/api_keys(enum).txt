@@ -1,0 +1,97 @@
+---
+title: API Reference - Keys(Enum)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Keys(Enum)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Keys(Enum)
+
+| Keys.left_mouse_down = 'left mouse down' |  |
+| --- | --- |
+| Keys.left_mouse_up = 'left mouse up' |  |
+| Keys.middle_mouse_down = 'middle mouse down' |  |
+| Keys.middle_mouse_up = 'middle mouse up' |  |
+| Keys.right_mouse_down = 'right mouse down' |  |
+| Keys.right_mouse_up = 'right mouse up' |  |
+| Keys.double_click = 'double click' |  |
+| Keys.scroll_up = 'scroll up' |  |
+| Keys.scroll_down = 'scroll down' |  |
+| Keys.left_arrow = 'left arrow' |  |
+| Keys.left_arrow_up = 'left arrow up' |  |
+| Keys.up_arrow = 'up arrow' |  |
+| Keys.up_arrow_up = 'up arrow up' |  |
+| Keys.down_arrow = 'down arrow' |  |
+| Keys.down_arrow_up = 'down arrow up' |  |
+| Keys.right_arrow = 'right arrow' |  |
+| Keys.right_arrow_up = 'right arrow up' |  |
+| Keys.left_control = 'left control' |  |
+| Keys.right_control = 'right control' |  |
+| Keys.left_shift = 'left shift' |  |
+| Keys.right_shift = 'right shift' |  |
+| Keys.left_alt = 'left alt' |  |
+| Keys.right_alt = 'right alt' |  |
+| Keys.left_control_up = 'left control up' |  |
+| Keys.right_control_up = 'right control up' |  |
+| Keys.left_shift_up = 'left shift up' |  |
+| Keys.right_shift_up = 'right shift up' |  |
+| Keys.left_alt_up = 'left alt up' |  |
+| Keys.right_alt_up = 'right alt up' |  |
+| Keys.page_down = 'page down' |  |
+| Keys.page_down_up = 'page down up' |  |
+| Keys.page_up = 'page up' |  |
+| Keys.page_up_up = 'page up up' |  |
+| Keys.enter = 'enter' |  |
+| Keys.backspace = 'backspace' |  |
+| Keys.escape = 'escape' |  |
+| Keys.tab = 'tab' |  |
+| Keys.gamepad_left_stick_x = 'gamepad left stick x'   # held_keys only |  |
+| Keys.gamepad_left_stick_y = 'gamepad left stick y'   # held_keys only |  |
+| Keys.gamepad_right_stick_x = 'gamepad right stick x'   # held_keys only |  |
+| Keys.gamepad_right_stick_y = 'gamepad right stick y'   # held_keys only |  |
+| Keys.gamepad_left_trigger = 'gamepad left trigger'   # held_keys only |  |
+| Keys.gamepad_right_trigger = 'gamepad right trigger'   # held_keys only |  |
+| Keys.gamepad_a = 'gamepad a' |  |
+| Keys.gamepad_a_up = 'gamepad a up' |  |
+| Keys.gamepad_b = 'gamepad b' |  |
+| Keys.gamepad_b_up = 'gamepad b up' |  |
+| Keys.gamepad_x = 'gamepad x' |  |
+| Keys.gamepad_x_up = 'gamepad x up' |  |
+| Keys.gamepad_y = 'gamepad y' |  |
+| Keys.gamepad_y_up = 'gamepad y up' |  |
+| Keys.gamepad_left_stick = 'gamepad left stick' |  |
+| Keys.gamepad_left_stick_up = 'gamepad left stick up' |  |
+| Keys.gamepad_right_stick = 'gamepad right stick' |  |
+| Keys.gamepad_right_stick_up = 'gamepad right stick up' |  |
+| Keys.gamepad_back = 'gamepad back' |  |
+| Keys.gamepad_back_up = 'gamepad back up' |  |
+| Keys.gamepad_start = 'gamepad start' |  |
+| Keys.gamepad_dpad_down = 'gamepad dpad down' |  |
+| Keys.gamepad_dpad_down_up = 'gamepad dpad down up' |  |
+| Keys.gamepad_dpad_up = 'gamepad dpad up' |  |
+| Keys.gamepad_dpad_up_up = 'gamepad dpad up up' |  |
+| Keys.gamepad_dpad_left = 'gamepad dpad left' |  |
+| Keys.gamepad_dpad_left_up = 'gamepad dpad left up' |  |
+| Keys.gamepad_dpad_right = 'gamepad dpad right' |  |
+| Keys.gamepad_dpad_right_up = 'gamepad dpad right up' |  |
+| Keys.gamepad_left_shoulder = 'gamepad left shoulder' |  |
+| Keys.gamepad_left_shoulder_up = 'gamepad left shoulder up' |  |
+| Keys.gamepad_right_shoulder = 'gamepad right shoulder' |  |
+| Keys.gamepad_right_shoulder_up = 'gamepad right shoulder up' |  |
+| bind(original_key, alternative_key) |  |
+| --- | --- |
+| unbind( key ) |  |
+| rebind( to_key, from_key ) |  |
+| input( key ) |  |
+| get_combined_key( key ) |  |
+fromursinaimport*fromursinaimportUrsina, input_handler
+
+app = Ursina(borderless=False)
+input_handler.bind('z','w')#'z'-key will now be registered as'w'-keyinput_handler.bind('left mouse down','attack')#'left mouse down'-key will now send'attack'to input functionsinput_handler.bind('gamepad b','attack')#'gamepad b'-key will now be registered as'attack'-keydefinput(key):print('got key:', key)ifkey =='attack':
+        destroy(Entity(model='cube',color=color.blue), delay=.2)
+
+
+
+
+
+
+app.run()

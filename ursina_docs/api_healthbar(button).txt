@@ -1,0 +1,29 @@
+---
+title: API Reference - HealthBar(Button)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#HealthBar(Button)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# HealthBar(Button)
+
+| .bar= Entity(parent=self, model=Quad(radius=roundness), origin=origin, z=-.005, color=bar_color, highlight_color=highlight_color, ignore=True) |  |
+| --- | --- |
+| .lines = Entity(parent=self.bar, y=-1, color=color.black33, ignore=True, enabled=show_lines, z=-.05) |  |
+| .max_value = max_value |  |
+| .clamp = True |  |
+| .roundness = roundness |  |
+| .animation_duration = animation_duration |  |
+| .show_lines = show_lines |  |
+| .show_text = show_text |  |
+| .value = self.max_value if value == Default else value |  |
+| .value |  |
+| --- | --- |
+| .show_text |  |
+| .show_lines |  |
+| .bar_color |  |
+app = Ursina()
+
+health_bar_1=HealthBar(bar_color=color.lime.tint(-.25), roundness=.5, max_value=100, value=50,scale=(.5,.1))print(health_bar_1.text_entity.enabled, health_bar_1.text_entity.text)definput(key):ifkey =='+'or key =='+ hold':
+        health_bar_1.value +=10ifkey =='-'or key =='- hold':
+        health_bar_1.value -=10print('ow')
+app.run()

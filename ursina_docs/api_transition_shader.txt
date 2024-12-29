@@ -1,0 +1,27 @@
+---
+title: API Reference - transition_shader
+url: https://www.ursinaengine.org/api_reference.html#Ursina#transition_shader
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# transition_shader
+
+fromursinaimport*
+app = Ursina()
+window.color = color._16Texture.default_filtering ='bilinear'e =Entity(model='quad',shader=transition_shader,scale=5, cutoff=0,texture='sword_slash',color=color.azure
+    )
+mask = load_texture('sword_slash')
+e.set_shader_input('mask_texture', mask)
+EditorCamera()
+
+min_cutoff_slider = Slider(0,1, dynamic=True,y=-.4)defon_value_changed():
+    e.set_shader_input('min_cutoff', min_cutoff_slider.value)
+min_cutoff_slider.on_value_changed = on_value_changed
+
+max_cutoff_slider = Slider(0,1, default=1, dynamic=True,y=-.45)defon_value_changed():
+    e.set_shader_input('max_cutoff', max_cutoff_slider.value)
+max_cutoff_slider.on_value_changed = on_value_changeddefinput(key):ifkey =='space':
+        e.cutoff =0e.animate('cutoff',1, duration=.1,curve=curve.linear, delay=.05)
+
+
+app.run()

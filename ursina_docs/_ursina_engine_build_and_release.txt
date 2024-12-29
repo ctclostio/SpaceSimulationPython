@@ -1,0 +1,307 @@
+---
+title:  ursina engine build and release
+url: https://www.ursinaengine.org/building.html#Building Your App with auto-py-to-exe
+scraped_at: Sun Dec 29 01:01:55 2024
+---
+
+
+
+
+
+[](index.html)
+
+[Download]( installation.html)
+
+[Documentation]( documentation.html)
+
+[API Reference]( api_reference.html)
+
+[Samples]( samples.html)
+
+[Asset Store]( asset_store.html)
+
+[Donate]( donate.html)
+
+
+
+
+
+
+
+
+
+
+
+[Installation](installation.html)
+
+
+
+
+[Entity Basics](entity_basics.html)
+
+•
+[What is an Entity?](entity_basics.html#What is an Entity?)
+
+•
+[Model](entity_basics.html#Model)
+
+•
+[Texture](entity_basics.html#Texture)
+
+•
+[Color](entity_basics.html#Color)
+
+•
+[Position](entity_basics.html#Position)
+
+•
+[Rotation](entity_basics.html#Rotation)
+
+•
+[Scale](entity_basics.html#Scale)
+
+•
+[Update](entity_basics.html#Update)
+
+•
+[Input](entity_basics.html#Input)
+
+•
+[Mouse Input](entity_basics.html#Mouse Input)
+
+•
+[Other Magic Functions](entity_basics.html#Other Magic Functions)
+
+
+
+
+[Coordinate System](coordinate_system.html)
+
+•
+[Entity Coordinate System](coordinate_system.html#Entity Coordinate System)
+
+•
+[UI Coordinate System](coordinate_system.html#UI Coordinate System)
+
+•
+[Rotation](coordinate_system.html#Rotation)
+
+•
+[Origin](coordinate_system.html#Origin)
+
+
+
+
+[Collision](collision.html)
+
+•
+[Adding Colliders](collision.html#Adding Colliders)
+
+•
+[raycast()](collision.html#raycast())
+
+•
+[boxcast()](collision.html#boxcast())
+
+•
+[intersects()](collision.html#intersects())
+
+•
+[HitInfo](collision.html#HitInfo)
+
+•
+[Distance Check](collision.html#Distance Check)
+
+•
+[Mouse Collision](collision.html#Mouse Collision)
+
+
+
+
+[Text](text.html)
+
+•
+[Text Size](text.html#Text Size)
+
+•
+[Font and Resolution](text.html#Font and Resolution)
+
+•
+[Text Alignment](text.html#Text Alignment)
+
+•
+[Text Colors](text.html#Text Colors)
+
+•
+[Changing Text of Prefabs](text.html#Changing Text of Prefabs)
+
+
+
+
+[Animation](animation.html)
+
+•
+[SpriteSheetAnimation (2D)](animation.html#SpriteSheetAnimation (2D))
+
+•
+[Animation (2D)](animation.html#Animation (2D))
+
+•
+[Actor (3D)](animation.html#Actor (3D))
+
+•
+[FrameAnimation3D (3D)](animation.html#FrameAnimation3D (3D))
+
+
+
+
+
+
+[Networking](networking.html)
+
+•
+[~~ Networking Concepts ~~](networking.html#~~ Networking Concepts ~~)
+
+•
+[How Data Goes from Point A to Point B](networking.html#How Data Goes from Point A to Point B)
+
+•
+[IP Addresses](networking.html#IP Addresses)
+
+•
+[Ports](networking.html#Ports)
+
+•
+[Communication Protocols](networking.html#Communication Protocols)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Game Networking Concepts ~~](networking.html#~~ Game Networking Concepts ~~)
+
+•
+[Multiplayer Preparations](networking.html#Multiplayer Preparations)
+
+•
+[Sending Inputs](networking.html#Sending Inputs)
+
+•
+[Sending Game State](networking.html#Sending Game State)
+
+•
+[Client Authoritative](networking.html#Client Authoritative)
+
+•
+[Server Authoritative](networking.html#Server Authoritative)
+
+•
+[Deterministic Lockstep](networking.html#Deterministic Lockstep)
+
+•
+[Snapshot Interpolation](networking.html#Snapshot Interpolation)
+
+•
+[Server Side Lag Compensation](networking.html#Server Side Lag Compensation)
+
+•
+[Client Side Prediction](networking.html#Client Side Prediction)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Introduction to Ursina Networking ~~](networking.html#~~ Introduction to Ursina Networking ~~)
+
+•
+[Limitations](networking.html#Limitations)
+
+•
+[Basics](networking.html#Basics)
+
+•
+[Samples](networking.html#Samples)
+
+
+
+
+[F.A.Q.](faq.html)
+
+
+
+
+[Build and Release](building.html)
+
+•
+[Building Your App with ursina.build](building.html#Building Your App with ursina.build)
+
+•
+[Building with Nuitka](building.html#Building with Nuitka)
+
+•
+[Building Your App with auto-py-to-exe](building.html#Building Your App with auto-py-to-exe)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Building
+
+
+## Building Your App with ursina.build
+
+Open cmd in the project folder and run
+
+```python
+python -m ursina.build
+```
+
+It will then move the necessary files to a 'build' directory which you can then distribute.
+Package ursina application for Windows 10.
+Provided with project folder path, creates a build folder where
+it copies python and project's dependent packages. Requires a main.py file.
+Copies game scripts and assets into 'build/scr' folder.
+Creates a .bat file to start the game.
+
+```python
+--ignore# add assets to ignore--name# change project name--in clude_modules# in clude extra modules like this: --in clude_modules module_one, module_two, module_tree--overwrite# don't ask to overwrite existing build, just overwrite--skip_engine
+--skip_game
+--compile_to_pyc = True
+--compile_to_pyc = False
+```
+
+Make sure to include any extra modules with --include_modules PIL,numpy for example.
+Any errors while the application is running will be logged in log.txt instead of the console.
+## Building with Nuitka
+
+Follow the instructions on
+[https://nuitka.net/](https://nuitka.net/)
+## Building Your App with auto-py-to-exe
+
+This way is not recommended since it will slow to open and have a bigger file size.
+1.
+pip install auto-py-to-exe
+2. Go to cmd and type auto-py-to-exe to open the gui
+3. Enter script location
+4. Select onefile
+5. Select either console based or window based
+6. Icon (optional)
+7. Under additional files, click add folder and add:
+panda3d-1.10.6.dist-info,
+panda3d,
+direct,
+ursina-3.1.0.dist-info,
+ursina,
+and any other files included for your app/game.
+You can find these in YOUR_PYTHON_FOLDER/Lib/site-packages/
+8. Go under "Advanced" to "–paths" and add folder "YOUR_PYTHON_FOLDER/Lib/site-packages/panda3d"
+9. Set an output location (optional)
+10. Finally select "convert .py to .exe"

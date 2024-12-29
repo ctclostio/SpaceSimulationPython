@@ -1,0 +1,38 @@
+---
+title: API Reference - ButtonGroup(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#ButtonGroup(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# ButtonGroup(Entity)
+
+| .deselected_color= Button.default_color |  |
+| --- | --- |
+| .selected_color = ButtonGroup.default_selected_color |  |
+| .min_selection = min_selection |  |
+| .max_selection = max(min_selection, max_selection) |  |
+| .origin = origin |  |
+| .spacing = spacing |  |
+| .buttons = [] |  |
+| .selected = [] |  |
+| .options = options |  |
+| .parent = camera.ui |  |
+| .scale = Text.size * 2 |  |
+| .options |  |
+| --- | --- |
+| .value |  |
+| .label |  |
+| layout() |  |
+| --- | --- |
+| input( key ) |  |
+| select( b ) |  |
+| on_value_changed() |  |
+fromursinaimport*
+app = Ursina()
+
+center =Entity(parent=camera.ui,model='circle',scale=.005,color=color.red,z=-1)
+gender_selection =ButtonGroup(('man','woman','other'),origin=(-.5,0), label='choose gender:')defon_value_changed():print('set gender:', gender_selection.value)
+gender_selection.on_value_changed = on_value_changed
+
+
+window.color = color._32

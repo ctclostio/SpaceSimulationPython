@@ -1,0 +1,309 @@
+---
+title:  ursina engine download
+url: https://www.ursinaengine.org/installation.html
+scraped_at: Sun Dec 29 01:01:58 2024
+---
+
+
+
+
+
+[](index.html)
+
+[Download]( installation.html)
+
+[Documentation]( documentation.html)
+
+[API Reference]( api_reference.html)
+
+[Samples]( samples.html)
+
+[Asset Store]( asset_store.html)
+
+[Donate]( donate.html)
+
+
+
+
+
+
+
+
+
+
+
+[Installation](installation.html)
+
+
+
+
+[Entity Basics](entity_basics.html)
+
+•
+[What is an Entity?](entity_basics.html#What is an Entity?)
+
+•
+[Model](entity_basics.html#Model)
+
+•
+[Texture](entity_basics.html#Texture)
+
+•
+[Color](entity_basics.html#Color)
+
+•
+[Position](entity_basics.html#Position)
+
+•
+[Rotation](entity_basics.html#Rotation)
+
+•
+[Scale](entity_basics.html#Scale)
+
+•
+[Update](entity_basics.html#Update)
+
+•
+[Input](entity_basics.html#Input)
+
+•
+[Mouse Input](entity_basics.html#Mouse Input)
+
+•
+[Other Magic Functions](entity_basics.html#Other Magic Functions)
+
+
+
+
+[Coordinate System](coordinate_system.html)
+
+•
+[Entity Coordinate System](coordinate_system.html#Entity Coordinate System)
+
+•
+[UI Coordinate System](coordinate_system.html#UI Coordinate System)
+
+•
+[Rotation](coordinate_system.html#Rotation)
+
+•
+[Origin](coordinate_system.html#Origin)
+
+
+
+
+[Collision](collision.html)
+
+•
+[Adding Colliders](collision.html#Adding Colliders)
+
+•
+[raycast()](collision.html#raycast())
+
+•
+[boxcast()](collision.html#boxcast())
+
+•
+[intersects()](collision.html#intersects())
+
+•
+[HitInfo](collision.html#HitInfo)
+
+•
+[Distance Check](collision.html#Distance Check)
+
+•
+[Mouse Collision](collision.html#Mouse Collision)
+
+
+
+
+[Text](text.html)
+
+•
+[Text Size](text.html#Text Size)
+
+•
+[Font and Resolution](text.html#Font and Resolution)
+
+•
+[Text Alignment](text.html#Text Alignment)
+
+•
+[Text Colors](text.html#Text Colors)
+
+•
+[Changing Text of Prefabs](text.html#Changing Text of Prefabs)
+
+
+
+
+[Animation](animation.html)
+
+•
+[SpriteSheetAnimation (2D)](animation.html#SpriteSheetAnimation (2D))
+
+•
+[Animation (2D)](animation.html#Animation (2D))
+
+•
+[Actor (3D)](animation.html#Actor (3D))
+
+•
+[FrameAnimation3D (3D)](animation.html#FrameAnimation3D (3D))
+
+
+
+
+
+
+[Networking](networking.html)
+
+•
+[~~ Networking Concepts ~~](networking.html#~~ Networking Concepts ~~)
+
+•
+[How Data Goes from Point A to Point B](networking.html#How Data Goes from Point A to Point B)
+
+•
+[IP Addresses](networking.html#IP Addresses)
+
+•
+[Ports](networking.html#Ports)
+
+•
+[Communication Protocols](networking.html#Communication Protocols)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Game Networking Concepts ~~](networking.html#~~ Game Networking Concepts ~~)
+
+•
+[Multiplayer Preparations](networking.html#Multiplayer Preparations)
+
+•
+[Sending Inputs](networking.html#Sending Inputs)
+
+•
+[Sending Game State](networking.html#Sending Game State)
+
+•
+[Client Authoritative](networking.html#Client Authoritative)
+
+•
+[Server Authoritative](networking.html#Server Authoritative)
+
+•
+[Deterministic Lockstep](networking.html#Deterministic Lockstep)
+
+•
+[Snapshot Interpolation](networking.html#Snapshot Interpolation)
+
+•
+[Server Side Lag Compensation](networking.html#Server Side Lag Compensation)
+
+•
+[Client Side Prediction](networking.html#Client Side Prediction)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Introduction to Ursina Networking ~~](networking.html#~~ Introduction to Ursina Networking ~~)
+
+•
+[Limitations](networking.html#Limitations)
+
+•
+[Basics](networking.html#Basics)
+
+•
+[Samples](networking.html#Samples)
+
+
+
+
+[F.A.Q.](faq.html)
+
+
+
+
+[Build and Release](building.html)
+
+•
+[Building Your App with ursina.build](building.html#Building Your App with ursina.build)
+
+•
+[Building with Nuitka](building.html#Building with Nuitka)
+
+•
+[Building Your App with auto-py-to-exe](building.html#Building Your App with auto-py-to-exe)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Downloading and Installing Ursina
+
+
+1) Install Python 3.10 or newer.
+[https://www.python.org/downloads/](https://www.python.org/downloads/)
+2) Open cmd/terminal and type:
+
+```python
+pip in stall ursina
+```
+
+If you want to install the newest version from GitHub, you can install like this.
+
+```python
+pip uninstall ursina
+pip in stallhttps://github.com/pokepetter/ursina/archive/master.zip
+```
+
+Keep in mind that things *could* break.
+If you want to easily edit the source, it's recommended to clone the git
+repo and install as develop like this. Make sure you have git installed.
+[https://git-scm.com/](https://git-scm.com/)
+
+```python
+git clonehttps://github.com/pokepetter/ursina.gitpip in stall --editable .
+```
+
+Also install any of the optional dependencies you want from the list below,
+or install them all with:
+
+```python
+pip in stall ursina[extras]
+```
+
+On some systems you might have to use pip3 instead of pip in order to use Python 3 and not the old Python 2.
+If the pip command is not found, you can use:
+
+```python
+python -m pip in stall ursina
+```
+
+3) If everything went well, you can go to the introduction tutorial where
+we'll cover how to create a basic program and how to run it.
+[Introduction Tutorial]( introduction_tutorial.html)
+## Troubleshooting
+
+If you have multiple Python installs, make sure you installed ursina to the correct one.
+You can specify which Python version to install to like this:
+
+```python
+python3.10-m pip in stall ursina
+```
+
+If you're using a venv, make sure you're installing it to the venv and not to the default location.

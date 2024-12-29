@@ -1,0 +1,26 @@
+---
+title: API Reference - SmoothFollow
+url: https://www.ursinaengine.org/api_reference.html#Ursina#SmoothFollow
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# SmoothFollow
+
+| .target= target |  |
+| --- | --- |
+| .offset = offset |  |
+| .speed = speed |  |
+| .rotation_speed = rotation_speed |  |
+| .rotation_offset = rotation_offset |  |
+| update() |  |
+| --- | --- |
+app = Ursina()
+
+player =Entity(model='cube',color=color.orange)defupdate():
+    player.x += held_keys['d'] * .1player.x -= held_keys['a'] * .1e =Entity(model='cube')
+sf = e.add_script(SmoothFollow(target=player, offset=(0,2,0)))definput(key):
+    global sfifkey =='1'and sf in e.scripts:
+        e.scripts.remove(sf)
+
+EditorCamera()
+app.run()

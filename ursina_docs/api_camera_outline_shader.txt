@@ -1,0 +1,19 @@
+---
+title: API Reference - camera_outline_shader
+url: https://www.ursinaengine.org/api_reference.html#Ursina#camera_outline_shader
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# camera_outline_shader
+
+fromursinaimport*
+app = Ursina()Entity(model='cube',texture='white_cube',color=color.red)Entity(model='cube',texture='white_cube',color=color.white, x=1.1)Entity(model='sphere',texture='white_cube',color=color.gray,y=1.1)
+camera.shader = empty_shaderprint(camera.shader)
+
+t =0frame =0defupdate():
+  global t, frame
+  t += time.dt
+
+  frame +=1EditorCamera()
+
+app.run()

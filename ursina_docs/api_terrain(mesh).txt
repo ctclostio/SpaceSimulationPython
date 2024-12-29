@@ -1,0 +1,36 @@
+---
+title: API Reference - Terrain(Mesh)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Terrain(Mesh)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Terrain(Mesh)
+
+| .width= len(self.height_values) |  |
+| --- | --- |
+| .depth = len(self.height_values[0]) |  |
+| .aspect_ratio = self.width / self.depth |  |
+| .gradient = gradient |  |
+| generate() |  |
+| --- | --- |
+app = Ursina()'''Terrain using an RGB texture as input'''terrain_from_heightmap_texture =Entity(model=Terrain('heightmap_1', skip=8),scale=(40,5,20),texture='heightmap_1')'''
+I'm just getting the height values from the previous terrain as an example, but you can provide your own.
+It should be a list of lists, where each value is between 0 and 255.'''hv = terrain_from_heightmap_texture.model.height_values.tolist()
+terrain_from_list =Entity(model=Terrain(height_values=hv),scale=(40,5,20),texture='heightmap_1', x=40)
+terrain_bounds =Entity(model='wireframe_cube', origin_y=-.5,scale=(40,5,20),color=color.lime)definput(key):
+    if key =='space':# randomize the terrainterrain_from_list.model.height_values = [[random.uniform(0,255)fora in column]forcolumn in terrain_from_list.model.height_values]
+        terrain_from_list.model.generate()
+
+EditorCamera(rotation_x=90)
+camera.orthographic = True
+Sky()
+player =Entity(model='sphere',color=color.azure,scale=.2, origin_y=-.5)defupdate():
+    direction = Vec3(held_keys['d'] - held_keys['a'],0, held_keys['w'] - held_keys['s']).normalized()
+    player.position += direction * time.dt *8y = terraincast(player.world_position, terrain_from_list, terrain_from_list.model.height_values)ify isnotNone:
+        player.y = y
+
+
+
+
+
+app.run()

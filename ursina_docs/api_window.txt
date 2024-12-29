@@ -1,0 +1,96 @@
+---
+title: API Reference - window
+url: https://www.ursinaengine.org/api_reference.html#Ursina#window
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# window
+
+| .title= title |  |
+| --- | --- |
+| .icon = icon |  |
+| .monitors = [] |  |
+| .main_monitor = None |  |
+| .monitor_index = 0 |  |
+| .windowed_position = None | gets set when entering fullscreen so position will be correct when going back to windowed mode |
+| .show_ursina_splash = False |  |
+| .top = Vec2(0, .5) |  |
+| .bottom = Vec2(0, -.5) |  |
+| .center = Vec2(0, 0) |  |
+| .forced_aspect_ratio = None | example: window.forced_aspect_ratio |
+| .always_on_top = False |  |
+| .vsync = True | can't be set during play |
+| .color = color.dark_gray |  |
+| .render_modes = ('default', 'wireframe', 'colliders', 'normals') |  |
+| .render_mode = 'default' |  |
+| .editor_ui = None |  |
+| .position = Vec2(x,y) |  |
+| .editor_ui = Entity(parent=camera.ui, eternal=True, enabled=bool(application.development_mode)) |  |
+| .input_entity = Entity(name='window.input_entity', input=window_input, ignore_paused=True) |  |
+| .exit_button = Button(parent=self.editor_ui, text='x', eternal=True, ignore_paused=True, origin=(.5, .5), enabled=self.borderless and application.development_mode, position=self.top_right, z=-999, scale=(.05, .025), color=color.red.tint(-.2), shortcuts=('control+shift+alt+q', 'alt+f4'), on_click=application.quit, name='exit_button') |  |
+| .fps_counter = Text(parent=self.editor_ui, eternal=True, text='60', ignore=False, i=0, ignore_paused=True,
+        position=((.5*self.aspect_ratio)-self.exit_button.scale_x, .47+(.02*(not self.exit_button.enabled)), -999)) |  |
+| .entity_counter = Text(parent=self.editor_ui, enabled=application.development_mode, eternal=True, origin=(-.5,.5), text='00', ignore=False, t=0,
+        position=((.5*self.aspect_ratio)-self.exit_button.scale_x, .425+(.02*(not self.exit_button.enabled)), -999)) |  |
+| .collider_counter = Text(parent=self.editor_ui, enabled=application.development_mode, eternal=True, origin=(-.5,.5), text='00', ignore=False, t=.1,
+        position=((.5*self.aspect_ratio)-self.exit_button.scale_x, .38+(.02*(not self.exit_button.enabled)), -999)) |  |
+| .cog_menu = ButtonList({
+        'API Reference' : Func(webbrowser.open, 'https://www.ursinaengine.org/api_reference.html'),
+        'ursfx (Sound Effect Maker)' : lambda: exec('from ursina.prefabs import ursfx; ursfx.open_gui()'),
+        'Change Render Mode &ltgray&gt[F10]&ltdefault&gt' : self.next_render_mode,
+        'Reset Render Mode &ltgray&gt[Shift+F10]&ltdefault&gt' : Func(setattr, self, 'render_mode', 'default'),
+        'Toggle Editor Camera &ltgray&gt[Control+F10]&ltdefault&gt' : self.toggle_editor_camera,
+        'Toggle Hotreloading &ltgray&gt[F9]&ltdefault&gt' : application.hot_reloader.toggle_hotreloading,
+        'Reload Shaders &ltgray&gt[F7]&ltdefault&gt' : application.hot_reloader.reload_shaders,
+        'Reload Models &ltgray&gt[F7]&ltdefault&gt' : application.hot_reloader.reload_models,
+        'Reload Textures &ltgray&gt[F6]&ltdefault&gt' : application.hot_reloader.reload_textures,
+        'Reload Code &ltgray&gt[F5]&ltdefault&gt' : application.hot_reloader.reload_code, |  |
+| .cog_button = Button(parent=self.editor_ui, eternal=True, model='quad', texture='cog', scale=.015, origin=(1,-1), position=self.bottom_right, ignore_paused=True, name='cog_button', enabled=application.development_mode) |  |
+| .prev_size = self.size |  |
+| .size = self.size |  |
+| .render_mode = self.render_modes[i] |  |
+| .left |  |
+| --- | --- |
+| .right |  |
+| .top_left |  |
+| .top_right |  |
+| .bottom_left |  |
+| .bottom_right |  |
+| .position |  |
+| .size |  |
+| .aspect_ratio |  |
+| .forced_aspect_ratio |  |
+| .render_mode |  |
+| .title |  |
+| .icon |  |
+| .borderless |  |
+| .fullscreen |  |
+| .always_on_top |  |
+| .color |  |
+| .vsync |  |
+| ready(title, icon, borderless, fullscreen, size, forced_aspect_ratio, position, vsync, editor_ui_enabled, window_type, render_mode) |  |
+| --- | --- |
+| apply_settings() |  |
+| center_on_screen() |  |
+| make_editor_gui() | called by main after setting up camera and application.development_mode |
+| window_input( key ) |  |
+| update_aspect_ratio() |  |
+| next_render_mode() |  |
+| toggle_editor_camera() |  |
+fromursinaimport*
+app = Ursina(
+    title='Ursina',
+    )
+button_list = ButtonList(
+    {'widow.position = Vec2(0,0)': Func(setattr, window,'position', Vec2(0,0)),'widow.size = Vec2(512,512)': Func(setattr, window,'size', Vec2(512,512)),'widow.center_on_screen()': window.center_on_screen,'widow.borderless = True': Func(setattr, window,'borderless', True),'widow.borderless = False': Func(setattr, window,'borderless', False),'widow.fullscreen = True': Func(setattr, window,'fullscreen', True),'widow.fullscreen = False': Func(setattr, window,'fullscreen', False),'widow.vsync = True': Func(setattr, window,'vsync', True),'widow.vsync = False': Func(setattr, window,'vsync', False),'application.base.win.request_properties(self)': Func(application.base.win.request_properties, window),
+
+    },y=0)
+startup_value = Text(y=.5,x=-.5)
+startup_value.text = f'''
+    position: {window.position}
+    size: {window.size}
+    aspect_ratio: {window.aspect_ratio}
+    window.main_monitor.width: {window.main_monitor.width}
+    window.main_monitor.height: {window.main_monitor.height}'''position_text = Text(y=.5,)definput(key):ifkey =='space':
+        window.center_on_screen()Entity(model='cube',color=color.green,collider='box',texture='shore')
+app.run()

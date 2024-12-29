@@ -1,0 +1,35 @@
+---
+title: API Reference - ursinamath
+url: https://www.ursinaengine.org/api_reference.html#Ursina#ursinamath
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# ursinamath
+
+| distance(a, b) |  |
+| --- | --- |
+| distance_2d( a, b ) |  |
+| distance_xz( a, b ) |  |
+| lerp( a, b, t ) |  |
+| inverselerp( a, b, t ) |  |
+| lerp_angle( start_angle, end_angle, t ) |  |
+| slerp( q1, q2, t ) |  |
+| clamp( value, floor, ceiling ) |  |
+| round_to_closest( value, step=0 ) |  |
+| rotate_around_point_2d( point, origin, deg ) |  |
+| world_position_to_screen_position( point): # get screen position(ui space ) | get screen position(ui space) from world space. |
+| sum( l ) |  |
+| make_gradient( index_color_dict ) | returns a list of 256 colors |
+| sample_gradient( list_of_values, t):     # distribute list_of_values equally on a line and get the interpolated value at t (0-1 ) | distribute list_of_values equally on a line and get the interpolated value at t (0-1). |
+fromursinaimport*
+app = Ursina()
+e1=Entity(position = (0,0,0))
+e2=Entity(position = (0,1,1))
+distance(e1, e2)
+distance_xz(e1, e2.position)
+
+between_color = lerp(color.lime, color.magenta, .5)print(between_color)print(lerp((0,0), (0,1), .5))print(lerp(Vec2(0,0), Vec2(0,1), .5))print(lerp([0,0], [0,1], .5))print(round(Vec3(.38, .1351,353.26),2))
+
+p = (1,0)print(p,'rotated -&gt', rotate_around_point_2d(p, (0,0),90))
+
+app.run()

@@ -1,0 +1,12 @@
+---
+title: API Reference - Cylinder(Pipe)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Cylinder(Pipe)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Cylinder(Pipe)
+
+app = Ursina()Entity(model=Cylinder(6, start=-.5),color=color.hsv(60,1,1,.3))
+origin =Entity(model='quad',color=color.orange,scale=(5, .05))
+ed = EditorCamera(rotation_speed =200, panning_speed=200)
+app.run()

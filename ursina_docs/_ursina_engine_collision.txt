@@ -1,0 +1,387 @@
+---
+title:  ursina engine collision
+url: https://www.ursinaengine.org/collision.html#Mouse Collision
+scraped_at: Sun Dec 29 01:01:57 2024
+---
+
+
+
+
+
+[](index.html)
+
+[Download]( installation.html)
+
+[Documentation]( documentation.html)
+
+[API Reference]( api_reference.html)
+
+[Samples]( samples.html)
+
+[Asset Store]( asset_store.html)
+
+[Donate]( donate.html)
+
+
+
+
+
+
+
+
+
+
+
+[Installation](installation.html)
+
+
+
+
+[Entity Basics](entity_basics.html)
+
+•
+[What is an Entity?](entity_basics.html#What is an Entity?)
+
+•
+[Model](entity_basics.html#Model)
+
+•
+[Texture](entity_basics.html#Texture)
+
+•
+[Color](entity_basics.html#Color)
+
+•
+[Position](entity_basics.html#Position)
+
+•
+[Rotation](entity_basics.html#Rotation)
+
+•
+[Scale](entity_basics.html#Scale)
+
+•
+[Update](entity_basics.html#Update)
+
+•
+[Input](entity_basics.html#Input)
+
+•
+[Mouse Input](entity_basics.html#Mouse Input)
+
+•
+[Other Magic Functions](entity_basics.html#Other Magic Functions)
+
+
+
+
+[Coordinate System](coordinate_system.html)
+
+•
+[Entity Coordinate System](coordinate_system.html#Entity Coordinate System)
+
+•
+[UI Coordinate System](coordinate_system.html#UI Coordinate System)
+
+•
+[Rotation](coordinate_system.html#Rotation)
+
+•
+[Origin](coordinate_system.html#Origin)
+
+
+
+
+[Collision](collision.html)
+
+•
+[Adding Colliders](collision.html#Adding Colliders)
+
+•
+[raycast()](collision.html#raycast())
+
+•
+[boxcast()](collision.html#boxcast())
+
+•
+[intersects()](collision.html#intersects())
+
+•
+[HitInfo](collision.html#HitInfo)
+
+•
+[Distance Check](collision.html#Distance Check)
+
+•
+[Mouse Collision](collision.html#Mouse Collision)
+
+
+
+
+[Text](text.html)
+
+•
+[Text Size](text.html#Text Size)
+
+•
+[Font and Resolution](text.html#Font and Resolution)
+
+•
+[Text Alignment](text.html#Text Alignment)
+
+•
+[Text Colors](text.html#Text Colors)
+
+•
+[Changing Text of Prefabs](text.html#Changing Text of Prefabs)
+
+
+
+
+[Animation](animation.html)
+
+•
+[SpriteSheetAnimation (2D)](animation.html#SpriteSheetAnimation (2D))
+
+•
+[Animation (2D)](animation.html#Animation (2D))
+
+•
+[Actor (3D)](animation.html#Actor (3D))
+
+•
+[FrameAnimation3D (3D)](animation.html#FrameAnimation3D (3D))
+
+
+
+
+
+
+[Networking](networking.html)
+
+•
+[~~ Networking Concepts ~~](networking.html#~~ Networking Concepts ~~)
+
+•
+[How Data Goes from Point A to Point B](networking.html#How Data Goes from Point A to Point B)
+
+•
+[IP Addresses](networking.html#IP Addresses)
+
+•
+[Ports](networking.html#Ports)
+
+•
+[Communication Protocols](networking.html#Communication Protocols)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Game Networking Concepts ~~](networking.html#~~ Game Networking Concepts ~~)
+
+•
+[Multiplayer Preparations](networking.html#Multiplayer Preparations)
+
+•
+[Sending Inputs](networking.html#Sending Inputs)
+
+•
+[Sending Game State](networking.html#Sending Game State)
+
+•
+[Client Authoritative](networking.html#Client Authoritative)
+
+•
+[Server Authoritative](networking.html#Server Authoritative)
+
+•
+[Deterministic Lockstep](networking.html#Deterministic Lockstep)
+
+•
+[Snapshot Interpolation](networking.html#Snapshot Interpolation)
+
+•
+[Server Side Lag Compensation](networking.html#Server Side Lag Compensation)
+
+•
+[Client Side Prediction](networking.html#Client Side Prediction)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Introduction to Ursina Networking ~~](networking.html#~~ Introduction to Ursina Networking ~~)
+
+•
+[Limitations](networking.html#Limitations)
+
+•
+[Basics](networking.html#Basics)
+
+•
+[Samples](networking.html#Samples)
+
+
+
+
+[F.A.Q.](faq.html)
+
+
+
+
+[Build and Release](building.html)
+
+•
+[Building Your App with ursina.build](building.html#Building Your App with ursina.build)
+
+•
+[Building with Nuitka](building.html#Building with Nuitka)
+
+•
+[Building Your App with auto-py-to-exe](building.html#Building Your App with auto-py-to-exe)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Collision
+
+
+## Adding Colliders
+
+
+```python
+e  = Entity(model = 'sphere', x = 2)
+e.collider  = 'box'# add BoxCollider based on entity's bounds.e.collider  = 'sphere'# add SphereCollider based on entity's bounds.e.collider  = 'mesh'# add MeshCollider based on entity's bounds.e.collider = BoxCollider(e, center = Vec3(0, 0,0), size = Vec3(1, 1,1))# add BoxCollider at custom positions and size.e.collider = SphereCollider(e, center = Vec3(0, 0,0), radius = .75)# add SphereCollider at custom positions and size.e.collider = MeshCollider(e, mesh = e.model, center = Vec3(0, 0,0))# add MeshCollider with custom shape and center.
+```
+
+Usually you add the collider when you create the Entity, but make sure you set the model
+before setting the collider if you want it to fit its bounds.
+
+```python
+e  = Entity(model = 'cube', collider = 'box')
+```
+
+## raycast()
+
+
+```python
+raycast(origin, direction = (0, 0,1), distance = in f, traverse_target = scene, ignore = list(), debug = False)
+```
+
+Casts a ray from *origin*, in *direction*, with length *distance* and returns
+a HitInfo containing information about what it hit. This ray will only hit entities with a collider.
+Use optional *traverse_target* to only be able to hit a specific entity and its children/descendants.
+Use optional *ignore* list to ignore certain entities.
+Setting debug to True will draw the line on screen.
+Example where we only move if a wall is not hit:
+
+```python
+ursinaimport*
+app = Ursina()
+
+class Player(Entity):def update(self):
+        self.direction = Vec3(
+            self.for ward * (held_keys['w'] - held_keys['s'])
+            + self.right * (held_keys['d'] - held_keys['a'])
+            ).normalized()# get the direction we're trying to walk in.origin = self.world_position + (self.up*.5)# the ray should start slightly upfromthe ground so we can walk up slopes or walk over small objects.hit_info = raycast(origin , self.direction, ignore = (self, ), distance = .5, debug = False)if nothit_info.hit:
+            self.position  +=  self.direction *5* time.dt
+
+Player(model = 'cube', origin_y = -.5, color = color.orange)
+wall_left  = Entity(model = 'cube', collider = 'box', scale_y = 3, origin_y = -.5, color = color.azure, x = -4)
+wall_right = duplicate(wall_left, x = 4)
+camera.y  = 2app.run()
+```
+
+## boxcast()
+
+
+```python
+boxcast(origin, direction = (0, 0,1), distance = 9999, thickness = (1, 1), traverse_target = scene, ignore = list(), debug = False)# similar to raycast, but with width and height
+```
+
+boxcast is similar to raycast, but the "ray" has thickness, height and width.
+## intersects()
+
+Check if a entity (with a collider) intersects other entities with colliders.
+
+```python
+ursinaimport*
+
+
+app = Ursina()
+
+player  = Entity(model = 'cube', color = color.orange, collider = 'box', origin_y = -.5)
+trigger_box  = Entity(model = 'wireframe_cube', color = color.gray, scale = 2, collider = 'box', position = Vec3(1, 0,2), origin_y = -.5)
+EditorCamera()def update():
+    player.z  +=  (held_keys['w'] - held_keys['s']) * time.dt *6player.x  +=  (held_keys['d'] - held_keys['a']) * time.dt *6ifplayer.in tersects(trigger_box).hit:
+        trigger_box.color = color.limeprint('player is in side trigger box')else:
+        trigger_box.color = color.gray
+
+app.run()
+```
+
+## HitInfo
+
+All of these functions will return a HitInfo. This contains information about what it hit.
+
+```python
+hit = None
+entity = None
+point = None
+world_point = None
+distance = math.in f
+normal = None
+world_normal = None
+hits = []
+entities = []
+```
+
+## Distance Check
+
+Sometimes it enough to just check the distance between two entities.
+For example if you want a pickup:
+
+```python
+ursinaimport*from ursina.prefabs.first_person_controllerimportFirstPersonController
+
+
+app = Ursina()
+
+ground  = Entity(model = 'plane', texture = 'grass', scale = 10, collider = 'box')
+player = FirstPersonController(model = 'cube', origin_y = -.5, color = color.orange, has_pickup = False)
+camera.z = -5pickup  = Entity(model = 'sphere', position = (1, .5, 3))def update():if notplayer.has_pickup and distance(player, pickup) < pickup.scale_x /2:print('pickup')
+
+        player.has_pickup = True
+        pickup.animate_scale(0, duration = .1)
+        destroy(pickup, delay = .1)
+
+app.run()
+```
+
+## Mouse Collision
+
+The mouse does raycast automatically.
+Both UI elements(Entities parented to camera.ui) and Entities in 3d space (parented to scene) can
+get hit as long as they have a collider. UI elements will however block things behind them.
+
+```python
+mouse.hovered_entity      return s
+mouse.normal# return s the normal of the polygon, in local space.mouse.world_normal# return s the normal of the polygon, in world space.mouse.point# return s the point hit, in local spacemouse.world_point# return s the point hit, in world space
+```
+
+Handling clicks is very easy, just add a collider and on_click.
+The on_click function will then be called when you click on the Entity with the mouse.
+
+```python
+def action():print('Ow! That hurt!')Entity(model = 'quad', parent = camera.ui, scale = .1, collider = 'box', on_click = action)# on_click should be a function/callable/Func/Sequence
+```

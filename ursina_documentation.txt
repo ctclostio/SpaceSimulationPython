@@ -1,0 +1,105 @@
+
+
+
+
+
+ ursina engine documentation
+
+
+
+
+
+
+
+ Download Documentation API Reference Samples Asset Store Donate
+
+
+
+Documentation
+
+
+
+Installation
+
+Entity Basics
+    • What is an Entity?
+    • Model
+    • Texture
+    • Color
+    • Position
+    • Rotation
+    • Scale
+    • Update
+    • Input
+    • Mouse Input
+    • Other Magic Functions
+
+Coordinate System
+    • Entity Coordinate System
+    • UI Coordinate System
+    • Rotation
+    • Origin
+
+Collision
+    • Adding Colliders
+    • raycast()
+    • boxcast()
+    • intersects()
+    • HitInfo
+    • Distance Check
+    • Mouse Collision
+
+Text
+    • Text Size
+    • Font and Resolution
+    • Text Alignment
+    • Text Colors
+    • Changing Text of Prefabs
+
+Animation
+    • SpriteSheetAnimation (2D)
+    • Animation (2D)
+    • Actor (3D)
+    • FrameAnimation3D (3D)
+
+
+Networking
+    • ~~ Networking Concepts ~~
+    • How Data Goes from Point A to Point B
+    • IP Addresses
+    • Ports
+    • Communication Protocols
+    • References
+    • ~~ Game Networking Concepts ~~
+    • Multiplayer Preparations
+    • Sending Inputs
+    • Sending Game State
+    • Client Authoritative
+    • Server Authoritative
+    • Deterministic Lockstep
+    • Snapshot Interpolation
+    • Server Side Lag Compensation
+    • Client Side Prediction
+    • References
+    • ~~ Introduction to Ursina Networking ~~
+    • Limitations
+    • Basics
+    • Samples
+
+F.A.Q.
+
+Build and Release
+    • Building Your App with ursina.build
+    • Building with Nuitka
+    • Building Your App with auto-py-to-exe
+
+
+
+Tutorials
+
+
+    Introduction
+    Platformer Tutorial
+
+
+

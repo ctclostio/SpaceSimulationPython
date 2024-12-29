@@ -1,0 +1,74 @@
+---
+title: API Reference - curve
+url: https://www.ursinaengine.org/api_reference.html#Ursina#curve
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# curve
+
+| linear(t) |  |
+| --- | --- |
+| in_sine( t ) |  |
+| out_sine( t ) |  |
+| in_out_sine( t ) |  |
+| in_quad( t ) |  |
+| out_quad( t ) |  |
+| in_out_quad( t ) |  |
+| in_cubic( t ) |  |
+| out_cubic( t ) |  |
+| in_out_cubic( t ) |  |
+| in_quart( t ) |  |
+| out_quart( t ) |  |
+| in_out_quart( t ) |  |
+| in_quint( t ) |  |
+| out_quint( t ) |  |
+| in_out_quint( t ) |  |
+| in_expo( t ) |  |
+| out_expo( t ) |  |
+| in_out_expo( t ) |  |
+| in_circ( t ) |  |
+| out_circ( t ) |  |
+| in_out_circ( t ) |  |
+| in_back( t, magnitude=1.70158 ) |  |
+| out_back( t, magnitude=1.70158 ) |  |
+| in_out_back( t, magnitude=1.70158 ) |  |
+| in_elastic( t, magnitude=.7 ) |  |
+| out_elastic( t, magnitude=.7 ) |  |
+| in_out_elastic( t, magnitude=0.65 ) |  |
+| out_bounce( t ) |  |
+| in_bounce( t ) |  |
+| in_out_bounce( t ) |  |
+| zero( t ) |  |
+| one( t ) |  |
+| combine( curve_a, curve_b, split_at ) |  |
+| reverse( curve_function ) |  |
+| {e}_boomerang( t ) |  |
+'''Draws a sheet with every curve and its name'''fromursinaimport*fromursinaimportUrsina, camera, window, curve,Entity, Mesh, Text, color
+
+app = Ursina()
+camera.orthographic = True
+camera.fov =16camera.position = (9,6)
+window.color = color.blackdefrender_curve(curve_function, name):
+    curve_renderer =Entity(model=Mesh(vertices=[Vec3(i /31, curve_function(i /31),0)fori inrange(32)],mode='line',thickness=2),color=color.light_gray)
+    label = Text(parent=curve_renderer,text=name,scale=8,color=color.gray,y=-.1)
+    return curve_renderer
+
+
+
+
+c = CubicBezier(0, .5,1, .5)print('-----------', c.calculate(.23))
+
+window.exit_button.visible = False
+window.fps_counter.enabled = False
+
+custom_curve = combine(linear, reverse(in_expo), .25)
+render_curve(custom_curve,'custom_curve')
+EditorCamera()
+app.run()'''
+These are used by Entity when animating, like this:
+
+e = Entity()
+e.animate_y(1, curve=curve.in_expo)
+
+e2 = Entity(x=1.5)
+e2.animate_y(1, curve=curve.CubicBezier(0,.7,1,.3))'''

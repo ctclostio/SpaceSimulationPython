@@ -1,0 +1,47 @@
+---
+title: API Reference - Slider(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Slider(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Slider(Entity)
+
+| .parent= camera.ui |  |
+| --- | --- |
+| .vertical = False |  |
+| .min = min |  |
+| .max = max |  |
+| .default = default |  |
+| .step = 0 | for example, setting .step to 1, would make the slider snap to the closest integer. |
+| .height = height |  |
+| .on_value_changed = None | set this to a function you want to be called when the slider changes |
+| .setattr = None | set this to (object, 'attrname') to set that value when the slider changes |
+| .label = Text(parent=self, origin=(0.5, 0), x=-0.025, text=text) |  |
+| .bg = Entity(parent=self, model=Quad(scale=(.525, height), radius=radius, segments=3),
+        origin_x=-0.25, collider='box', color=bar_color) |  |
+| .knob = Draggable(parent=self, min_x=0, max_x=.5, min_y=0, max_y=.5, step=self.step,
+        model=Quad(radius=Text.size/2, scale=(Text.size, height)), collider='box', color=color.light_gray,
+        text='0', text_origin=(0, -.55), z=-.1) |  |
+| .value = self.default |  |
+| .dynamic = dynamic | if set to True, will call on_value_changed() while dragging. if set to False, will only call on_value_changed() after dragging. |
+| .value |  |
+| --- | --- |
+| .step |  |
+| bg_click() |  |
+| --- | --- |
+| drop() |  |
+| update() |  |
+| slide() |  |
+app = Ursina()
+
+box =Entity(model='cube', origin_y=-.5,scale=1,color=color.orange)defscale_box():
+    box.scale_y = slider.valueprint(thin_slider.value)
+
+slider =Slider(0,20, default=10, height=Text.size*3,y=-.4, step=1, on_value_changed=scale_box, vertical=True)
+
+thin_slider = ThinSlider(text='height', dynamic=True, on_value_changed=scale_box)
+
+thin_slider.label.origin = (0,0)
+thin_slider.label.position = (.25, -.1)
+
+app.run()

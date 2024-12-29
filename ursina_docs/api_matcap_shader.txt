@@ -1,0 +1,22 @@
+---
+title: API Reference - matcap_shader
+url: https://www.ursinaengine.org/api_reference.html#Ursina#matcap_shader
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# matcap_shader
+
+fromursinaimport*fromursina.prefabs.primitivesimport*
+app = Ursina()
+window.color=color.black
+
+shader = matcap_shader
+
+a = WhiteCube(shader=shader,texture='shore')
+b = WhiteSphere(shader=shader, rotation_y=180, x=3,texture='shore')
+GrayPlane(scale=10,y=-2,texture='shore')
+
+Sky(color=color.light_gray)
+EditorCamera()defupdate():
+    b.rotation_z +=1b.rotation_y +=1b.rotation_x +=1print('-----------------', repr(a.shader))
+app.run()

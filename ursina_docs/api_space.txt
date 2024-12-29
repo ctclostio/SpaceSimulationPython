@@ -1,0 +1,29 @@
+---
+title: API Reference - Space
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Space
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Space
+
+| .height= height |  |
+| --- | --- |
+'''
+WindowPanel is an easy way to create UI. It will automatically layout the content.'''fromursinaimportUrsina, ButtonGroup
+app = Ursina()
+wp = WindowPanel(
+    title='Custom Window',
+    content=(
+        Text('Name:'),
+        InputField(name='name_field'),
+        Button(text='Submit',color=color.azure),
+        Slider(),
+        Slider(),
+        ButtonGroup(('test','eslk','skffk'))
+        ),
+    popup=True
+    )
+wp.y = wp.panel.scale_y / 2 * wp.scale_y# center the window panelwp.layout()definput(key):ifkey =='space':
+        wp.enabled = True
+
+app.run()

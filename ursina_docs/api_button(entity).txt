@@ -1,0 +1,53 @@
+---
+title: API Reference - Button(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Button(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Button(Entity)
+
+| .origin= origin |  |
+| --- | --- |
+| .color = color |  |
+| .highlight_color = self.color.tint(.2) |  |
+| .pressed_color = self.color.tint(-.2) |  |
+| .highlight_scale = highlight_scale | multiplier |
+| .pressed_scale = pressed_scale | multiplier |
+| .highlight_sound = None |  |
+| .pressed_sound = None |  |
+| .collider = collider |  |
+| .disabled = disabled |  |
+| .text_entity = None |  |
+| .text_origin = text_origin |  |
+| .text |  |
+| --- | --- |
+| .text_origin |  |
+| .text_color |  |
+| .icon |  |
+| .icon_world_scale |  |
+| .text_size |  |
+| .origin |  |
+| input(key) |  |
+| --- | --- |
+| on_mouse_enter() |  |
+| on_mouse_exit() |  |
+| fit_to_text( radius=.1, padding=Vec2(Text.size*1.5, Text.size) ) |  |
+fromursinaimport*
+app = Ursina()
+
+Button.default_color = color.red
+b =Button(model='quad',scale=.05, x=-.5,color=color.lime,text='text scale\ntest', text_size=.5, text_color=color.black)
+b.text_size = .5b.on_click = Sequence(Wait(.5), Func(print,'aaaaaa'), )
+
+b =Button(parent=camera.ui,text='hello world!',scale=.25)
+Button.default_color = color.blue
+b =Button(text='hello world!',icon='sword',scale=.25, text_origin=(-.5,0), x=.5)
+b.on_click = application.quit# assign a function to the button.b.tooltip = Tooltip('exit')
+
+par =Entity(parent=camera.ui,scale=.2,y=-.2)
+b =Button(parent=par,text='test',scale_x=1,origin=(-.5,.5))
+b.text ='new text'print(b.text_entity)Button(text='sound',scale=.2,position=(-.25,-.2),color=color.pink, highlight_sound='blip_1', pressed_sound=Audio('coin_1', autoplay=False))
+
+Text('Text size\nreference', x=.15)definput(key):ifkey =='d':
+        scene.clear()ifkey =='space':
+        b.text ='updated text'app.run()

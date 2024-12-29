@@ -1,0 +1,35 @@
+---
+title: API Reference - Texture
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Texture
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Texture
+
+| .filtering= filtering |  |
+| --- | --- |
+| .name |  |
+| --- | --- |
+| .size |  |
+| .width |  |
+| .height |  |
+| .pixels |  |
+| .filtering |  |
+| .repeat |  |
+| new(size, color=(255,255,255)) |  |
+| --- | --- |
+| get_pixel( x, y ) |  |
+| get_pixels( start, end ) |  |
+| set_pixel( x, y, color ) |  |
+| apply() |  |
+| save( path ) |  |
+fromursinaimport*fromursinaimporttexture_importer
+app = Ursina()'''
+    The Texture class rarely used manually but usually instantiated
+    when assigning a texture to an Entity
+    texture =Texture(path / PIL.Image / panda3d.core.Texture)
+
+    A texture file can be a .png, .jpg or .psd.
+    If it's a .psd it and no compressed version exists, it will compress it automatically.'''e =Entity(model='quad',texture='brick')
+e.texture.set_pixel(0,2, color.blue)
+e.texture.apply()

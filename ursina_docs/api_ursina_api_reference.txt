@@ -1,0 +1,9 @@
+---
+title: API Reference - ursina API Reference
+url: https://www.ursinaengine.org/api_reference.html#Ursina#ursina_API_Reference
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# ursina API Reference
+
+v7.0.0

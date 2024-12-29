@@ -1,0 +1,26 @@
+---
+title: API Reference - terraincast
+url: https://www.ursinaengine.org/api_reference.html#Ursina#terraincast
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# terraincast
+
+| terraincast(world_position, terrain_entity, height_values=None, return_normals=False) | uses x and z to return y on terrain. |
+| --- | --- |
+app = Ursina()
+
+terrain_entity =Entity(model=Terrain('heightmap_1', skip=8),scale=(40,5,20),texture='heightmap_1')
+player =Entity(model='sphere',color=color.azure,scale=.2, origin_y=-.5)
+
+
+hv = terrain_entity.model.height_valuesdefupdate():
+    direction = Vec3(held_keys['d'] - held_keys['a'],0, held_keys['w'] - held_keys['s']).normalized()
+    player.position += direction * time.dt *4y =terraincast(player.world_position, terrain_entity, hv)ify isnotNone:
+        player.y = y
+
+EditorCamera()fromursina.shadersimportssao_shader
+camera.shader = ssao_shader
+Sky()
+
+app.run()

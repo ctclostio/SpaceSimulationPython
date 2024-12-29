@@ -1,0 +1,30 @@
+---
+title: API Reference - Pipe(Mesh)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Pipe(Mesh)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Pipe(Mesh)
+
+| .base_shape= base_shape |  |
+| --- | --- |
+| .origin = origin |  |
+| .path = path |  |
+| .thicknesses = thicknesses |  |
+| .look_at = look_at |  |
+| .cap_ends = cap_ends |  |
+| .mode = mode |  |
+| .color_gradient = color_gradient |  |
+| .prev = None |  |
+| .curr = None |  |
+| generate() |  |
+| --- | --- |
+app = Ursina()
+path = [e*5fore in Circle().vertices]
+
+path.append(path[0])
+e =Entity(model=Pipe(path=path, cap_ends=False))print(len(e.model.vertices), len(e.model.colors))
+
+EditorCamera()
+origin =Entity(model='cube',color=color.magenta)
+origin.scale *= .25app.run()

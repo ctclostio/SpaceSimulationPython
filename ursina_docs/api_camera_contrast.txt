@@ -1,0 +1,26 @@
+---
+title: API Reference - camera_contrast
+url: https://www.ursinaengine.org/api_reference.html#Ursina#camera_contrast
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# camera_contrast
+
+| default_input |  |
+| --- | --- |
+| 'contrast': 1, |  |
+fromursinaimport*
+app = Ursina()
+
+e =Entity(model='sphere')
+e =Entity(model='cube',y=-1)
+camera.shader = camera_contrast_shader
+camera.set_shader_input('contrast',1)
+
+slider = ThinSlider(max=2, dynamic=True,position=(-.25, -.45))defadjust_contrast():
+    camera.set_shader_input("contrast", slider.value)
+slider.on_value_changed = adjust_contrast
+
+EditorCamera()
+
+app.run()

@@ -1,0 +1,37 @@
+---
+title: API Reference - FileBrowserSave(FileBrowser)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#FileBrowserSave(FileBrowser)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# FileBrowserSave(FileBrowser)
+
+| .save_button= self.open_button |  |
+| --- | --- |
+| .file_name_field = InputField(parent=self, scale_x=.75, scale_y=self.save_button.scale_y, y=self.save_button.y) |  |
+| .file_type = '' | to save as |
+| .last_saved_file = None | gets set when you save a file |
+| .overwrite_prompt = WindowPanel(
+        content=(
+            Text('Overwrite?'),
+            Button('Yes', color=color.azure, on_click=self._save),
+            Button('Cancel')
+        ), z=-1, popup=True, enabled=False) |  |
+| .file_type |  |
+| --- | --- |
+| on_enable() |  |
+| --- | --- |
+| on_disable() |  |
+| on_submit( path ) | implement .on_submit to handle saving |
+fromursinaimport*fromursina.prefabs.file_browser_saveimportFileBrowserSave
+
+app = Ursina()
+wp =FileBrowserSave(file_type ='.*')importjson
+save_data = {'level':4,'name':'Link'}
+wp.data = json.dumps(save_data)
+
+wp.enabled = Falsedefinput(key):ifkey =='tab':
+        wp.enabled =notwp.enabled
+
+
+app.run()

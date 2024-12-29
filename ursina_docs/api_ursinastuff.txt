@@ -1,0 +1,41 @@
+---
+title: API Reference - ursinastuff
+url: https://www.ursinaengine.org/api_reference.html#Ursina#ursinastuff
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# ursinastuff
+
+| invoke(function, *args, **kwargs) | reserved keywords: 'delay', 'unscaled' |
+| --- | --- |
+| after( delay, unscaled=True ) | function for @after decorator. Use the docrator, not this. |
+| reset_cooldown() |  |
+| wrapper( *args, **kwargs ) |  |
+| destroy( entity, delay=0 ) |  |
+| chunk_list( target_list, chunk_size ) |  |
+| flatten_list( target_list ) |  |
+| flatten_completely( target_list ) |  |
+| enumerate_2d( target_2d_list):    # usage: for (x, y), value in enumerate_2d(my_2d_list ) | usage: for (x, y), value in enumerate_2d(my_2d_list) |
+| enumerate_3d( target_3d_list):   # usage: for (x, y, z), value in enumerate_3d(my_3d_list ) | usage: for (x, y, z), value in enumerate_3d(my_3d_list) |
+| rotate_2d_list( target_2d_list ) |  |
+| list_2d_to_string( target_2d_list, characters='.#' ) | '): |
+| size_list() | return a list of current python objects sorted by size |
+| find_sequence( name, file_types, folders ) | find frame_0, frame_1, frame_2 and so on |
+| import_all_classes( path=application.asset_folder, debug=False ) |  |
+| print_on_screen( text, position=(0,0), origin=(-.5,.5), scale=1, duration=1 ) |  |
+fromursinaimport*
+app = Ursina()
+
+
+list_2d = [
+    [1,0,0,1,0,1,1,1,0,0,1,1,1,1,0,0,1,0,0],
+    [1,0,0,1,0,1,0,0,1,0,1,1,1,0,0,0,1,0,0],
+    [1,0,0,1,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0],
+    [0,1,1,0,0,1,0,0,1,0,1,1,1,1,0,0,1,0,0],
+]print(list_2d_to_string(list_2d))
+
+
+a = Audio('sine')
+a.play()
+destroy(a, delay=1)
+app.run()

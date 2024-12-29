@@ -1,0 +1,27 @@
+---
+title: API Reference - scene
+url: https://www.ursinaengine.org/api_reference.html#Ursina#scene
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# scene
+
+| .entities= [] |  |
+| --- | --- |
+| .collidables = set() |  |
+| .fog_color |  |
+| --- | --- |
+| .fog_density |  |
+| .children |  |
+| set_up() |  |
+| --- | --- |
+| clear() |  |
+| fog_density( value ) |  |
+fromursinaimport*
+app = Ursina()
+e =Entity(model='plane',color=color.black,scale=100)
+EditorCamera()
+s = Sky()definput(key):ifkey =='l':fore in scene.entities:print(e.name)ifkey =='d':
+        scene.clear()Entity(model='cube')
+
+scene.fog_density = .1# sets exponential densityscene.fog_density = (50, 200)# sets linear density start and endapp.run()

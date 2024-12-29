@@ -1,0 +1,21 @@
+---
+title: API Reference - fxaa
+url: https://www.ursinaengine.org/api_reference.html#Ursina#fxaa
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# fxaa
+
+| default_input |  |
+| --- | --- |
+| 'window_size': Vec2(1280,720), |  |
+app = Ursina()
+window.color=color.blackEntity(model='plane',scale=10,y=-2,texture='shore')
+EditorCamera()Entity(model='quad',color=color.red, double_sided=True)Entity(model='quad',color=color.green,z=-.001,scale=.5,texture='circle')
+camera.shader = fxaa_shader
+camera.clip_plane_far=100Sky()definput(key):ifkey =='space':ifnotcamera.shader:
+            camera.shader = fxaa_shaderelse:
+            camera.shader = None
+
+
+app.run()

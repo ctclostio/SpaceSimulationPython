@@ -1,0 +1,17 @@
+---
+title: API Reference - pixelation_shader
+url: https://www.ursinaengine.org/api_reference.html#Ursina#pixelation_shader
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# pixelation_shader
+
+fromursinaimport*
+app = Ursina()
+
+e =Entity(model='sphere',color=color.orange)
+e =Entity(model='cube',y=-1)
+camera.shader = pixelation_shader
+EditorCamera()
+
+app.run()

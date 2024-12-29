@@ -1,0 +1,321 @@
+---
+title:  ursina engine text
+url: https://www.ursinaengine.org/text.html#Changing Text of Prefabs
+scraped_at: Sun Dec 29 01:01:57 2024
+---
+
+
+
+
+
+[](index.html)
+
+[Download]( installation.html)
+
+[Documentation]( documentation.html)
+
+[API Reference]( api_reference.html)
+
+[Samples]( samples.html)
+
+[Asset Store]( asset_store.html)
+
+[Donate]( donate.html)
+
+
+
+
+
+
+
+
+
+
+
+[Installation](installation.html)
+
+
+
+
+[Entity Basics](entity_basics.html)
+
+•
+[What is an Entity?](entity_basics.html#What is an Entity?)
+
+•
+[Model](entity_basics.html#Model)
+
+•
+[Texture](entity_basics.html#Texture)
+
+•
+[Color](entity_basics.html#Color)
+
+•
+[Position](entity_basics.html#Position)
+
+•
+[Rotation](entity_basics.html#Rotation)
+
+•
+[Scale](entity_basics.html#Scale)
+
+•
+[Update](entity_basics.html#Update)
+
+•
+[Input](entity_basics.html#Input)
+
+•
+[Mouse Input](entity_basics.html#Mouse Input)
+
+•
+[Other Magic Functions](entity_basics.html#Other Magic Functions)
+
+
+
+
+[Coordinate System](coordinate_system.html)
+
+•
+[Entity Coordinate System](coordinate_system.html#Entity Coordinate System)
+
+•
+[UI Coordinate System](coordinate_system.html#UI Coordinate System)
+
+•
+[Rotation](coordinate_system.html#Rotation)
+
+•
+[Origin](coordinate_system.html#Origin)
+
+
+
+
+[Collision](collision.html)
+
+•
+[Adding Colliders](collision.html#Adding Colliders)
+
+•
+[raycast()](collision.html#raycast())
+
+•
+[boxcast()](collision.html#boxcast())
+
+•
+[intersects()](collision.html#intersects())
+
+•
+[HitInfo](collision.html#HitInfo)
+
+•
+[Distance Check](collision.html#Distance Check)
+
+•
+[Mouse Collision](collision.html#Mouse Collision)
+
+
+
+
+[Text](text.html)
+
+•
+[Text Size](text.html#Text Size)
+
+•
+[Font and Resolution](text.html#Font and Resolution)
+
+•
+[Text Alignment](text.html#Text Alignment)
+
+•
+[Text Colors](text.html#Text Colors)
+
+•
+[Changing Text of Prefabs](text.html#Changing Text of Prefabs)
+
+
+
+
+[Animation](animation.html)
+
+•
+[SpriteSheetAnimation (2D)](animation.html#SpriteSheetAnimation (2D))
+
+•
+[Animation (2D)](animation.html#Animation (2D))
+
+•
+[Actor (3D)](animation.html#Actor (3D))
+
+•
+[FrameAnimation3D (3D)](animation.html#FrameAnimation3D (3D))
+
+
+
+
+
+
+[Networking](networking.html)
+
+•
+[~~ Networking Concepts ~~](networking.html#~~ Networking Concepts ~~)
+
+•
+[How Data Goes from Point A to Point B](networking.html#How Data Goes from Point A to Point B)
+
+•
+[IP Addresses](networking.html#IP Addresses)
+
+•
+[Ports](networking.html#Ports)
+
+•
+[Communication Protocols](networking.html#Communication Protocols)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Game Networking Concepts ~~](networking.html#~~ Game Networking Concepts ~~)
+
+•
+[Multiplayer Preparations](networking.html#Multiplayer Preparations)
+
+•
+[Sending Inputs](networking.html#Sending Inputs)
+
+•
+[Sending Game State](networking.html#Sending Game State)
+
+•
+[Client Authoritative](networking.html#Client Authoritative)
+
+•
+[Server Authoritative](networking.html#Server Authoritative)
+
+•
+[Deterministic Lockstep](networking.html#Deterministic Lockstep)
+
+•
+[Snapshot Interpolation](networking.html#Snapshot Interpolation)
+
+•
+[Server Side Lag Compensation](networking.html#Server Side Lag Compensation)
+
+•
+[Client Side Prediction](networking.html#Client Side Prediction)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Introduction to Ursina Networking ~~](networking.html#~~ Introduction to Ursina Networking ~~)
+
+•
+[Limitations](networking.html#Limitations)
+
+•
+[Basics](networking.html#Basics)
+
+•
+[Samples](networking.html#Samples)
+
+
+
+
+[F.A.Q.](faq.html)
+
+
+
+
+[Build and Release](building.html)
+
+•
+[Building Your App with ursina.build](building.html#Building Your App with ursina.build)
+
+•
+[Building with Nuitka](building.html#Building with Nuitka)
+
+•
+[Building Your App with auto-py-to-exe](building.html#Building Your App with auto-py-to-exe)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Text
+
+
+## Text Size
+
+Set .scale or .world_scale:
+
+```python
+text_entity = Text('hello', world_scale = 2)
+```
+
+Changing default text size (globally):
+
+```python
+Text.size = .05# make all the text double as big (def ault: .025).
+```
+
+Changing the text size of the non-uniformly scaled Button:
+
+```python
+button = Button(scale = (.2, .1), text = 'Start')
+button.text_entity.world_scale  = 2# make the text_entity twice as big.
+```
+
+## Font and Resolution
+
+For one Text Entity:
+
+```python
+text = Text(font = 'VeraMono.ttf', resolution = 100*Text.size)
+text.text = descr
+```
+
+For all Text Entities:
+
+```python
+Text.def ault_font  = 'VeraMono.ttf'Text.def ault_resolution  = 100* Text.size
+```
+
+Keep in mind you don't *have* to change the resolution, but for pixel fonts for example, you
+might want a higher resolution in order for it to not appear blurry.
+## Text Alignment
+
+Change text alignment by setting .origin:
+
+```python
+Text('Hello\nWorld!', origin = (-.5, .5))# the def ault. text starts in the upper left like normal.Text('Hello\nWorld!', origin = (0, 0))     ``` is centered both horizontally and vertically.
+```
+
+## Text Colors
+
+Set .color to color the whole text.
+
+```python
+t = Text('This is some text', color = color.blue)
+```
+
+Use tags to color parts of the text.
+
+```python
+t = Text('This is some <pink>colored text. <def ault>Reset color back to def ault.', color = color.blue)
+```
+
+## Changing Text of Prefabs
+
+Things like Slider, InputField, etc., usually has .text_entity which you can access if you need it.

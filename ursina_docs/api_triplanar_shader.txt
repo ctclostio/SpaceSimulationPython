@@ -1,0 +1,36 @@
+---
+title: API Reference - triplanar_shader
+url: https://www.ursinaengine.org/api_reference.html#Ursina#triplanar_shader
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# triplanar_shader
+
+| default_input |  |
+| --- | --- |
+| 'texture_scale' : Vec2(1,1), |  |
+| 'side_texture' : 'brick', |  |
+| 'side_texture_scale' : Vec2(1,1), |  |
+fromursinaimport*fromursina.prefabs.primitivesimport*
+app = Ursina()
+window.color=color.black
+
+shader = triplanar_shader
+
+a = Draggable(parent=scene,model='cube',shader=shader,texture=load_texture('brick'), plane_direction=Vec3(0,1,0))
+t = load_texture('brick')._textureprint('------', type(t))
+a.set_shader_input('side_texture', load_texture('brick'))
+
+b = AzureSphere(shader=shader, rotation_y=180, x=3,texture='grass')
+b.texture.filtering = False
+GrayPlane(scale=10,y=-2,texture='shore')
+b.set_shader_input('side_texture', load_texture('brick'))
+
+Sky(color=color.light_gray)
+EditorCamera()defset_side_texture_scale():
+    value = side_texture_scale_slider.value
+    b.set_shader_input('side_texture_scale', Vec2(value, value))
+    a.set_shader_input('side_texture_scale', Vec2(value, value))
+
+side_texture_scale_slider = Slider(text='side_texture_scale', min=0, max=10, default=1, dynamic=True, on_value_changed=set_side_texture_scale)defupdate():
+    b.rotation_y +=1b.rotation_x +=1app.run()

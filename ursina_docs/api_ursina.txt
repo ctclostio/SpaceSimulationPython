@@ -1,0 +1,20 @@
+---
+title: API Reference - Ursina
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Ursina
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Ursina
+
+| .mouse= mouse |  |
+| --- | --- |
+| input_up(key, is_raw=False) | internal method for key release |
+| --- | --- |
+| input_hold( key, is_raw=False ) | internal method for handling repeating input that occurs when you hold the key |
+| input( key, is_raw=False ) | internal method for handling input |
+| text_input( key ) | internal method for handling text input |
+| step( ): # use this control the update loop yourself. call app.step() in a while loop for example, instead of app.run( ) | use this control the update loop yourself. call app.step() in a while loop for example, instead of app.run() |
+| run( info=True ) |  |
+fromursinaimport*
+app =Ursina(development_mode=False, use_ingame_console=True)definput(key):print(key)
+app.run()

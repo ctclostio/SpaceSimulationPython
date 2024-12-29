@@ -1,0 +1,53 @@
+---
+title: API Reference - PlatformerController2d(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#PlatformerController2d(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# PlatformerController2d(Entity)
+
+| .model= 'cube' |  |
+| --- | --- |
+| .origin_y = -.5 |  |
+| .scale_y = 2 |  |
+| .color = color.orange |  |
+| .collider = 'box' |  |
+| .animator = Animator({'idle' : None, 'walk' : None, 'jump' : None}) |  |
+| .walk_speed = 8 |  |
+| .walking = False |  |
+| .velocity = 0 | the walk direction is stored here. -1 for left and 1 for right. |
+| .jump_height = 4 |  |
+| .jump_duration = .5 |  |
+| .jumping = False |  |
+| .max_jumps = 1 |  |
+| .jumps_left = self.max_jumps |  |
+| .gravity = 1 |  |
+| .grounded = True |  |
+| .air_time = 0 | this increase while we're falling and used when calculating the distance we fall so we fall faster and faster instead of linearly. |
+| .traverse_target = scene | by default, it will collide with everything except itself. you can change this to change the boxcast traverse target. |
+| .ignore_list = [self, ] |  |
+| .gravity = 0 |  |
+| .min_x = -99999 |  |
+| .max_x = 99999 |  |
+| update() |  |
+| --- | --- |
+| input( key ) |  |
+| jump() |  |
+| start_fall() |  |
+| land() |  |
+app = Ursina()
+camera.orthographic = True
+camera.fov =10ground =Entity(model='cube',color=color.white33, origin_y=.5,scale=(20,1,1),collider='box',y=-1)
+wall =Entity(model='cube',color=color.azure,origin=(-.5,.5),scale=(5,10), x=10,y=.5,collider='box')
+wall_2=Entity(model='cube',color=color.white33,origin=(-.5,.5),scale=(5,10), x=10,y=0,collider='box')
+ceiling =Entity(model='cube',color=color.white33, origin_y=-.5,scale=(1,1,1),y=1,collider='box')
+ceiling =Entity(model='cube',color=color.white33, origin_y=-.5,scale=(5,5,1),y=2,collider='box')
+ground =Entity(model='cube',color=color.white33, origin_y=.5,scale=(20,3,1),collider='box',y=-1, rotation_z=45, x=-5)definput(key):ifkey =='c':
+        wall.collision =notwall.collisionprint(wall.collision)
+
+
+player_controller = PlatformerController2d(scale_y=2, jump_height=4, x=3,y=20, max_jumps=2)
+ec = EditorCamera()
+ec.add_script(SmoothFollow(target=player_controller, offset=[0,1,0], speed=4))
+
+app.run()

@@ -1,0 +1,27 @@
+---
+title: API Reference - FileButton(Button)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#FileButton(Button)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# FileButton(Button)
+
+| .load_menu= load_menu |  |
+| --- | --- |
+| .path = path |  |
+| .original_color = self.color |  |
+| .selected = False |  |
+| .selected |  |
+| --- | --- |
+| on_click() |  |
+| --- | --- |
+| on_double_click() |  |
+app = Ursina()
+
+fb = FileBrowser(file_types=('.*'),enabled=False)defon_submit(paths):print('--------', paths)forp in paths:print('---', p)
+
+fb.on_submit = on_submitdefinput(key):ifkey =='tab':
+        fb.enabled =notfb.enabled
+
+
+app.run()

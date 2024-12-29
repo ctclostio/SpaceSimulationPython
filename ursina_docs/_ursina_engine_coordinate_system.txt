@@ -1,0 +1,343 @@
+---
+title:  ursina engine coordinate system
+url: https://www.ursinaengine.org/coordinate_system.html#Origin
+scraped_at: Sun Dec 29 01:01:58 2024
+---
+
+
+
+
+
+[](index.html)
+
+[Download]( installation.html)
+
+[Documentation]( documentation.html)
+
+[API Reference]( api_reference.html)
+
+[Samples]( samples.html)
+
+[Asset Store]( asset_store.html)
+
+[Donate]( donate.html)
+
+
+
+
+
+
+
+
+
+
+
+[Installation](installation.html)
+
+
+
+
+[Entity Basics](entity_basics.html)
+
+•
+[What is an Entity?](entity_basics.html#What is an Entity?)
+
+•
+[Model](entity_basics.html#Model)
+
+•
+[Texture](entity_basics.html#Texture)
+
+•
+[Color](entity_basics.html#Color)
+
+•
+[Position](entity_basics.html#Position)
+
+•
+[Rotation](entity_basics.html#Rotation)
+
+•
+[Scale](entity_basics.html#Scale)
+
+•
+[Update](entity_basics.html#Update)
+
+•
+[Input](entity_basics.html#Input)
+
+•
+[Mouse Input](entity_basics.html#Mouse Input)
+
+•
+[Other Magic Functions](entity_basics.html#Other Magic Functions)
+
+
+
+
+[Coordinate System](coordinate_system.html)
+
+•
+[Entity Coordinate System](coordinate_system.html#Entity Coordinate System)
+
+•
+[UI Coordinate System](coordinate_system.html#UI Coordinate System)
+
+•
+[Rotation](coordinate_system.html#Rotation)
+
+•
+[Origin](coordinate_system.html#Origin)
+
+
+
+
+[Collision](collision.html)
+
+•
+[Adding Colliders](collision.html#Adding Colliders)
+
+•
+[raycast()](collision.html#raycast())
+
+•
+[boxcast()](collision.html#boxcast())
+
+•
+[intersects()](collision.html#intersects())
+
+•
+[HitInfo](collision.html#HitInfo)
+
+•
+[Distance Check](collision.html#Distance Check)
+
+•
+[Mouse Collision](collision.html#Mouse Collision)
+
+
+
+
+[Text](text.html)
+
+•
+[Text Size](text.html#Text Size)
+
+•
+[Font and Resolution](text.html#Font and Resolution)
+
+•
+[Text Alignment](text.html#Text Alignment)
+
+•
+[Text Colors](text.html#Text Colors)
+
+•
+[Changing Text of Prefabs](text.html#Changing Text of Prefabs)
+
+
+
+
+[Animation](animation.html)
+
+•
+[SpriteSheetAnimation (2D)](animation.html#SpriteSheetAnimation (2D))
+
+•
+[Animation (2D)](animation.html#Animation (2D))
+
+•
+[Actor (3D)](animation.html#Actor (3D))
+
+•
+[FrameAnimation3D (3D)](animation.html#FrameAnimation3D (3D))
+
+
+
+
+
+
+[Networking](networking.html)
+
+•
+[~~ Networking Concepts ~~](networking.html#~~ Networking Concepts ~~)
+
+•
+[How Data Goes from Point A to Point B](networking.html#How Data Goes from Point A to Point B)
+
+•
+[IP Addresses](networking.html#IP Addresses)
+
+•
+[Ports](networking.html#Ports)
+
+•
+[Communication Protocols](networking.html#Communication Protocols)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Game Networking Concepts ~~](networking.html#~~ Game Networking Concepts ~~)
+
+•
+[Multiplayer Preparations](networking.html#Multiplayer Preparations)
+
+•
+[Sending Inputs](networking.html#Sending Inputs)
+
+•
+[Sending Game State](networking.html#Sending Game State)
+
+•
+[Client Authoritative](networking.html#Client Authoritative)
+
+•
+[Server Authoritative](networking.html#Server Authoritative)
+
+•
+[Deterministic Lockstep](networking.html#Deterministic Lockstep)
+
+•
+[Snapshot Interpolation](networking.html#Snapshot Interpolation)
+
+•
+[Server Side Lag Compensation](networking.html#Server Side Lag Compensation)
+
+•
+[Client Side Prediction](networking.html#Client Side Prediction)
+
+•
+[References](networking.html#References)
+
+•
+[~~ Introduction to Ursina Networking ~~](networking.html#~~ Introduction to Ursina Networking ~~)
+
+•
+[Limitations](networking.html#Limitations)
+
+•
+[Basics](networking.html#Basics)
+
+•
+[Samples](networking.html#Samples)
+
+
+
+
+[F.A.Q.](faq.html)
+
+
+
+
+[Build and Release](building.html)
+
+•
+[Building Your App with ursina.build](building.html#Building Your App with ursina.build)
+
+•
+[Building with Nuitka](building.html#Building with Nuitka)
+
+•
+[Building Your App with auto-py-to-exe](building.html#Building Your App with auto-py-to-exe)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Coordinate System
+
+
+## Entity Coordinate System
+
+
+```python
+y (up)
+            |
+            |
+(for ward) z |
+          \ |
+           \|
+            *---------- x (right)
+```
+
+## UI Coordinate System
+
+
+```python
+(-.5, .5)           (.5, .5)
+  (window.top_right)_______|__(window.top)____|_______(window.top_right)
+                   |'                  '|
+                   |'                  '|
+                   |'                  '|
+                   |'                  '|
+       (window.left)'      (0, 0)      '(window.right or Vec2(.5*window.aspect_ratio, 0))
+                   |'                  '|
+                   |'                  '|
+                   |'                  '|
+                   |_______'__________________'_______|
+(window.bottom_left)       |  (window.bottom) |       (window.bottom_right)
+                      (-.5, -.5)          (.5, -.5)
+```
+
+Want a different UI coordinate system? No problem. camera.ui is an Entity as well so you can move and scale it as you see fit.
+## Rotation
+
+Positive rotation means rotating clockwise around the axis, looking from the outside in.
+The exception to this is the z-axis, which is counter-clockwise.
+While this is inconsistent, it makes setting rotation_z in 2D also clockwise.
+Although generally not recommended, the rotation direction can be changed by
+setting
+Entity.rotation_directions
+(default: (-1,-1,1)).
+In general when working with rotation you'll want to only set one of the axes at the same time.
+For more complicated rotations you can use
+entity.look_at(position)
+,
+entity.look_at_2d(position)
+or even set/get .quaternion if you're comfortable with that. For continuous rotation,
+entity.rotate(amount)
+can be good as it will add a rotation to the current rotation.
+
+```python
+_______
+          /
+          \->
+    __
+   /  \     y
+   v  |     |
+      |  z  |                __
+          \ |               /  \
+           \|               v   |
+            *---------- x       |
+                                |
+```
+
+## Origin
+
+Setting the origin will move the origin point of the model.
+This can be especially useful when working with the UI.
+
+```python
+(-.5, .5)
++---------+0---------+
+|  (0, 0)  |      |         |
+|0|      |         |
+|         |      |         |
++---------+      +---------+
+
+   (0, .5)
++----0----+      +---------+
+|         |      |         |
+|         |      |0(.5, 0)
+|         |      |         |
++---------+      +---------+
+```

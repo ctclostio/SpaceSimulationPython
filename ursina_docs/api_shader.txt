@@ -1,0 +1,32 @@
+---
+title: API Reference - Shader
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Shader
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Shader
+
+| Shader.CG = Panda3dShader.SL_Cg |  |
+| --- | --- |
+| Shader.GLSL = Panda3dShader.SL_GLSL |  |
+| Shader.HLSL = Panda3dShader.SL_HLSL |  |
+| Shader.SPIR_V = Panda3dShader.SL_SPIR_V |  |
+| .name = name |  |
+| .language = language |  |
+| .vertex = vertex |  |
+| .fragment = fragment |  |
+| .geometry = geometry |  |
+| .default_input = dict() |  |
+| .continuous_input = dict() |  |
+| .compiled = False |  |
+| compile(shader_includes=True) |  |
+| --- | --- |
+| load( cls, language=Panda3dShader.SL_GLSL, vertex=None, fragment=None, geometry=None, **kwargs ) |  |
+fromtimeimportperf_counter
+t = perf_counter()fromursinaimport*fromursinaimportUrsina,Entity, held_keys, scene, EditorCamera
+
+app = Ursina()Entity(model='cube',shader=Shader())
+EditorCamera()print('ttttttttttttt', perf_counter() - t)definput(key):ifheld_keys['control'] and key =='r':
+        reload_shaders()defreload_shaders():fore in scene.entities:ifhasattr(e,'_shader'):print('-------', e.shader)
+
+app.run()

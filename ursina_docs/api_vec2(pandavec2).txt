@@ -1,0 +1,15 @@
+---
+title: API Reference - Vec2(PandaVec2)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Vec2(PandaVec2)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Vec2(PandaVec2)
+
+| .x |  |
+| --- | --- |
+| .y |  |
+| .X |  |
+| .Y |  |
+| .yx |  |
+a =Vec2(1,1)print(a)print(round(a))

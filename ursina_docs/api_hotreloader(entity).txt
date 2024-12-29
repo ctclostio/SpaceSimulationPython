@@ -1,0 +1,33 @@
+---
+title: API Reference - HotReloader(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#HotReloader(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# HotReloader(Entity)
+
+| .path= path |  |
+| --- | --- |
+| .path = Path(self.path) |  |
+| .hotreload = False | toggle with f9 |
+| .hotkeys = {
+        'ctrl+r' : self.reload_code,
+        'f5'     : self.reload_code,
+        'f6'     : self.reload_textures,
+        'f7'     : self.reload_models,
+        'f8'     : self.reload_shaders,
+        'f9'     : self.toggle_hotreloading,
+        } |  |
+| .hotreload_window_settings = dict(size=(window.size[0]/2,window.size[1]/2), always_on_top=True, position=(window.fullscreen_size[0]-window.size[0]/22, 0)) |  |
+| input(key) |  |
+| --- | --- |
+| update() |  |
+| get_source_code() |  |
+| toggle_hotreloading() |  |
+| reload_code( reset_camera=True ) |  |
+| reload_textures() |  |
+| reload_models() |  |
+| reload_shaders() |  |
+fromursinaimport*
+app = Ursina()'''
+By default you can press F5 to reload the starting script, F6 to reimport textures and F7 to reload models.'''

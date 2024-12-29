@@ -1,0 +1,131 @@
+---
+title:  ursina engine
+url: https://www.ursinaengine.org/index.html
+scraped_at: Sun Dec 29 01:02:00 2024
+---
+
+
+
+
+
+[](index.html)
+
+[Download]( installation.html)
+
+[Documentation]( documentation.html)
+
+[API Reference]( api_reference.html)
+
+[Samples]( samples.html)
+
+[Asset Store]( asset_store.html)
+
+[Donate]( donate.html)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ursina engine
+
+
+[](https://github.com/pokepetter/ursina)
+[](https://discord.gg/ydXfhyb)
+[](https://twitter.com/ursinaengine)
+[](https://www.patreon.com/ursinaengine)
+[](https://youtu.be/j71j88oCTNo)
+
+## Powered by Python
+
+
+
+
+Python is the world's most popular programming language for a reason. The ease of use of Python combined with ursina's design, makes it easy to write concise code and avoid lots of boilerplate code.
+
+
+
+
+
+
+```python
+ursinaimport*
+
+app = Ursina()
+
+cube  = Entity(model = 'cube', color = hsv(300, 1,1), scale = 2, collider = 'box')def spin():
+    cube.animate('rotation_y', cube.rotation_y+360, duration = 2, curve = curve.in _out_expo)
+
+cube.on_click = spin
+EditorCamera()# add camera controlsfororbiting and moving the cameraapp.run()
+```
+
+## Make Any Type of Game
+
+2D games, 3D games, applications, visualizations, you can make anything you want with ursina.
+![](made_with_ursina.jpg)
+
+## Iterate Faster
+
+• Reload code/textures/models while in-game
+• Automatic import of .psd and .blend files
+• Compile times:
+Iteration speed benchmark. Time from code/scene change to play. Game: pong clone. Lower is better.
+
+```python
+engine:         duration:       times as slow:
+
+ursina00.01s1x
+Godot01.18s118x
+Unity11.45s1145x
+```
+
+## Modern UI
+
+• Sleek modern design.
+• Full control. Change the looks of anything, down to the smallest details.
+• Built with Entities like everything else, so you don't have to relearn anything.
+![](ursina_ui_banner.jpg)
+
+## Batteries Included
+
+• Easy to use mesh class for making procedural geometry
+• Built-in animation and tweening
+• Pre-made prefabs such as FirstPersonController, 2d platformer controller, editor camera
+• Lots of included procedural 3D primitives
+• Many shaders to choose from, or write your own with GLSL
+![](ursina_batteries_included_banner.jpg)
+
+## Free
+
+Licensed under the permissive MIT license,
+you can use Ursina for whatever you want.
+• No revenue cut or subscription fee.
+• Freely modify source code to fix bugs or add features
+## Dependencies
+
+• python 3.10+
+• panda3d
+• pillow, for texture manipulation
+• pyperclip, for cut and paste support
+Optional:
+• psutil, for measuring memory usage
+• imageio, for recording and converting to gifs
+• psd-tools3, for converting .psd files
+• Blender, for converting .blend files
+## Platforms
+
+• Windows
+• Linux
+• Mac (not officially supported, but will most likely work)
+[⭳ Download]( installation.html)

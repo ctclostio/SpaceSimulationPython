@@ -1,0 +1,37 @@
+---
+title: API Reference - RadialMenu(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#RadialMenu(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# RadialMenu(Entity)
+
+| .parent= camera.ui |  |
+| --- | --- |
+| .buttons = buttons |  |
+| .open_at_cursor = True |  |
+| .open_duration = .1 |  |
+| .bg = Panel(parent=self, model='quad', z=99, scale=999, collider='box', color=color.hsv(0,0,0,.1), enabled=False) |  |
+| .z = -99 |  |
+| .scale = .075 |  |
+| on_enable() |  |
+| --- | --- |
+| input( key ) |  |
+app = Ursina()
+
+rm =RadialMenu(
+    buttons = (
+        RadialMenuButton(text='1'),
+        RadialMenuButton(text='2'),
+        RadialMenuButton(text='3'),
+        RadialMenuButton(text='4'),
+        RadialMenuButton(text='5',scale=.5),
+        RadialMenuButton(text='6',color=color.red),
+        ),
+    enabled = False
+    )
+RadialMenuButton(text='6',color=color.red,x =-.5,scale=.06),defenable_radial_menu():
+    rm.enabled = True
+cube = Button(parent=scene,model='cube',color=color.orange,highlight_color=color.azure,on_click=enable_radial_menu)
+EditorCamera()
+app.run()

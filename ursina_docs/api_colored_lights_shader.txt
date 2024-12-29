@@ -1,0 +1,38 @@
+---
+title: API Reference - colored_lights_shader
+url: https://www.ursinaengine.org/api_reference.html#Ursina#colored_lights_shader
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# colored_lights_shader
+
+| default_input |  |
+| --- | --- |
+| 'top_color': color.hsv(220, .12, .82), |  |
+| 'bottom_color': color.hsv(285, .13, .47), |  |
+| 'left_color': color.hsv(217, .3, .68), |  |
+| 'right_color': color.hsv(0, .25, .93), |  |
+| 'front_color': color.hsv(231, .08, .69), |  |
+| 'back_color': color.hsv(240, .05, .76), |  |
+fromursinaimport*fromursina.prefabs.primitivesimport*
+app = Ursina()
+window.color=color.black
+
+shader = colored_lights_shaderEntity(model='cube',color=color.white,shader=colored_lights_shader)
+e =Entity(model='cube', x=1.2,shader=colored_lights_shader,color=color.white)
+e.set_shader_input('top_color', hsv(0,1,1))
+e.set_shader_input('bottom_color', hsv(0,0,0))
+e.set_shader_input('left_color', hsv(0,0,0))
+e.set_shader_input('right_color', hsv(0,0,0))
+e.set_shader_input('front_color', hsv(0,0,0))
+e.set_shader_input('back_color', hsv(0,0,0))
+
+GrayPlane(scale=10,y=-2,texture='shore')
+
+Sky(color=color.light_gray)
+EditorCamera(rotate_around_mouse_hit=False)
+
+
+EditorCamera()
+
+app.run()

@@ -1,0 +1,11 @@
+---
+title: API Reference - Vec4(PandaVec4)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Vec4(PandaVec4)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Vec4(PandaVec4)
+
+a = Vec4(1,0,0,0) *2a = Vec4(1,0,1,1) * Vec4(2,1,2,3)
+b = Vec4(1.252352324,0,1,.2)
+b += Vec4(0,1)

@@ -1,0 +1,16 @@
+---
+title: API Reference - Cone(Mesh)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Cone(Mesh)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Cone(Mesh)
+
+fromursinaimportUrsina,Entity, color, EditorCamera
+app = Ursina()
+e =Entity(model=Cone(3),texture='brick')
+
+
+origin =Entity(model='quad',color=color.orange,scale=(.05, .05))
+ed = EditorCamera()
+app.run()

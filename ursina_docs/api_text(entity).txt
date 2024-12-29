@@ -1,0 +1,59 @@
+---
+title: API Reference - Text(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Text(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Text(Entity)
+
+| Text.size = .025 |  |
+| --- | --- |
+| .size = Text.size |  |
+| .parent = camera.ui |  |
+| .shader = None |  |
+| .text_nodes = [] |  |
+| .images = [] |  |
+| .origin = (-.5, .5) |  |
+| .font = Text.default_font |  |
+| .resolution = Text.default_resolution |  |
+| .use_tags = True |  |
+| .line_height = 1 |  |
+| .start_tag = start_tag |  |
+| .end_tag = end_tag |  |
+| .text_colors = {'default' : color.text_color} |  |
+| .tag = Text.start_tag+'default'+Text.end_tag |  |
+| .current_color = self.text_colors['default'] |  |
+| .scale_override = 1 |  |
+| .appear_sequence = None | gets created when calling appear() |
+| .text |  |
+| --- | --- |
+| .font |  |
+| .color | sets the default color. |
+| .line_height |  |
+| .width | gets the width of the widest line. |
+| .height | gets the height of the text |
+| .lines |  |
+| .resolution |  |
+| .wordwrap | set this to make the text wrap after a certain number of characters. |
+| .origin |  |
+| .background |  |
+| text(text) |  |
+| --- | --- |
+| create_text_section( text, tag='', x=0, y=0 ) |  |
+| align() |  |
+| create_background( padding=size*2, radius=size, color=ursina.color.black66 ) |  |
+| appear( speed=.025 ) |  |
+| get_width( string, font=None ) |  |
+fromursinaimport*fromursinaimportUrsina, dedent, window
+  app = Ursina()
+  descr = dedent('''
+      &ltred&gtRainstorm&ltdefault&gt &ltred&gtRainstorm&ltdefault&gt
+      Summon a rain storm to deal 5 &ltblue&gtwater&ltdefault&gt damage to everyone, test including yourself.
+      1234 1234 1234 1234 1234 1234 2134 1234 1234 1234 1234 1234 2134 2134 1234 1234 1234 1234
+      Lasts for 4 rounds.''').strip()
+
+  Text.default_resolution =1080* Text.size
+  test =Text(text=descr, wordwrap=30)definput(key):ifkey =='a':print('a')
+          test.text ='&ltdefault&gt&ltimage:file_icon&gt &ltred&gt&ltimage:file_icon&gt test 'print('by', test.text)ifkey =='c':
+          test.text =''window.fps_counter.enabled = Falseprint('....', Text.get_width('yolo'))
+  app.run()

@@ -1,0 +1,18 @@
+---
+title: API Reference - grid_layout
+url: https://www.ursinaengine.org/api_reference.html#Ursina#grid_layout
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# grid_layout
+
+| grid_layout(l, max_x=8, max_y=8, spacing=(0,0,0), origin=(-.5,.5,0), offset=(0,0,0)) |  |
+| --- | --- |
+app = Ursina()
+
+center =Entity(model='quad',scale=.1,color=color.red)
+p =Entity()fori inrange(4*5):
+    b = Button(parent=p,model='quad',scale=Vec2(.2,.1),text=str(i),color=color.tint(color.random_color(),-.6))
+    b.text_entity.scale=1t = time.time()grid_layout(p.children, max_x=7, max_y=10,origin=(0, .5), spacing=(.15,0))
+center =Entity(parent=camera.ui,model=Circle(),scale=.005,color=color.lime)
+EditorCamera()print(time.time() - t)

@@ -1,0 +1,33 @@
+---
+title: API Reference - application
+url: https://www.ursinaengine.org/api_reference.html#Ursina#application
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# application
+
+| .paused= False |  |
+| --- | --- |
+| .time_scale = 1 |  |
+| .calculate_dt = True |  |
+| .sequences = [] |  |
+| .trace_entity_definition = False | enable to set entity.line_definition |
+| .package_folder = Path(__file__).parent |  |
+| .blender_paths = dict() |  |
+| .development_mode = True |  |
+| .window_type = 'onscreen' |  |
+| .show_ursina_splash = False |  |
+| .ursina_splash = None |  |
+| .gltf_no_srgb = True |  |
+| .scenes_folder = asset_folder / 'scenes/' |  |
+| .scripts_folder = asset_folder / 'scripts/' |  |
+| .fonts_folder = asset_folder / 'fonts/' |  |
+| .compressed_textures_folder = asset_folder / 'textures_compressed/' |  |
+| .compressed_models_folder = asset_folder / 'models_compressed/' |  |
+| .base = None | this will be set once the Ursina() is created |
+| .hot_reloader = None | will be set my main if development_mode |
+| pause() |  |
+| --- | --- |
+| resume() |  |
+| quit() |  |
+| load_settings( path=asset_folder / 'settings.py' ) |  |

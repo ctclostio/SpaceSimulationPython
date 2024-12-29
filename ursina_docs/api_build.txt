@@ -1,0 +1,27 @@
+---
+title: API Reference - build
+url: https://www.ursinaengine.org/api_reference.html#Ursina#build
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# build
+
+| .project_folder= Path.cwd() |  |
+| --- | --- |
+| .project_name = project_folder.stem |  |
+| .build_folder = Path(project_folder / f'build_{platform.system()}') |  |
+| .build_folder.mkdir(exist_ok=True) |  |
+| .ignore_folders = [] |  |
+| .ignore_filetypes = [] |  |
+| .compressed_textures = [] |  |
+| .compressed_textures_folder = Path(project_folder/'textures_compressed') |  |
+| .python_dest = Path(build_folder / 'python') |  |
+| .python_dlls_dest = Path(build_folder / 'python/DLLs') |  |
+| .python_lib_dest = Path(build_folder / 'python/Lib') |  |
+| .src_dest = Path(build_folder / 'src') |  |
+| .build_engine = True |  |
+| .build_game = True |  |
+| .entry_point = 'main.py' |  |
+| .start_time = time.time() |  |
+| copytree(src, dst, symlinks=False, ignore_patterns=[], ignore_filetypes=[]) |  |
+| --- | --- |

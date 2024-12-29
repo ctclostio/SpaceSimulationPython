@@ -1,0 +1,22 @@
+---
+title: API Reference - unlit_shader
+url: https://www.ursinaengine.org/api_reference.html#Ursina#unlit_shader
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# unlit_shader
+
+| default_input |  |
+| --- | --- |
+| 'texture_scale' : Vec2(1,1), |  |
+| 'texture_offset' : Vec2(0.0, 0.0), |  |
+fromursinaimport*fromursina.prefabs.primitivesimport*
+app = Ursina()
+
+shader = unlit_shader
+
+ground = GrayPlane(scale=10,y=-2,texture='shore',shader=shader,texture_scale=(10,10))
+ground.set_shader_input('texture_scale', Vec2(2,1))
+EditorCamera()
+
+app.run()

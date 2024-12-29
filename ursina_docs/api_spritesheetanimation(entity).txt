@@ -1,0 +1,27 @@
+---
+title: API Reference - SpriteSheetAnimation(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#SpriteSheetAnimation(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# SpriteSheetAnimation(Entity)
+
+| .animations= animations | should be a dict |
+| --- | --- |
+| play_animation(animation_name) |  |
+| --- | --- |
+'''
+Sprite sheet coordinate system:
+(0,3) (1,3) (2,3) (3,3)
+(0,2) (1,2) (2,2) (3,2)
+(0,1) (1,1) (2,1) (3,1)
+(0,0) (1,0) (2,0) (3,0)'''fromursinaimportUrsina
+app = Ursina()
+player_graphics =SpriteSheetAnimation('sprite_sheet', tileset_size=(4,4), fps=6, animations={'idle': ((0,0), (0,0)),# makes an animation from (0,0) to (0,0), a single frame'walk_up': ((0,0), (3,0)),# makes an animation from (0,0) to (3,0), the bottom row'walk_right': ((0,1), (3,1)),'walk_left': ((0,2), (3,2)),'walk_down': ((0,3), (3,3)),
+    }
+    )definput(key):ifkey =='w':
+        player_graphics.play_animation('walk_up')elifkey =='s':
+        player_graphics.play_animation('walk_down')elifkey =='d':
+        player_graphics.play_animation('walk_right')elifkey =='a':
+        player_graphics.play_animation('walk_left')Entity(model='quad',texture='sprite_sheet', x=-1)
+app.run()

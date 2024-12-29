@@ -1,0 +1,29 @@
+---
+title: API Reference - input_handler
+url: https://www.ursinaengine.org/api_reference.html#Ursina#input_handler
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# input_handler
+
+| .held_keys= defaultdict(lambda: 0) |  |
+| --- | --- |
+| .rebinds = dict() |  |
+| bind(original_key, alternative_key) |  |
+| --- | --- |
+| unbind( key ) |  |
+| rebind( to_key, from_key ) |  |
+| input( key ) |  |
+| get_combined_key( key ) |  |
+fromursinaimport*fromursinaimportUrsina, input_handler
+
+app = Ursina(borderless=False)
+input_handler.bind('z','w')#'z'-key will now be registered as'w'-keyinput_handler.bind('left mouse down','attack')#'left mouse down'-key will now send'attack'to input functionsinput_handler.bind('gamepad b','attack')#'gamepad b'-key will now be registered as'attack'-keydefinput(key):print('got key:', key)ifkey =='attack':
+        destroy(Entity(model='cube',color=color.blue), delay=.2)
+
+
+
+
+
+
+app.run()

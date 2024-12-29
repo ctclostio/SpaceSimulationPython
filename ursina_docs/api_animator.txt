@@ -1,0 +1,27 @@
+---
+title: API Reference - Animator
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Animator
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Animator
+
+| .animations= animations | dict |
+| --- | --- |
+| .pause_disabled = pause_disabled |  |
+| .start_state = start_state |  |
+| .state = start_state |  |
+| .state |  |
+| --- | --- |
+app = Ursina()
+anim = Animation('ursina_wink', loop=True, autoplay=False)
+a =Animator(
+    animations = {'lol':Entity(model='cube',color=color.red),'yo':Entity(model='cube',color=color.green, x=1),'help': anim,
+    }
+)
+a.state ='yo'Text('press &ltred&gt1&ltdefault&gt, &ltgreen&gt2&ltdefault&gt or &ltviolet&gt3&ltdefault&gt to toggle different animator states',origin=(0,-.5),y=-.4)definput(key):ifkey =='1':
+        a.state ='lol'ifkey =='2':
+        a.state ='yo'ifkey =='3':
+        a.state ='help'print(anim.enabled)
+
+app.run()

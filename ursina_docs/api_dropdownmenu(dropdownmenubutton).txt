@@ -1,0 +1,34 @@
+---
+title: API Reference - DropdownMenu(DropdownMenuButton)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#DropdownMenu(DropdownMenuButton)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# DropdownMenu(DropdownMenuButton)
+
+| .position= window.top_left |  |
+| --- | --- |
+| .buttons = buttons |  |
+| .arrow_symbol = Text(world_parent=self, text='&gt', origin=(.5,.5), position=(.95, 0), color=color.gray) |  |
+| open() |  |
+| --- | --- |
+| close() |  |
+| on_mouse_enter() |  |
+| input( key ) |  |
+| update() |  |
+fromursina.prefabs.dropdown_menuimportDropdownMenu, DropdownMenuButton
+
+app = Ursina()DropdownMenu('File', buttons=(
+    DropdownMenuButton('New'),
+    DropdownMenuButton('Open'),DropdownMenu('Reopen Project', buttons=(
+        DropdownMenuButton('Project 1'),
+        DropdownMenuButton('Project 2'),
+        )),
+    DropdownMenuButton('Save'),DropdownMenu('Options', buttons=(
+        DropdownMenuButton('Option a'),
+        DropdownMenuButton('Option b'),
+        )),
+    DropdownMenuButton('Exit'),
+    ))
+
+app.run()

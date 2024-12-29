@@ -1,0 +1,108 @@
+---
+title: API Reference - TextField(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#TextField(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# TextField(Entity)
+
+| .font= 'VeraMono.ttf' |  |
+| --- | --- |
+| .line_height = line_height |  |
+| .max_lines = max_lines |  |
+| .character_limit = character_limit |  |
+| .scroll_parent = Entity(parent=self) |  |
+| .text_entity = Text(parent=self.scroll_parent, start_tag='☾', end_tag='☽', font=self.font, text='', line_height=self.line_height, origin=(-.5, .5)) |  |
+| .line_numbers = Text(parent=self.scroll_parent, font=self.font, line_height=line_height, text='0', origin=(.5,.5), x=-.04, color=color.gray, enabled=False) |  |
+| .character_width = Text.get_width('a', font=self.font) |  |
+| .cursor_parent = Entity(parent=self.scroll_parent, scale=(self.character_width, -1*Text.size*self.line_height)) |  |
+| .cursor = Entity(name='text_field_cursor', parent=self.cursor_parent, model='cube', color=color.cyan, origin=(-.5, -.5), scale=(.1, 1, 0), enabled=False) |  |
+| .bg = Entity(name='text_field_bg', parent=self, model='quad', double_sided=True, color=color.dark_gray, origin=(-.5,.5), z=0.005, scale=(120, Text.size*self.max_lines*self.line_height), collider='box', visible=True) |  |
+| .selection = [Vec2(0,0), Vec2(0,0)] |  |
+| .selection_parent = Entity(name='text_field_selection_parent', parent=self.cursor_parent, scale=(1,1,0)) |  |
+| .register_mouse_input = False |  |
+| .world_space_mouse = False |  |
+| .triple_click_delay = 0.3 |  |
+| .scroll = 0 |  |
+| .scroll_amount = 2 |  |
+| .active = True |  |
+| .highlight_color = color.hsv(120,1,1,.1) |  |
+| .text = '' |  |
+| .delimiters = ' .,!?;:(){}[]&lt&gt\'\"@#$%^&*+=-\\|/`~' |  |
+| .replacements = dict() |  |
+| .on_undo = [] |  |
+| .on_redo = [] |  |
+| .on_value_changed = None |  |
+| .shortcuts = {
+        'newline':          ('enter', 'enter hold'),
+        'erase':            ('backspace', 'backspace hold'),
+        'erase_word':       ('ctrl+backspace', 'ctrl+backspace hold'),
+        'delete_line':      ('ctrl+shift+k',),
+        'duplicate_line':   ('ctrl+shift+d',),
+        'undo':             ('ctrl+z', 'ctrl+z hold'),
+        'redo':             ('ctrl+y', 'ctrl+y hold', 'ctrl+shift+z', 'ctrl+shift+z hold'),
+        'indent':           ('tab',),
+        'dedent':           ('shift+tab',),
+        'move_line_down':   ('ctrl+down arrow', 'ctrl+down arrow hold'),
+        'move_line_up':     ('ctrl+up arrow', 'ctrl+up arrow hold'),
+        'scroll_up':        ('scroll up',),
+        'scroll_down':      ('scroll down',),
+        'cut':              ('ctrl+x',),
+        'copy':             ('ctrl+c',),
+        'paste':            ('ctrl+v',),
+        'select_all':       ('ctrl+a',),
+        'select_word':      ('double click',),
+        'select_line':      ('triple click',),
+        'scroll_to_bottom': ('shift+alt+e',),
+        'move_operations' : {
+            'move_left':                ('left arrow', 'left arrow hold', 'shift+left arrow', 'shift+left arrow hold'),
+            'move_right':               ('right arrow', 'right arrow hold', 'shift+right arrow', 'shift+right arrow hold'),
+            'move_up':                  ('up arrow', 'up arrow hold', 'shift+up arrow', 'shift+up arrow hold'),
+            'move_down':                ('down arrow', 'down arrow hold', 'shift+down arrow', 'shift+down arrow hold'),
+            'move_to_end_of_word' :     ('ctrl+right arrow', 'ctrl+right arrow hold', 'ctrl+shift+right arrow', 'ctrl+shift+right arrow hold'),
+            'move_to_start_of_word' :   ('ctrl+left arrow', 'ctrl+left arrow hold', 'ctrl+shift+left arrow', 'ctrl+shift+left arrow hold'),
+        }, |  |
+| .middle_click_scroller = Entity(parent=self, start_y=None, input=middle_click_input, update=middle_click_update, t=0, update_rate=.05) |  |
+| .active |  |
+| --- | --- |
+| middle_click_input(key) |  |
+| --- | --- |
+| middle_click_update() |  |
+| add_text( s, move_cursor=True, rerender=True ) |  |
+| move_line( line_index, delta, move_cursor=True ) |  |
+| erase( rerender=True ) |  |
+| delete_selected() |  |
+| get_selected() |  |
+| get_mouse_position_unclamped() |  |
+| get_mouse_position() |  |
+| set_scroll( value, render=True ) |  |
+| input( key ) |  |
+| move_to_start_of_word() |  |
+| move_to_end_of_word() |  |
+| scroll_to_bottom( blank_lines_at_bottom=0 ) |  |
+| text_input( key ) |  |
+| render() |  |
+| update() |  |
+| select_all() |  |
+| draw_selection() |  |
+fromursinaimportUrsina, window, Button
+app = Ursina(vsync=60)
+
+
+window.color = color.hsv(0,0, .1)
+Button.default_color = color._20window.color = color._25te =TextField(max_lines=30,scale=1, register_mouse_input = True,text='1234')fromtextwrapimportdedent
+te.text = dedent('''
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Aliquam sapien tellus, venenatis sit amet ante et, malesuada porta risus.
+    Etiam et mi luctus, viverra urna at, maximus eros. Sed dictum faucibus purus,
+    nec rutrum ipsum condimentum in. Mauris iaculis arcu nec justo rutrum euismod.
+    Suspendisse dolor tortor, congue id erat sit amet, sollicitudin facilisis velit.
+    Aliquam sapien tellus, venenatis sit amet ante et, malesuada porta risus.
+    Etiam et mi luctus, viverra urna at, maximus eros. Sed dictum faucibus purus,
+    nec rutrum ipsum condimentum in. Mauris iaculis arcu nec justo rutrum euismod.
+    Suspendisse dolor tortor, congue id erat sit amet, sollicitudin facilisis velit.'''*30)[1:]
+te.render()definput(key):ifkey =='3':
+        te.input('scroll down')
+
+
+app.run()

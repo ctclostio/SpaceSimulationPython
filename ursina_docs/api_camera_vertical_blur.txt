@@ -1,0 +1,28 @@
+---
+title: API Reference - camera_vertical_blur
+url: https://www.ursinaengine.org/api_reference.html#Ursina#camera_vertical_blur
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# camera_vertical_blur
+
+| default_input |  |
+| --- | --- |
+| =dict( |  |
+| blur_size = .1 |  |
+fromursinaimport*
+app = Ursina()
+window.color = color._16e =Entity(model='sphere',color=color.orange)
+e =Entity(model='cube',y=-1)
+camera.shader = camera_vertical_blur_shader
+
+
+slider = ThinSlider(max=.1, dynamic=True,position=(-.25, -.45))defset_blur():print(slider.value)
+    camera.set_shader_input("blur_size", slider.value)
+
+
+
+slider.on_value_changed = set_blur
+EditorCamera()
+
+app.run()

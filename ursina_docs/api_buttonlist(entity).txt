@@ -1,0 +1,42 @@
+---
+title: API Reference - ButtonList(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#ButtonList(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# ButtonList(Entity)
+
+| .clear_selected_on_enable= clear_selected_on_enable |  |
+| --- | --- |
+| .button_height = button_height |  |
+| .width = width |  |
+| .text_entity = Text(parent=self, font=font, origin=(-.5,.5), text='empty', world_scale=20, z=-.1, x=.01, y=-(button_height*.25*Text.size), line_height=button_height) |  |
+| .bg = Entity(parent=self, model='quad', origin=(-.5,.5), scale=width, color=color, collider='box') |  |
+| .highlight = Entity(parent=self.bg, model='quad', color=highlight_color, scale=(1,self.button_height), origin=(-.5,.5), z=-.01, add_to_scene_entities=False) |  |
+| .selection_marker = Entity(parent=self.bg, model='quad', color=selected_color, scale=(1,self.button_height), origin=(-.5,.5), z=-.02, enabled=False, add_to_scene_entities=False) |  |
+| .button_dict = button_dict |  |
+| .popup = popup |  |
+| .button_dict |  |
+| --- | --- |
+| .selected |  |
+| input(key) |  |
+| --- | --- |
+| update() |  |
+| on_disable() |  |
+| on_enable() |  |
+fromursinaimportUrsina, Func
+app = Ursina()
+
+default = Func(print,'not yet implemented')deftest(a=1, b=2):print('------:', a, b)
+
+button_dict = {}fori inrange(6,20):
+    button_dict[f'button {i}'] = Func(print, i)
+
+bl =ButtonList(button_dict, font='VeraMono.ttf', button_height=1.5, popup=0, clear_selected_on_enable=False)definput(key):ifkey =='space':
+        bl.button_dict = {'one':     None,'two':     default,'tree':    Func(test,3,4),'four':    Func(test, b=3, a=4),
+        }ifkey =='o':
+        bl.enabled = True
+
+bl.selected ='button 7'bl.button_dict = {}
+
+app.run()

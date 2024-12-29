@@ -1,0 +1,20 @@
+---
+title: API Reference - Sprite(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Sprite(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Sprite(Entity)
+
+| Sprite.ppu = 100 |  |
+| --- | --- |
+| .model = 'quad' |  |
+| .texture = texture |  |
+| .ppu = ppu if ppu else Sprite.ppu | pixels per unit |
+| update_scale() | get called automatically on __init__, but if you change the texture or ppu, you can call this to update the scale. |
+| --- | --- |
+app = Ursina()
+camera.orthographic = True
+camera.fov =1Sprite.ppu =16Texture.default_filtering = None
+s =Sprite('brick', filtering=False)
+app.run()

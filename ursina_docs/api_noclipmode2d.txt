@@ -1,0 +1,23 @@
+---
+title: API Reference - NoclipMode2d
+url: https://www.ursinaengine.org/api_reference.html#Ursina#NoclipMode2d
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# NoclipMode2d
+
+| .speed= speed |  |
+| --- | --- |
+| .require_key = require_key |  |
+| .ignore_paused = True |  |
+| input(key) |  |
+| --- | --- |
+| update() |  |
+app = Ursina()
+
+player =Entity(model='cube',color=color.orange)Entity(model='plane',scale=10)
+EditorCamera()
+
+
+player.add_script(NoclipMode2d())
+app.run()

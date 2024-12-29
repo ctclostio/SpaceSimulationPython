@@ -1,0 +1,59 @@
+---
+title: API Reference - Conversation(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Conversation(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Conversation(Entity)
+
+| .question= Button(parent=self, text_origin=(-.5,0), scale=(1,.1), model=Quad(radius=.5,aspect=1/.1), text='Question') |  |
+| --- | --- |
+| .more_indicator = Entity(parent=self.question, model=Circle(3), position=(.45,-.4,-1), rotation_z=180, color=color.azure, world_scale=.5, z=-1, enabled=False) |  |
+| .spacing = 4 * .02 |  |
+| .wordwrap = 65 |  |
+| .button_model = Quad(radius=.5, aspect=1/.075) |  |
+| .variables_object = variables_object |  |
+| .answer_0 = Button(parent=self, text='answer_0', y=self.question.y-self.spacing-.025, scale=(1,.075), text_origin=(-.5,0), model=copy(self.button_model)) |  |
+| .answer_1 = Button(parent=self, text='answer_1', y=self.answer_0.y-self.spacing, scale=(1,.075), text_origin=(-.5,0), model=copy(self.button_model)) |  |
+| .answer_2 = Button(parent=self, text='answer_2', y=self.answer_1.y-self.spacing, scale=(1,.075), text_origin=(-.5,0), model=copy(self.button_model)) |  |
+| .buttons = (self.answer_0, self.answer_1, self.answer_2) |  |
+| .question_appear_sequence = None |  |
+| .button_appear_sequence = None |  |
+| .started = False |  |
+| ask(node, question_part=0) |  |
+| --- | --- |
+| on_click( node=child ) |  |
+| input( key ) |  |
+| next() |  |
+| start_conversation( conversation ) |  |
+| parse_conversation( convo ) |  |
+app = Ursina()
+
+variables = Empty(
+    evil=0,
+    chaos=0,
+    bar_mission_solved=False,
+)
+conversation =Conversation(variables_object=variables)
+
+convo = dedent('''
+I'm looking for my sister. Can you help me find her, please? I haven't seen her in days! Who know what could've happened!?
+I'm worried. Will you help me?
+    * Yes, of course. This can be a dangerous city.
+        Oh no! Do you think something happened to her?
+        What should I do?!
+            * She's probably fine. She can handle herself.
+                You're right. I'm still worried though.
+                    * Don't worry, I'll look for her.
+            * Maybe. (stats.chaos += 1)
+                Help me look for her, please! *runs off*
+    * I'm sorry, but I don't have time right now. (evil += 1)
+        A true friend wouldn't say that.
+    * I know where she is! (if bar_mission_solved)
+        Really? Where?
+            * I saw her on a ship by the docks, it looked like they were ready to set off.
+                Thank you! *runs off*''')
+conversation.start_conversation(convo)definput(key):ifkey =='space':print(variables.evil)
+
+Sprite('shore',z=1)
+app.run()

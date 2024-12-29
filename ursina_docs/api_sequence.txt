@@ -1,0 +1,46 @@
+---
+title: API Reference - Sequence
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Sequence
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Sequence
+
+| .args= list(args) |  |
+| --- | --- |
+| .t = 0 |  |
+| .time_step = Sequence.default_time_step |  |
+| .duration = 0 |  |
+| .funcs = [] |  |
+| .func_call_time = [] |  |
+| .func_finished_statuses = [] |  |
+| .paused = False |  |
+| .entity = None | you can assign this to make the sequence pause when the entity is disabled or .ignore is True |
+| .finished |  |
+| --- | --- |
+| generate() |  |
+| --- | --- |
+| append( arg, regenerate=True ) |  |
+| extend( list ) |  |
+| start() |  |
+| pause() |  |
+| resume() |  |
+| finish() |  |
+| kill() |  |
+| update() |  |
+fromursinaimport*fromursinaimportUrsina,Entityapp = Ursina()
+e =Entity(model='quad')defsome_func():print('some_func')
+
+s =Sequence(
+    some_func,1,
+    Func(print,'one'),
+    Func(e.fade_out, duration=1),
+    Wait(1),
+    loop=True
+    )fori inrange(8):
+    s.append(Func(print, i))
+    s.append(Wait(.2))print(s)definput(key):
+    actions = {'s': s.start,'f': s.finish,'p': s.pause,'r': s.resume}ifkey in actions:
+        actions[key]()
+
+app.run()

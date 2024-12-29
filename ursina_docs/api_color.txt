@@ -1,0 +1,72 @@
+---
+title: API Reference - color
+url: https://www.ursinaengine.org/api_reference.html#Ursina#color
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# color
+
+| .@deprecated("Use hsv(...) instead of color(...)") |  |
+| --- | --- |
+| .white =         hsv(0, 0, 1) |  |
+| .smoke =         hsv(0, 0, 0.96) |  |
+| .light_gray =    hsv(0, 0, 0.75) |  |
+| .gray =          hsv(0, 0, 0.5) |  |
+| .dark_gray =     hsv(0, 0, 0.25) |  |
+| .black =         hsv(0, 0, 0) |  |
+| .red =           hsv(0, 1, 1) |  |
+| .yellow =        hsv(60, 1, 1) |  |
+| .lime =          hsv(90, 1, 1) |  |
+| .green =         hsv(120, 1, 1) |  |
+| .turquoise =     hsv(150, 1, 1) |  |
+| .cyan =          hsv(180, 1, 1) |  |
+| .azure =         hsv(210, 1, 1) |  |
+| .blue =          hsv(240, 1, 1) |  |
+| .violet =        hsv(270, 1, 1) |  |
+| .magenta =       hsv(300, 1, 1) |  |
+| .pink =          hsv(330, 1, 1) |  |
+| .brown =         rgb32(165, 42, 42) |  |
+| .olive =         rgb32(128, 128, 0) |  |
+| .peach =         rgb32(255, 218, 185) |  |
+| .gold =          rgb32(255, 215, 0) |  |
+| .salmon =        rgb32(250, 128, 114) |  |
+| .clear =         rgba(0, 0, 0, 0) |  |
+| .white10 =       rgba(1,1,1, 0.10) |  |
+| .white33 =       rgba(1,1,1, 0.33) |  |
+| .white50 =       rgba(1,1,1, 0.50) |  |
+| .white66 =       rgba(1,1,1, 0.66) |  |
+| .black10 =       rgba(0,0,0, 0.10) |  |
+| .black33 =       rgba(0,0,0, 0.33) |  |
+| .black50 =       rgba(0,0,0, 0.50) |  |
+| .black66 =       rgba(0,0,0, 0.66) |  |
+| .black90 =       rgba(0,0,0, 0.90) |  |
+| .text = smoke |  |
+| .light_text = smoke |  |
+| .dark_text = hsv(0, 0, .1) |  |
+| .text_color = light_text |  |
+| .color_names = ('white', 'smoke', 'light_gray', 'gray', 'dark_gray', 'black', |  |
+| .colors = dict() |  |
+| color(h,s,v,a=1) |  |
+| --- | --- |
+| hsv( h, s, v, a=1 ) |  |
+| rgba32( r, g, b, a=255 ) |  |
+| rgb32( r, g, b ) |  |
+| rgba( r, g, b, a ) |  |
+| rgb( r, g, b ) |  |
+| to_hsv( color ) |  |
+| hex( value ) |  |
+| rgb_to_hex( r, g, b, a=1 ) |  |
+| brightness( color ) |  |
+| inverse( color ) |  |
+| random_color() |  |
+| tint( color, amount=.2 ) |  |
+fromursinaimport*fromursinaimportUrsina,Entity, Button, Quad, grid_layout, color
+app = Ursina()print(color.brightness(color.blue))
+
+p =Entity(x=-2)forkey in color.colors:print(key)
+    b = Button(parent=p,model=Quad(0),color=color.colors[key],text=key)
+    b.text_entity.scale *= .5grid_layout(p.children, max_x=8)forname in ('r','g','b','h','s','v','brightness'):print(name +':',getattr(color.random_color(), name))
+
+e =Entity(model='cube',color=color.lime)print(e.color.name)print('rgb to hex:', color.rgb_to_hex(*color.blue))
+e.color = color.color(1,2,3)
+app.run()

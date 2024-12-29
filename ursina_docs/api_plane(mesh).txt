@@ -1,0 +1,17 @@
+---
+title: API Reference - Plane(Mesh)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Plane(Mesh)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Plane(Mesh)
+
+| .vertices, self.triangles= list(), list() |  |
+| --- | --- |
+| .uvs = list() |  |
+app = Ursina()
+
+front =Entity(model=Plane(subdivisions=(3,6)),texture='brick',rotation_x=-90)
+
+_ed = EditorCamera()Entity(model='cube',color=color.green,scale=.05)
+app.run()

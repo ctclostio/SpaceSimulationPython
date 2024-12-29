@@ -1,0 +1,18 @@
+---
+title: API Reference - texture_importer
+url: https://www.ursinaengine.org/api_reference.html#Ursina#texture_importer
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# texture_importer
+
+| .file_types= ('.tif', '.jpg', '.jpeg', '.png', '.gif') |  |
+| --- | --- |
+| .folders = [ | folder search order |
+| .textureless = False |  |
+| load_texture(name, path=None, use_cache=True, filtering='default') |  |
+| --- | --- |
+| compress_textures( name='' ) |  |
+fromursinaimport*
+app = Ursina()Entity(model='quad',texture='white_cube')
+app.run()

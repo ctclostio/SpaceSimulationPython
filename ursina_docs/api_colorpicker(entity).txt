@@ -1,0 +1,20 @@
+---
+title: API Reference - ColorPicker(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#ColorPicker(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# ColorPicker(Entity)
+
+| .bg= Entity(parent=self, z=.01, model=Quad(aspect=.5/.2), scale=[.5,.225], origin=[0,.5], color=color.black66) |  |
+| --- | --- |
+| .h_slider = Slider(parent=self, max=360, step=1, dynamic=dynamic, on_value_changed=self._calculate_color) |  |
+| .s_slider = Slider(parent=self, max=100, step=1, dynamic=dynamic, on_value_changed=self._calculate_color) |  |
+| .v_slider = Slider(parent=self, max=100, step=1, dynamic=dynamic, on_value_changed=self._calculate_color) |  |
+| .a_slider = Slider(parent=self, max=100, default=100, step=1, dynamic=dynamic, on_value_changed=self._calculate_color) |  |
+| .on_value_changed = None | assign a function here |
+| .preview = Button(parent=self, scale=(.5*.84,.05), origin=[0,.5], y=slider.y-.02, color=color.white) |  |
+fromursinaimportUrsina
+app = Ursina()ColorPicker()
+
+app.run()

@@ -1,0 +1,49 @@
+---
+title: API Reference - camera
+url: https://www.ursinaengine.org/api_reference.html#Ursina#camera
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# camera
+
+| .parent= scene |  |
+| --- | --- |
+| .name = 'camera' |  |
+| .eternal = True |  |
+| .ui_size = 40 |  |
+| .perspective_lens_node = None |  |
+| .orthographic_lens_node = None |  |
+| .ui = Entity(eternal=True, name='ui', scale=(self.ui_size*.5, self.ui_size*.5), add_to_scene_entities=False) |  |
+| .overlay = Entity(parent=self.ui, model='quad', scale=99, color=color.clear, eternal=True, z=-99, add_to_scene_entities=False) |  |
+| .orthographic |  |
+| --- | --- |
+| .fov |  |
+| .clip_plane_near |  |
+| .clip_plane_far |  |
+| .aspect_ratio | get current aspect ratio. can not be set. |
+| .shader | for applying post-processing effects. |
+| set_up() |  |
+| --- | --- |
+| set_shader_input( name, value ) |  |
+fromursinaimport*fromursinaimportUrsina, camera,Entity, EditorCamera
+
+app = Ursina()
+
+camera.orthographic = True
+
+e =Entity()
+e.model ='quad'e.color = color.random_color()
+e.position = (-2,0,10)
+
+e =Entity()
+e.model ='quad'e.color = color.random_color()
+e.position = (2,0,10)
+
+e =Entity()
+e.model ='quad'e.color = color.random_color()
+e.position = (0,0,40)
+
+EditorCamera()fromursina.shadersimportcamera_grayscale_shader
+camera.shader = camera_grayscale_shader
+
+app.run()

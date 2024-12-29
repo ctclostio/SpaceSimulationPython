@@ -1,0 +1,23 @@
+---
+title: API Reference - Tooltip(Text)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Tooltip(Text)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Tooltip(Text)
+
+| update() |  |
+| --- | --- |
+app = Ursina()
+
+    tooltip_test =Tooltip('&ltscale:1.5&gt&ltpink&gt'+'Rainstorm'+'&ltscale:1&gt \n \n'+'''Summon a &ltblue&gtrain
+storm &ltdefault&gtto deal 5 &ltblue&gtwater
+damage &ltdefault&gtto &ltred&gteveryone, &ltdefault&gtincluding &ltorange&gtyourself. &ltdefault&gt
+Lasts for 4 rounds.'''.replace('\n', ''),
+        background_color=color.violet,
+        font='VeraMono.ttf',
+        wordwrap=50,
+)
+
+    tooltip_test.enabled = True
+    app.run()

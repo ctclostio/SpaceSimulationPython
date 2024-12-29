@@ -1,0 +1,43 @@
+---
+title: API Reference - TrailRenderer(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#TrailRenderer(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# TrailRenderer(Entity)
+
+| .renderer= Entity(
+        model = Pipe(
+            base_shape = Quad(segments=0, scale=size),
+            path=[Vec3(0,0,i) for i in range(2)],
+            color_gradient=color_gradient,
+            static=False,
+            cap_ends=False,
+        ), |  |
+| --- | --- |
+| .segments = segments |  |
+| .update_step = .05 |  |
+| .min_spacing = min_spacing |  |
+| .fade_speed = fade_speed |  |
+| .on_enable = self.renderer.enable |  |
+| .on_disable = self.renderer.disable |  |
+| update() |  |
+| --- | --- |
+| on_destroy() |  |
+app = Ursina(vsync=False)
+window.color = color.black
+mouse.visible = False
+player =Entity(z=1)
+player.graphics =Entity(parent=player,scale=.1,model='circle')
+
+pivot =Entity()
+
+trail_renderers = []fori inrange(1):
+    tr =TrailRenderer(size=[1,1], segments=8, min_spacing=.05, fade_speed=0,parent=player, color_gradient=[color.magenta, color.cyan.tint(-.5), color.clear])
+    trail_renderers.append(tr)defupdate():
+    player.position = lerp(player.position, mouse.position*10, time.dt*4)definput(key):ifkey =='escape':fore in trail_renderers:
+            e.enabled =note.enabledifkey =='space':
+        destroy(pivot)
+
+EditorCamera()Entity(model=Grid(8,8),rotation_x=90,color=color.gray,y=-3,scale=8)
+app.run()

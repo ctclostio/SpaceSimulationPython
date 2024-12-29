@@ -1,0 +1,23 @@
+---
+title: API Reference - Cursor(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#Cursor(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# Cursor(Entity)
+
+| .parent= camera.ui |  |
+| --- | --- |
+| .texture = 'cursor' |  |
+| .model = 'quad' |  |
+| .color = color.light_gray |  |
+| .render_queue = 1 |  |
+| update() |  |
+| --- | --- |
+fromursinaimportUrsina, Button, scene, Panel, Mesh
+app = Ursina()
+Button('button').fit_to_text()
+camera.orthographic = True
+camera.fov =100cursor =Cursor(model=Mesh(vertices=[(-.5,0,0),(.5,0,0),(0,-.5,0),(0,.5,0)],triangles=[(0,1),(2,3)],mode='line',thickness=2),scale=.02)
+mouse.visible = False
+app.run()

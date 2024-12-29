@@ -1,0 +1,50 @@
+---
+title: API Reference - EditorCamera(Entity)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#EditorCamera(Entity)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# EditorCamera(Entity)
+
+| .rotation_speed= 200 |  |
+| --- | --- |
+| .pan_speed = Vec2(5, 5) |  |
+| .move_speed = 10 |  |
+| .target_fov = camera.fov |  |
+| .zoom_speed = 1.25 |  |
+| .zoom_smoothing = 8 |  |
+| .rotate_around_mouse_hit = False |  |
+| .ignore_scroll_on_ui = True |  |
+| .smoothing_helper = Entity(add_to_scene_entities=False) |  |
+| .rotation_smoothing = 0 |  |
+| .look_at = self.smoothing_helper.look_at |  |
+| .look_at_2d = self.smoothing_helper.look_at_2d |  |
+| .rotate_key = 'right mouse' |  |
+| .start_position = self.position |  |
+| .perspective_fov = camera.fov |  |
+| .orthographic_fov = camera.fov |  |
+| .on_destroy = self.on_disable |  |
+| .shortcuts = {'toggle_orthographic':'shift+p', 'focus':'shift+f', 'reset_center':'alt+f'} |  |
+| on_enable() |  |
+| --- | --- |
+| on_disable() |  |
+| on_destroy() |  |
+| input( key ) |  |
+| update() |  |
+fromursinaimportUrsina, Sky, load_model, color, Text, window, Button
+app = Ursina(vsync=False, use_ingame_console=True)'''
+Simple camera for debugging.
+Hold right click and move the mouse to rotate around point.'''sky = Sky()
+e =Entity(model=load_model('cube', use_deepcopy=True),color=color.white,collider='box')
+e.model.colorize()
+
+ground =Entity(model='plane',scale=32,texture='white_cube',texture_scale=(32,32),collider='box')
+box =Entity(model='cube',collider='box',texture='white_cube',scale=(10,2,2),position=(2,1,5),color=color.light_gray)
+
+b = Button(position=window.top_left,scale=.05)
+ec =EditorCamera(ignore_scroll_on_ui=True)
+rotation_info = Text(position=window.top_left)defupdate():
+    rotation_info.text = str(int(ec.rotation_y)) +'\n'+ str(int(ec.rotation_x))
+
+
+app.run()

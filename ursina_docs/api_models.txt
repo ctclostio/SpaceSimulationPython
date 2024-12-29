@@ -1,0 +1,21 @@
+---
+title: API Reference - models
+url: https://www.ursinaengine.org/api_reference.html#Ursina#models
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# models
+
+| quad |  |
+| --- | --- |
+| wireframe_cube |  |
+| plane |  |
+| circle |  |
+| diamond |  |
+| wireframe_quad |  |
+| sphere |  |
+| cube |  |
+| icosphere |  |
+| cube_uv_top |  |
+| arrow |  |
+| sky_dome |  |

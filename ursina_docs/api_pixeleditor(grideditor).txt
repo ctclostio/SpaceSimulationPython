@@ -1,0 +1,27 @@
+---
+title: API Reference - PixelEditor(GridEditor)
+url: https://www.ursinaengine.org/api_reference.html#Ursina#PixelEditor(GridEditor)
+scraped_at: Sun Dec 29 13:49:59 2024
+---
+
+# PixelEditor(GridEditor)
+
+| .texture |  |
+| --- | --- |
+| set_texture(texture, render=True, clear_undo_stack=True) |  |
+| --- | --- |
+| draw( x, y ) |  |
+| render() |  |
+| save() |  |
+app = Ursina(borderless=False)'''
+pixel editor example, it's basically a drawing tool.
+can be useful for level editors and such
+here we create a new texture, but can also give it an existing texture to modify.'''fromPILimportImage
+t = Texture(Image.new(mode='RGBA', size=(32,32),color=(0,0,0,1)))fromursina.prefabs.grid_editorimportPixelEditor
+editor =PixelEditor(parent=scene,texture=load_texture('brick'),scale=10)
+
+camera.orthographic = True
+camera.fov =15EditorCamera(rotation_speed=0)fromursina.prefabs.grid_editorimportASCIIEditor
+ASCIIEditor(x=0,scale=.1)
+
+app.run()

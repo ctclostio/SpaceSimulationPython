@@ -1,0 +1,41 @@
+---
+title:  ursina engine donate
+url: https://www.ursinaengine.org/donate.html
+scraped_at: Sun Dec 29 01:01:59 2024
+---
+
+
+
+
+
+[](index.html)
+
+[Download]( installation.html)
+
+[Documentation]( documentation.html)
+
+[API Reference]( api_reference.html)
+
+[Samples]( samples.html)
+
+[Asset Store]( asset_store.html)
+
+[Donate]( donate.html)
+
+
+
+
+
+
+
+
+
+Donate
+
+
+Supporting the development of ursina and other projects will help cover the cost of hosting the website and spend more time on development.
+Even if you can't support the project finantially, simply sharing the word about ursina is appreciated.
+Support on GitHub Sponsors:
+[GitHub Sponsors]( https://github.com/sponsors/pokepetter)
+Support on Patreon:
+[Patreon]( https://www.patreon.com/ursinaengine)
