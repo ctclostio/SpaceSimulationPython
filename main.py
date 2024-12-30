@@ -13,6 +13,18 @@ from game_manager import GameManager
 from ui_manager import UIManager
 import sys
 import traceback
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('camera.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
 def main():
     # Initialize game manager and UI manager outside try block for proper cleanup
@@ -36,47 +48,55 @@ def main():
             def update(self):
                 """Main game loop update function"""
                 try:
-                    print("Update loop running")  # Debug print
+                    logger.debug("Update loop running")
                     game_manager.update()
                     ui_manager.update()  # Update UI elements including FPS counter
                     if game_manager.selector.selected_entity:
                         ui_manager.update_selected_info(game_manager.selector.selected_entity)
+                    
+                    # Handle perspective switching
+                    if held_keys['1']:
+                        game_manager.camera_manager.perspective.switch_perspective('1')
+                    if held_keys['2']:
+                        game_manager.camera_manager.perspective.switch_perspective('2')
+                    if held_keys['3']:
+                        game_manager.camera_manager.perspective.switch_perspective('3')
                 except Exception as e:
-                    print(f"Error in update loop: {str(e)}")
-                    traceback.print_exc()
+                    logger.error(f"Error in update loop: {str(e)}")
+                    logger.error(traceback.format_exc())
         
         # Create game loop entity
         game_loop = GameLoop()
                 
         def on_shutdown():
             """Cleanup handler for application shutdown"""
-            print("Shutting down simulation...")
+            logger.info("Shutting down simulation...")
             if game_manager:
                 try:
                     game_manager.cleanup()
                 except Exception as e:
-                    print(f"Error during cleanup: {str(e)}")
-                    traceback.print_exc()
-            print("Cleanup complete")
+                    logger.error(f"Error during cleanup: {str(e)}")
+                    logger.error(traceback.format_exc())
+            logger.info("Cleanup complete")
             
         # Create game loop entity
-        print("Creating game loop entity")
+        logger.debug("Creating game loop entity")
         game_loop = GameLoop()
-        print("Game loop entity created")
+        logger.debug("Game loop entity created")
         
         # Register cleanup handler
         application.on_shutdown = on_shutdown
         
         # Enable update loop and manually step the application
         application.do_update = True
-        print("Manually stepping application")
+        logger.debug("Manually stepping application")
         application.step()
-        print("Application stepped")
+        logger.debug("Application stepped")
         
         # Run the application
-        print("Starting application")
+        logger.info("Starting application")
         application.run()
-        print("Application started")
+        logger.info("Application started")
         
         # Manually call update in a loop
         while True:
@@ -85,8 +105,8 @@ def main():
             time.sleep(1/60)  # Target 60 FPS
         
     except Exception as e:
-        print(f"Fatal error: {str(e)}")
-        traceback.print_exc()
+        logger.critical(f"Fatal error: {str(e)}")
+        logger.critical(traceback.format_exc())
         
     finally:
         # Ensure cleanup runs even if an error occurred during setup
@@ -94,8 +114,8 @@ def main():
             try:
                 game_manager.cleanup()
             except Exception as e:
-                print(f"Error during emergency cleanup: {str(e)}")
-                traceback.print_exc()
+                logger.error(f"Error during emergency cleanup: {str(e)}")
+                logger.error(traceback.format_exc())
         
         # Exit with error code if we caught an exception
         if sys.exc_info()[0] is not None:

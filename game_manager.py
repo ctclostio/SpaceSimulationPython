@@ -18,6 +18,7 @@ from light_manager import LightManager
 from thread_manager import ThreadManager
 from orbits_threaded import ThreadedOrbitController
 from assets_loader import ThreadedAssetsManager
+from orbits import calculate_orbit_position
 
 class GameManager:
     def __init__(self):
@@ -43,6 +44,9 @@ class GameManager:
         # Start all threads
         self.thread_manager.start_threads()
         
+        # Track the sun with the camera
+        self.camera_manager.tracker.track_body(self.sun)
+        
     def setup_scene(self):
         """Configure the scene with lighting and camera settings"""
         # Initialize light manager
@@ -65,77 +69,98 @@ class GameManager:
             radius=SUN_RADIUS,
             texture="sun",
             rotation_speed=SUN_ROTATION_SPEED,
-            light_manager=self.light_manager  # Pass light manager for internal lighting setup
+            light_manager=self.light_manager
         )
         
         print("\nInitializing planets...")
-        # Create all planets
-        self.planets = [
-            Planet(
-                name="Mercury",
-                radius=MERCURY_RADIUS,
-                texture="mercury",
-                orbit_radius=MERCURY_ORBIT_RADIUS,
-                orbit_speed=MERCURY_ORBIT_SPEED,
-                rotation_speed=MERCURY_ROTATION_SPEED
-            ),
-            Planet(
-                name="Venus",
-                radius=VENUS_RADIUS,
-                texture="venus",
-                orbit_radius=VENUS_ORBIT_RADIUS,
-                orbit_speed=VENUS_ORBIT_SPEED,
-                rotation_speed=VENUS_ROTATION_SPEED
-            ),
-            Planet(
-                name="Earth",
-                radius=EARTH_RADIUS,
-                texture="earth",
-                orbit_radius=EARTH_ORBIT_RADIUS,
-                orbit_speed=EARTH_ORBIT_SPEED,
-                rotation_speed=EARTH_ROTATION_SPEED
-            ),
-            Planet(
-                name="Mars",
-                radius=MARS_RADIUS,
-                texture="mars",
-                orbit_radius=MARS_ORBIT_RADIUS,
-                orbit_speed=MARS_ORBIT_SPEED,
-                rotation_speed=MARS_ROTATION_SPEED
-            ),
-            Planet(
-                name="Jupiter",
-                radius=JUPITER_RADIUS,
-                texture="jupiter",
-                orbit_radius=JUPITER_ORBIT_RADIUS,
-                orbit_speed=JUPITER_ORBIT_SPEED,
-                rotation_speed=JUPITER_ROTATION_SPEED
-            ),
-            Planet(
-                name="Saturn",
-                radius=SATURN_RADIUS,
-                texture="saturn",
-                orbit_radius=SATURN_ORBIT_RADIUS,
-                orbit_speed=SATURN_ORBIT_SPEED,
-                rotation_speed=SATURN_ROTATION_SPEED
-            ),
-            Planet(
-                name="Uranus",
-                radius=URANUS_RADIUS,
-                texture="uranus",
-                orbit_radius=URANUS_ORBIT_RADIUS,
-                orbit_speed=URANUS_ORBIT_SPEED,
-                rotation_speed=URANUS_ROTATION_SPEED
-            ),
-            Planet(
-                name="Neptune",
-                radius=NEPTUNE_RADIUS,
-                texture="neptune",
-                orbit_radius=NEPTUNE_ORBIT_RADIUS,
-                orbit_speed=NEPTUNE_ORBIT_SPEED,
-                rotation_speed=NEPTUNE_ROTATION_SPEED
-            )
+        # Create all planets using modular data structure
+        planet_data = [
+            {
+                'name': 'Mercury',
+                'radius': MERCURY_RADIUS,
+                'texture': 'mercury',
+                'orbit_radius': MERCURY_ORBIT_RADIUS,
+                'orbit_speed': MERCURY_ORBIT_SPEED,
+                'rotation_speed': MERCURY_ROTATION_SPEED,
+                'start_angle': 0
+            },
+            {
+                'name': 'Venus',
+                'radius': VENUS_RADIUS,
+                'texture': 'venus',
+                'orbit_radius': VENUS_ORBIT_RADIUS,
+                'orbit_speed': VENUS_ORBIT_SPEED,
+                'rotation_speed': VENUS_ROTATION_SPEED,
+                'start_angle': 45
+            },
+            {
+                'name': 'Earth',
+                'radius': EARTH_RADIUS,
+                'texture': 'earth',
+                'orbit_radius': EARTH_ORBIT_RADIUS,
+                'orbit_speed': EARTH_ORBIT_SPEED,
+                'rotation_speed': EARTH_ROTATION_SPEED,
+                'start_angle': 90
+            },
+            {
+                'name': 'Mars',
+                'radius': MARS_RADIUS,
+                'texture': 'mars',
+                'orbit_radius': MARS_ORBIT_RADIUS,
+                'orbit_speed': MARS_ORBIT_SPEED,
+                'rotation_speed': MARS_ROTATION_SPEED,
+                'start_angle': 135
+            },
+            {
+                'name': 'Jupiter',
+                'radius': JUPITER_RADIUS,
+                'texture': 'jupiter',
+                'orbit_radius': JUPITER_ORBIT_RADIUS,
+                'orbit_speed': JUPITER_ORBIT_SPEED,
+                'rotation_speed': JUPITER_ROTATION_SPEED,
+                'start_angle': 180
+            },
+            {
+                'name': 'Saturn',
+                'radius': SATURN_RADIUS,
+                'texture': 'saturn',
+                'orbit_radius': SATURN_ORBIT_RADIUS,
+                'orbit_speed': SATURN_ORBIT_SPEED,
+                'rotation_speed': SATURN_ROTATION_SPEED,
+                'start_angle': 225
+            },
+            {
+                'name': 'Uranus',
+                'radius': URANUS_RADIUS,
+                'texture': 'uranus',
+                'orbit_radius': URANUS_ORBIT_RADIUS,
+                'orbit_speed': URANUS_ORBIT_SPEED,
+                'rotation_speed': URANUS_ROTATION_SPEED,
+                'start_angle': 270
+            },
+            {
+                'name': 'Neptune',
+                'radius': NEPTUNE_RADIUS,
+                'texture': 'neptune',
+                'orbit_radius': NEPTUNE_ORBIT_RADIUS,
+                'orbit_speed': NEPTUNE_ORBIT_SPEED,
+                'rotation_speed': NEPTUNE_ROTATION_SPEED,
+                'start_angle': 315
+            }
         ]
+        
+        self.planets = []
+        for data in planet_data:
+            planet = Planet(
+                name=data['name'],
+                radius=data['radius'],
+                texture=data['texture'],
+                orbit_radius=data['orbit_radius'],
+                orbit_speed=data['orbit_speed'],
+                rotation_speed=data['rotation_speed']
+            )
+            planet.position = calculate_orbit_position(data['orbit_radius'], data['start_angle'])
+            self.planets.append(planet)
         
         # Print debug info for created planets
         for planet in self.planets:
@@ -163,7 +188,7 @@ class GameManager:
         
         # Update celestial body rotations (positions are handled by orbit_controller)
         for planet in self.planets:
-            planet.update_rotation()  # We'll need to modify Planet class to separate rotation from position updates
+            planet.update_rotation()
             
         # Update camera controls
         self.camera_manager.update()
@@ -193,3 +218,6 @@ class GameManager:
         # Remove all lights
         for light in self.light_manager.lights[:]:  # Create a copy of the list to iterate
             self.light_manager.remove_light(light)
+
+if __name__ == "__main__":
+    GameManager()

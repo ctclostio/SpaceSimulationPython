@@ -9,6 +9,7 @@ import time
 from threading import Lock
 from queue import Queue
 from orbits import calculate_orbit_position, calculate_orbital_velocity
+from ursina import lerp
 
 class OrbitalCalculator:
     def __init__(self, stop_event):
@@ -52,21 +53,39 @@ class OrbitalCalculator:
             
             for body in current_bodies:
                 if hasattr(body, 'orbit_angle') and hasattr(body, 'orbit_speed'):
-                    # Calculate new position using frame delta time
-                    if not hasattr(body, '_frame_dt'):
-                        body._frame_dt = 0.0
+                    # Get frame delta time in a thread-safe way
+                    frame_dt = getattr(body, '_frame_dt', 0.0)
                     
-                    body.orbit_angle += body.orbit_speed * body._frame_dt
-                    new_position = calculate_orbit_position(
+                    # Calculate new angle with bounds checking
+                    new_angle = (body.orbit_angle + body.orbit_speed * frame_dt) % 360
+                    
+                    # Calculate and validate new position
+                    target_position = calculate_orbit_position(
                         body.orbit_radius,
-                        body.orbit_angle
+                        new_angle
                     )
                     
-                    # Queue the position update
-                    self.position_queue.put((body, new_position))
+                    # Ensure position is valid
+                    if target_position.length() < 1:
+                        logger.warning(f"Invalid position for {body.name}, resetting to orbit radius")
+                        target_position = Vec3(body.orbit_radius, 0, 0)
+                    
+                    # Smooth transition to new position
+                    if hasattr(body, 'position'):
+                        current_position = body.get_position_threaded()
+                        if current_position.length() > 0:  # Only smooth if current position is valid
+                            smoothed_position = lerp(current_position, target_position, 0.1)
+                        else:
+                            smoothed_position = target_position
+                    else:
+                        smoothed_position = target_position
+                    
+                    # Update angle and queue position
+                    body.orbit_angle = new_angle
+                    self.position_queue.put((body, smoothed_position))
             
-            # Dynamic sleep to maintain reasonable update rate without excessive CPU usage
-            time.sleep(0.001)  # 1ms sleep to prevent thread from consuming too much CPU
+            # Maintain consistent update rate
+            time.sleep(0.016)  # ~60 FPS
 
     def update_positions(self):
         """
