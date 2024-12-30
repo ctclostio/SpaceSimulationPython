@@ -383,17 +383,16 @@ class FrustumCuller:
     def _is_transform_changed(self):
         """Check if camera transform has changed since last update"""
         current_pos = self.camera.position
-        current_rot = self.camera.rotation
         
-        if (self._last_camera_position is None or 
-            self._last_camera_rotation is None or 
+        if (self._last_camera_position is None or
+            self._last_camera_rotation is None or
             not np.allclose([current_pos.x, current_pos.y, current_pos.z],
-                          [self._last_camera_position.x, self._last_camera_position.y, self._last_camera_position.z]) or 
-            not np.allclose([current_rot.x, current_rot.y, current_rot.z],
-                           [self._last_camera_rotation[0], self._last_camera_rotation[1], self._last_camera_rotation[2]])):
+                          [self._last_camera_position.x, self._last_camera_position.y, self._last_camera_position.z]) or
+            not np.allclose([self.camera.rotation_x, self.camera.rotation_y],
+                           [self._last_camera_rotation[0], self._last_camera_rotation[1]])):
             
             self._last_camera_position = Vec3(current_pos.x, current_pos.y, current_pos.z)
-            self._last_camera_rotation = [current_rot.x, current_rot.y, current_rot.z]
+            self._last_camera_rotation = [self.camera.rotation_x, self.camera.rotation_y]
             return True
         return False
         
@@ -625,9 +624,24 @@ class CameraManager:
         return self.camera.up
         
     @property
+    def right(self):
+        """Get right vector from base camera"""
+        return self.camera.up.cross(self.camera.forward).normalized()
+        
+    @property
     def min_zoom(self):
         """Get min zoom value from base camera"""
         return self.camera.min_zoom
+        
+    @property
+    def rotation_x(self):
+        """Get x rotation component from base camera"""
+        return self.camera.rotation.x
+        
+    @property
+    def rotation_y(self):
+        """Get y rotation component from base camera"""
+        return self.camera.rotation.y
         
     def update(self):
         """Update all camera features"""
