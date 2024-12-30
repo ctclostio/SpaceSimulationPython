@@ -233,7 +233,7 @@ class CameraZoom:
         new_position = Vec3(
             self.camera.position.x,
             self.camera.position.y,
-            lerp(self.camera.position.z, target_distance, time.dt * 10)
+            self.camera.position.z + (target_distance - self.camera.position.z) * (time.dt * 10)
         )
         
         self.camera.position = new_position
@@ -385,15 +385,15 @@ class FrustumCuller:
         current_pos = self.camera.position
         current_rot = self.camera.rotation
         
-        if (self._last_camera_position is None or
-            self._last_camera_rotation is None or
+        if (self._last_camera_position is None or 
+            self._last_camera_rotation is None or 
             not np.allclose([current_pos.x, current_pos.y, current_pos.z],
-                          [self._last_camera_position.x, self._last_camera_position.y, self._last_camera_position.z]) or
+                          [self._last_camera_position.x, self._last_camera_position.y, self._last_camera_position.z]) or 
             not np.allclose([current_rot.x, current_rot.y, current_rot.z],
-                          [self._last_camera_rotation.x, self._last_camera_rotation.y, self._last_camera_rotation.z])):
+                           [self._last_camera_rotation[0], self._last_camera_rotation[1], self._last_camera_rotation[2]])):
             
             self._last_camera_position = Vec3(current_pos.x, current_pos.y, current_pos.z)
-            self._last_camera_rotation = Vec3(current_rot.x, current_rot.y, current_rot.z)
+            self._last_camera_rotation = [current_rot.x, current_rot.y, current_rot.z]
             return True
         return False
         
@@ -492,11 +492,6 @@ class CameraMovement:
     """Handles camera movement with WASD/QE controls"""
     def __init__(self, camera):
         self.camera = camera
-        self.move_speed = 500
-        self.vertical_speed = 500
-        
-    def __init__(self, camera):
-        self.camera = camera
         self.base_move_speed = 500
         self.base_vertical_speed = 500
         self._cached_forward = None
@@ -564,8 +559,12 @@ class CameraMovement:
                                 movement=movement, speed=current_speed)
                     camera_report.log_movement(movement)
                     
-                    # Update position using Panda3D's native lerp
-                    self.camera.position = self.camera.position.lerp(target_position, smooth_factor)
+                    # Update position using linear interpolation
+                    self.camera.position = Vec3(
+                        self.camera.position.x + (target_position.x - self.camera.position.x) * smooth_factor,
+                        self.camera.position.y + (target_position.y - self.camera.position.y) * smooth_factor,
+                        self.camera.position.z + (target_position.z - self.camera.position.z) * smooth_factor
+                    )
                     self.camera._world_transform_needs_update = True
                     
                     # Update view matrix
