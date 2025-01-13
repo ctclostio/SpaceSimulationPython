@@ -8,7 +8,8 @@ This module contains:
 """
 
 from ursina import *
-from math import atan2, degrees, radians, cos, sin, sqrt, tan
+from ursina.prefabs.editor_camera import EditorCamera
+from math import atan2, degrees, radians, cos, sin, sqrt, tan, log10
 import logging
 import logging.handlers
 import numpy as np
@@ -118,23 +119,65 @@ class CameraReport:
 # Initialize report
 camera_report = CameraReport()
 
-class Camera(Entity):
-    """Base camera class with core functionality"""
+class Camera(EditorCamera):
+    """Enhanced camera class extending EditorCamera for space simulation"""
     def __init__(self):
-        super().__init__()
-        self.position = Vec3(0, 500, -1000)  # Better initial distance for space view
+        # Initialize EditorCamera with custom settings for space scale
+        super().__init__(
+            rotation_speed = Vec2(40, 40),
+            pan_speed = Vec2(10, 10),  # Increased for better space navigation
+            zoom_speed = 2,  # Increased for better zoom control
+            move_speed = 50  # Increased for space scale
+        )
+        
+        # Override EditorCamera defaults with space simulation settings
         self.orthographic = False
-        self.fov = 60  # Wider FOV for better space visualization
+        self.fov = 60  # Narrower FOV for better depth perception
         self.clip_plane_near = 1
-        self.clip_plane_far = 10000000  # Extended far plane for distant objects
-        self.rotation = Vec3(30, 0, 0)  # Angled down slightly for better perspective
-        self.min_zoom = 50
-        self.max_zoom = 5000  # Increased for better distant viewing
+        self.clip_plane_far = 100000000  # Increased for space scale
+        self.min_zoom = 10  # Allow closer zoom
+        self.max_zoom = 50000  # Allow much further zoom for space scale
         self.debug_overlay = None
-        self.mouse_sensitivity = Vec2(40, 40)  # Standardized mouse sensitivity
+        
+        # Force initial position and rotation
+        self.world_position = Vec3(0, 100, -500)  # Further back initial position
+        self.rotation = Vec3(30, 0, 0)  # Initial look angle
         
         self.setup_debug_overlay()
-        self.reset_camera()
+        
+        # Lock minimum height to prevent going below objects
+        self.min_height = 10
+        
+    def update(self):
+        """Override EditorCamera update to maintain space simulation requirements"""
+        # Convert Vec2 components to floats before parent update
+        if hasattr(self, 'smoothing_helper'):
+            self.smoothing_helper.rotation_x = float(self.smoothing_helper.rotation_x)
+            if hasattr(mouse, 'velocity'):
+                mouse.velocity = Vec2(float(mouse.velocity[0]), float(mouse.velocity[1]))
+                
+        super().update()  # Let EditorCamera handle basic updates
+        
+        # Ensure camera stays within bounds
+        if self.world_position.y < 10:  # Prevent camera from going too low
+            self.world_position = Vec3(
+                self.world_position.x,
+                10,
+                self.world_position.z
+            )
+            
+        # Update debug overlay
+        if hasattr(self, 'debug_overlay') and self.debug_overlay:
+            self.update_debug_overlay()
+            
+    def input(self, key):
+        """Handle camera input with EditorCamera integration"""
+        if key == 'right mouse down':
+            mouse.locked = True
+        elif key == 'right mouse up':
+            mouse.locked = False
+            
+        super().input(key)  # Let EditorCamera handle rotation after our modifications
         
     def setup_debug_overlay(self):
         """Setup debug overlay for camera state visualization"""
@@ -156,87 +199,77 @@ class Camera(Entity):
             
     def reset_camera(self, duration=0.5):
         """Reset camera to default position and rotation"""
-        self.animate_position(self.position, duration)
-        self.animate_rotation(self.rotation, duration)
+        default_position = Vec3(0, 50, -100)
+        default_rotation = Vec3(30, 0, 0)
+        
+        # Use EditorCamera's built-in position setter
+        self.world_position = default_position
+        self.rotation = default_rotation
         
     def animate_position(self, target, duration):
         """Animate camera to target position"""
-        super().animate_position(target, duration=duration)
+        if isinstance(target, (list, tuple)):
+            # Handle path-based animation for celestial body transitions
+            invoke(setattr, self, 'world_position', target[0], delay=0)
+            for i, pos in enumerate(target[1:], 1):
+                invoke(setattr, self, 'world_position', pos, delay=duration * (i/len(target)))
+        else:
+            # Simple position animation
+            invoke(setattr, self, 'world_position', target, delay=duration)
         
     def animate_rotation(self, target, duration):
         """Animate camera to target rotation"""
-        super().animate_rotation(target, duration=duration)
-        
-    def update(self):
-        """Update camera state"""
-        self.update_debug_overlay()
-        self.update_view_matrix()
-        
-    def update_view_matrix(self):
-        """Calculate and update the camera's view matrix"""
-        position = self.position
-        target = position + self.forward
-        up = self.up
-        
-        z = (position - target).normalized()
-        x = up.cross(z).normalized()
-        y = z.cross(x)
-        
-        self.view_matrix = np.array([
-            [x.x, x.y, x.z, -x.dot(position)],
-            [y.x, y.y, y.z, -y.dot(position)],
-            [z.x, z.y, z.z, -z.dot(position)],
-            [0, 0, 0, 1]
-        ])
+        invoke(setattr, self, 'rotation', target, delay=duration)
 
 class CameraZoom:
-    """Handles camera zoom functionality"""
+    """Handles camera zoom functionality for space simulation scale"""
     def __init__(self, camera):
         self.camera = camera
-        self.base_zoom_speed = 50
+        self.base_zoom_speed = 200  # Increased for space scale
+        self.zoom_smoothing = 5  # Smoothing factor for zoom interpolation
         
     def calculate_dynamic_zoom_speed(self):
-        """Calculate zoom speed based on current zoom level"""
-        current_zoom = abs(self.camera.position.z)
-        return self.base_zoom_speed * (current_zoom / self.camera.max_zoom + 0.1)
+        """Calculate zoom speed based on current zoom level and distance from origin"""
+        current_distance = self.camera.world_position.length()
+        zoom_factor = current_distance / self.camera.max_zoom
+        
+        # Logarithmic scaling for smoother transitions at different distances
+        return self.base_zoom_speed * (1 + log10(max(1, zoom_factor)))
         
     def zoom(self):
-        """Handle zoom functionality in both directions"""
-        if not held_keys['control']:
+        """Handle zoom functionality with space-scale considerations"""
+        if not mouse.wheel:
             return
             
+        # Calculate zoom speed based on current position
         zoom_speed = self.calculate_dynamic_zoom_speed()
+        zoom_amount = mouse.wheel * zoom_speed * time.dt * 60  # Normalize for framerate
         
-        # Safely handle mouse wheel input
-        try:
-            zoom_amount = getattr(mouse, 'wheel', 0) * zoom_speed
-        except Exception as e:
-            logger.warning(f"Error getting mouse wheel: {e}")
-            return
-            
-        if zoom_amount == 0:
-            return
-            
-        # Calculate target distance based on scroll direction
-        current_distance = abs(self.camera.position.z)
-        if mouse.wheel > 0:
-            # Zoom in (scroll forward)
-            target_distance = max(current_distance - zoom_amount, self.camera.min_zoom)
-        else:
-            # Zoom out (scroll back)
-            target_distance = min(current_distance + zoom_amount, self.camera.max_zoom)
-            
-        # Maintain negative z-axis for proper perspective
-        target_distance = -target_distance
+        # Get current forward direction for zoom
+        forward = self.camera.forward
         
+        # Calculate new position
+        if mouse.wheel > 0:  # Zoom in
+            target_pos = self.camera.world_position + forward * zoom_amount
+            # Check minimum zoom
+            if target_pos.length() < self.camera.min_zoom:
+                target_pos = forward * self.camera.min_zoom
+        else:  # Zoom out
+            target_pos = self.camera.world_position - forward * zoom_amount
+            # Check maximum zoom
+            if target_pos.length() > self.camera.max_zoom:
+                target_pos = forward * -self.camera.max_zoom
+        
+        # Ensure minimum height is maintained
+        if target_pos.y < self.camera.min_height:
+            target_pos.y = self.camera.min_height
+            
         # Smoothly interpolate to new position
-        new_position = Vec3(
-            self.camera.position.x,
-            self.camera.position.y,
-            self.camera.position.z + (target_distance - self.camera.position.z) * (time.dt * 10)
+        self.camera.world_position = lerp(
+            self.camera.world_position,
+            target_pos,
+            time.dt * self.zoom_smoothing
         )
-        
-        self.camera.position = new_position
 
 class CameraRotation:
     """Handles camera rotation functionality"""
@@ -250,9 +283,11 @@ class CameraRotation:
         
     def rotate(self):
         """Handle camera rotation"""
+        logger.debug("camera_rotation", "Rotate function called")
         if not self.is_enabled or not mouse.right:
             return
             
+        logger.debug("camera_rotation", "Rotation enabled and right mouse button pressed")
         rotation_y = mouse.velocity[0] * self.camera.mouse_sensitivity[0]
         rotation_x = mouse.velocity[1] * self.camera.mouse_sensitivity[1]
         
@@ -263,47 +298,79 @@ class CameraRotation:
         self.camera.rotation_y = new_rotation_y
 
 class CelestialBodyTracker:
-    """Handles tracking and transitioning between celestial bodies"""
+    """Handles tracking and transitioning between celestial bodies with space-scale considerations"""
     def __init__(self, camera):
         self.camera = camera
+        self.tracking_offset = 2.5  # Multiplier for viewing distance based on body size
+        self.min_tracking_distance = 50  # Minimum distance to maintain from any body
         
     def track_body(self, body, duration=1.0):
-        """Track and focus on a celestial body"""
+        """Track and focus on a celestial body with proper scaling"""
         if not body:
             logger.warning("No celestial body provided for tracking")
             return
             
-        min_zoom, max_zoom = self.calculate_zoom_constraints(body)
-        optimal_distance = max(body.scale.x * 3, min_zoom)
-        optimal_distance = min(optimal_distance, max_zoom)
+        # Calculate optimal viewing distance based on body size
+        body_radius = max(body.scale.x, body.scale.y, body.scale.z) / 2
+        optimal_distance = max(
+            body_radius * self.tracking_offset,
+            self.min_tracking_distance
+        )
         
-        target_position = body.position + Vec3(0, optimal_distance/2, -optimal_distance)
+        # Calculate position that gives good view of the body
+        offset = Vec3(
+            optimal_distance * 0.5,  # Slight offset for better perspective
+            optimal_distance * 0.3,  # Height offset
+            -optimal_distance        # Distance from body
+        )
         
+        target_position = body.position + offset
+        
+        # Ensure minimum height is maintained
+        if target_position.y < self.camera.min_height:
+            target_position.y = self.camera.min_height
+            
+        # Animate to new position and rotation
         self.camera.animate_position(target_position, duration)
         self.camera.animate_rotation(self.get_look_at_rotation(body.position), duration)
         
     def transition_between_bodies(self, from_body, to_body, duration=1.5):
-        """Smoothly transition between two celestial bodies"""
+        """Smoothly transition between celestial bodies with proper scaling"""
         if not from_body or not to_body:
             logger.warning("Missing celestial bodies for transition")
             return
             
-        midpoint = (from_body.position + to_body.position) * 0.5
-        distance = (to_body.position - from_body.position).length()
-        arc_height = distance * 0.5
+        # Calculate transition path
+        start_pos = self.camera.world_position
+        end_pos = to_body.position
         
-        control_point1 = from_body.position + Vec3(0, arc_height, 0)
-        control_point2 = to_body.position + Vec3(0, arc_height, 0)
+        # Calculate arc height based on distance
+        distance = (end_pos - start_pos).length()
+        arc_height = max(distance * 0.3, 1000)  # Ensure minimum arc height
         
-        path = [
-            from_body.position,
-            control_point1,
-            control_point2,
-            to_body.position
-        ]
+        # Create Bezier curve control points
+        midpoint = (start_pos + end_pos) * 0.5
+        control_point = midpoint + Vec3(0, arc_height, 0)
         
-        self.camera.animate_position(path, duration=duration, curve='smooth')
-        self.track_body(to_body, duration)
+        # Generate path points
+        steps = 20  # Number of points in the path
+        path = []
+        for i in range(steps):
+            t = i / (steps - 1)
+            # Quadratic Bezier curve
+            point = (1-t)**2 * start_pos + \
+                   2*(1-t)*t * control_point + \
+                   t**2 * end_pos
+            # Ensure minimum height
+            if point.y < self.camera.min_height:
+                point.y = self.camera.min_height
+            path.append(point)
+        
+        # Animate along path
+        self.camera.animate_position(path, duration=duration)
+        
+        # Track target body at end of transition
+        invoke(self.track_body, to_body, delay=duration)
         
     def calculate_zoom_constraints(self, body):
         """Calculate zoom constraints based on body size"""
@@ -448,12 +515,18 @@ class FrustumCuller:
             
     def is_sphere_visible(self, center, radius):
         """Test if a sphere is visible within the frustum"""
+        # Add 10% buffer to radius to prevent premature culling
+        radius *= 1.1
+        
+        # Check each frustum plane
         for plane in self.planes:
             distance = (plane[0] * center.x +
                        plane[1] * center.y +
                        plane[2] * center.z +
                        plane[3])
             if distance < -radius:
+                # Add debug logging for culled objects
+                logger.debug("frustum", f"Object culled by plane: {plane}")
                 return False
         return True
 
@@ -487,175 +560,59 @@ class CameraPerspective:
         if key in self.perspectives:
             self.perspectives[key]()
 
-class CameraMovement:
-    """Handles camera movement with WASD/QE controls"""
-    def __init__(self, camera):
-        self.camera = camera
-        self.base_move_speed = 500
-        self.base_vertical_speed = 500
-        self._cached_forward = None
-        self._cached_right = None
-        self._cached_up = None
-        self._last_update_time = 0
-        self._cache_lifetime = 0.1  # Cache vectors for 100ms
-        
-    def _update_cached_directions(self):
-        """Cache normalized direction vectors"""
-        self._cached_forward = self.camera.forward.normalized()
-        self._cached_right = self.camera.right.normalized()
-        self._cached_up = self.camera.up.normalized()
-        
-    def _get_dynamic_speed(self):
-        """Calculate movement speed based on camera distance from origin"""
-        distance = self.camera.position.length()
-        return self.base_move_speed * (1 + distance / 1000)
-
-    def move(self):
-        """Handle camera movement based on key inputs with dynamic speed"""
-        # Update cached directions if cache expired
-        current_time = time.time()
-        if (self._cached_forward is None or
-            current_time - self._last_update_time > self._cache_lifetime):
-            self._update_cached_directions()
-            self._last_update_time = current_time
-            
-        move_direction = Vec3(0, 0, 0)
-        current_speed = self._get_dynamic_speed()
-        
-        # Debug input system state
-        try:
-            if held_keys:
-                active_keys = [k for k, v in held_keys.items() if v]
-                logger.debug("input", "Active keys detected", keys=active_keys)
-                camera_report.log_keypress(active_keys)
-                
-                if held_keys['w']:
-                    move_direction += self._cached_forward
-                if held_keys['s']:
-                    move_direction -= self._cached_forward
-                if held_keys['a']:
-                    move_direction -= self._cached_right
-                if held_keys['d']:
-                    move_direction += self._cached_right
-                if held_keys['q']:
-                    move_direction -= self._cached_up
-                if held_keys['e']:
-                    move_direction += self._cached_up
-                    
-                if move_direction.length() > 0:
-                    # Normalize and scale movement
-                    move_direction = move_direction.normalized()
-                    current_speed = self._get_dynamic_speed()
-                    
-                    # Apply smooth acceleration
-                    smooth_factor = min(time.dt * 5, 1.0)  # Smooth acceleration over 0.2 seconds
-                    
-                    # Calculate target position using Panda3D vectors
-                    movement = move_direction * current_speed * time.dt
-                    target_position = self.camera.position + movement
-                    
-                    logger.debug("movement", "Camera movement calculated",
-                                movement=movement, speed=current_speed)
-                    camera_report.log_movement(movement)
-                    
-                    # Update position using linear interpolation
-                    self.camera.position = Vec3(
-                        self.camera.position.x + (target_position.x - self.camera.position.x) * smooth_factor,
-                        self.camera.position.y + (target_position.y - self.camera.position.y) * smooth_factor,
-                        self.camera.position.z + (target_position.z - self.camera.position.z) * smooth_factor
-                    )
-                    self.camera._world_transform_needs_update = True
-                    
-                    # Update view matrix
-                    if hasattr(self.camera, 'update_view_matrix'):
-                        self.camera.update_view_matrix()
-                        
-            else:
-                logger.debug("input", "No active movement keys detected")
-        except Exception as e:
-            logger.error("movement", "Error updating camera movement", error=str(e))
-            camera_report.log_error(e)
+# Movement is now handled by EditorCamera
 
 class CameraManager:
-    """Manages camera features through composition"""
+    """Manages camera features through composition with EditorCamera integration"""
     def __init__(self):
-        self.camera = Camera()
+        self.camera = Camera()  # Now using EditorCamera-based implementation
         self.zoom = CameraZoom(self.camera)
         self.rotation = CameraRotation(self.camera)
         self.tracker = CelestialBodyTracker(self.camera)
         self.pivot = CameraPivot(self.camera)
         self.culler = FrustumCuller(self)
         self.perspective = CameraPerspective(self.camera)
-        self.movement = CameraMovement(self.camera)
         
-    @property
-    def max_zoom(self):
-        """Get max zoom value from base camera"""
-        return self.camera.max_zoom
-        
-    @property
-    def fov(self):
-        """Get field of view from base camera"""
-        return self.camera.fov
-        
-    @property
-    def clip_plane_near(self):
-        """Get near clipping plane from base camera"""
-        return self.camera.clip_plane_near
-        
-    @property
-    def clip_plane_far(self):
-        """Get far clipping plane from base camera"""
-        return self.camera.clip_plane_far
-        
-    @property
-    def position(self):
-        """Get camera position from base camera"""
-        return self.camera.position
-        
-    @property
-    def forward(self):
-        """Get forward vector from base camera"""
-        return self.camera.forward
-        
-    @property
-    def up(self):
-        """Get up vector from base camera"""
-        return self.camera.up
-        
-    @property
-    def right(self):
-        """Get right vector from base camera"""
-        return self.camera.up.cross(self.camera.forward).normalized()
-        
-    @property
-    def min_zoom(self):
-        """Get min zoom value from base camera"""
-        return self.camera.min_zoom
-        
-    @property
-    def rotation_x(self):
-        """Get x rotation component from base camera"""
-        return self.camera.rotation.x
-        
-    @property
-    def rotation_y(self):
-        """Get y rotation component from base camera"""
-        return self.camera.rotation.y
+        # EditorCamera handles movement internally
+        logger.info("camera_init", "Initialized with EditorCamera-based implementation")
         
     def update(self):
-        """Update all camera features"""
+        """Update camera features, letting EditorCamera handle core functionality"""
         logger.debug("update", "Updating camera features")
+        
+        # Base camera updates (handled by EditorCamera)
         self.camera.update()
+        
+        # Additional feature updates
         self.zoom.zoom()
-        self.rotation.rotate()
-        logger.debug("update", "Calling movement.update()")
-        self.movement.move()
-        logger.debug("update", "Finished movement.update()")
         
         # Update frustum planes for culling
         self.culler.extract_frustum_planes()
         logger.debug("update", "Finished camera update")
+        
+    # Maintain property access for compatibility
+    @property
+    def max_zoom(self): return self.camera.max_zoom
+    @property
+    def fov(self): return self.camera.fov
+    @property
+    def clip_plane_near(self): return self.camera.clip_plane_near
+    @property
+    def clip_plane_far(self): return self.camera.clip_plane_far
+    @property
+    def position(self): return self.camera.position
+    @property
+    def forward(self): return self.camera.forward
+    @property
+    def up(self): return self.camera.up
+    @property
+    def right(self): return self.camera.right
+    @property
+    def min_zoom(self): return self.camera.min_zoom
+    @property
+    def rotation_x(self): return self.camera.rotation.x
+    @property
+    def rotation_y(self): return self.camera.rotation.y
         
     def is_visible(self, entity):
         """Check if an entity is visible within the camera frustum"""
