@@ -151,11 +151,15 @@ class Camera(EditorCamera):
     def update(self):
         """Override EditorCamera update to maintain space simulation requirements"""
         # Convert Vec2 components to floats before parent update
-        if hasattr(self, 'smoothing_helper'):
-            self.smoothing_helper.rotation_x = float(self.smoothing_helper.rotation_x)
-            if hasattr(mouse, 'velocity'):
-                mouse.velocity = Vec2(float(mouse.velocity[0]), float(mouse.velocity[1]))
-                
+        if hasattr(self, 'smoothing_helper') and hasattr(mouse, 'velocity'):
+            # Convert mouse velocity to float values
+            mouse_velocity_x = float(mouse.velocity[0])
+            mouse_velocity_y = float(mouse.velocity[1])
+            
+            # Update rotation using float values
+            self.smoothing_helper.rotation_x -= mouse_velocity_y * float(self.rotation_speed[1])
+            self.smoothing_helper.rotation_y += mouse_velocity_x * float(self.rotation_speed[0])
+            
         super().update()  # Let EditorCamera handle basic updates
         
         # Ensure camera stays within bounds
