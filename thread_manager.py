@@ -21,12 +21,23 @@ class ThreadManager:
 
     def stop_threads(self):
         """Stop all threads by setting the stop event."""
-        self.stop_event.set()
-        for thread in self.threads:
-            if thread.is_alive():
-                thread.join()
-        self.threads.clear()
-        self.stop_event.clear()
+        if not self.stop_event.is_set():
+            self.stop_event.set()
+            
+            # Give threads time to shutdown gracefully
+            timeout = 2.0  # seconds
+            start_time = time.time()
+            
+            for thread in self.threads:
+                if thread.is_alive():
+                    remaining_time = timeout - (time.time() - start_time)
+                    if remaining_time > 0:
+                        thread.join(remaining_time)
+                    if thread.is_alive():
+                        print(f"Warning: Thread {thread.name} did not shutdown gracefully")
+            
+            self.threads.clear()
+            self.stop_event.clear()
 
     def is_stopped(self):
         """Check if threads should stop."""

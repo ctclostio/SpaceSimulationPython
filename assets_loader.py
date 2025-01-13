@@ -52,14 +52,15 @@ class AssetLoader:
     def run(self):
         """Run the asset loading thread."""
         # First, queue all known textures
-        for name, path in self.texture_mapping.items():
-            self.queue_texture_load(name, path)
+        with self.lock:
+            for name, path in self.texture_mapping.items():
+                self.queue_texture_load(name, path)
         
         # Process the queue until stopped
         while not self.stop_event.is_set():
             try:
-                # Non-blocking queue check
-                name, path = self.load_queue.get_nowait()
+                # Non-blocking queue check with timeout
+                name, path = self.load_queue.get(timeout=0.1)
                 
                 try:
                     texture = load_texture(path)
@@ -67,13 +68,17 @@ class AssetLoader:
                         self.loaded_textures[name] = texture
                 except Exception as e:
                     print(f"Error loading texture for {name}: {str(e)}")
-                    # Don't set a fallback texture here - let the main thread handle that
+                    # Set a fallback texture
+                    with self.lock:
+                        self.loaded_textures[name] = load_texture('textures/fallback.jpg')
                 
                 self.load_queue.task_done()
                 
             except Empty:
-                # No more textures to load, sleep briefly
-                time.sleep(0.1)  # time is already imported at the top
+                continue  # No textures to load, continue loop
+            except Exception as e:
+                print(f"Error in asset loader thread: {str(e)}")
+                break
 
     def update_assets_manager(self):
         """

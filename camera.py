@@ -515,19 +515,24 @@ class FrustumCuller:
             
     def is_sphere_visible(self, center, radius):
         """Test if a sphere is visible within the frustum"""
+        if not hasattr(self, 'planes') or len(self.planes) != 6:
+            return True
+            
         # Add 10% buffer to radius to prevent premature culling
         radius *= 1.1
         
+        # Precompute plane checks
+        px, py, pz = center.x, center.y, center.z
+        
         # Check each frustum plane
         for plane in self.planes:
-            distance = (plane[0] * center.x +
-                       plane[1] * center.y +
-                       plane[2] * center.z +
+            distance = (plane[0] * px +
+                       plane[1] * py +
+                       plane[2] * pz +
                        plane[3])
             if distance < -radius:
-                # Add debug logging for culled objects
-                logger.debug("frustum", f"Object culled by plane: {plane}")
                 return False
+                
         return True
 
 class CameraPerspective:

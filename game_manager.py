@@ -219,24 +219,37 @@ class GameManager:
     
     def cleanup(self):
         """Clean up resources when closing the application"""
-        try:
-            # Stop all threads first
-            if hasattr(self, 'thread_manager') and self.thread_manager:
-                self.thread_manager.stop_threads()
-            
-            # Disable all lights
-            if hasattr(self, 'light_manager') and self.light_manager:
-                self.light_manager.toggle_all_lights(False)
-                
-                # Remove all lights
-                if hasattr(self.light_manager, 'lights'):
-                    for light in self.light_manager.lights[:]:  # Create a copy of the list to iterate
-                        try:
-                            self.light_manager.remove_light(light)
-                        except Exception as e:
-                            print(f"Error removing light: {str(e)}")
-        except Exception as e:
-            print(f"Error during cleanup: {str(e)}")
+        cleanup_order = [
+            'thread_manager',
+            'light_manager', 
+            'camera_manager',
+            'assets_manager',
+            'orbit_controller'
+        ]
+        
+        for resource in cleanup_order:
+            try:
+                if hasattr(self, resource):
+                    manager = getattr(self, resource)
+                    if manager:
+                        if resource == 'thread_manager':
+                            manager.stop_threads()
+                        elif resource == 'light_manager':
+                            manager.toggle_all_lights(False)
+                            if hasattr(manager, 'lights'):
+                                for light in manager.lights[:]:
+                                    try:
+                                        manager.remove_light(light)
+                                    except Exception as e:
+                                        print(f"Error removing light: {str(e)}")
+                        elif hasattr(manager, 'cleanup'):
+                            manager.cleanup()
+            except Exception as e:
+                print(f"Error cleaning up {resource}: {str(e)}")
+        
+        # Force garbage collection
+        import gc
+        gc.collect()
 
 if __name__ == "__main__":
     GameManager()

@@ -143,9 +143,18 @@ class Planet(CelestialBody):
         
     def update_orbit(self):
         """Update the planet's position based on its orbit"""
-        self.orbit_angle += self.orbit_speed * time.dt
+        if hasattr(self, '_frame_dt'):
+            dt = self._frame_dt
+        else:
+            dt = time.dt
+            
+        self.orbit_angle = (self.orbit_angle + self.orbit_speed * dt) % 360
         orbit_pos = calculate_orbit_position(self.orbit_radius, self.orbit_angle)
         self.position = orbit_pos
+        
+        # Only update rotation if position changed significantly
+        if (orbit_pos - self.position).length() > 0.1:
+            self.position = orbit_pos
 
     def update(self):
         """Update only rotation - position is handled by ThreadedOrbitController"""
