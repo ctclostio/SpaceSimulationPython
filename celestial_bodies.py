@@ -51,42 +51,6 @@ class CelestialBody(Entity):
         """Update the orbital position of the celestial body"""
         pass  # To be implemented in subclasses
 
-class Star(CelestialBody):
-    """Class representing stars (e.g., the Sun)"""
-    def __init__(self, name, radius, color, rotation_speed, light_manager=None, **kwargs):
-        """
-        Initialize a star
-        
-        Args:
-            name (str): Name of the star
-            radius (float): Radius of the star
-            color (color): Color of the star
-            rotation_speed (float): Rotation speed in degrees per second
-            light_manager (LightManager, optional): Light manager instance for handling lighting
-            **kwargs: Additional arguments passed to parent Entity class
-        """
-        super().__init__(
-            name=name,
-            radius=radius,
-            color=color,
-            rotation_speed=rotation_speed,
-            subdivisions=2,
-            **kwargs
-        )
-        self.shader = 'lit_with_shadows_shader'  # Using built-in Ursina shader
-        
-        # Add sunlight for star illumination
-        if light_manager:
-            # Create sunlight with directional illumination
-            self.light = light_manager.add_sun_light(
-                direction=Vec3(1, -1, -1),  # Default sunlight direction
-                shadows=True  # Enable shadows for realism
-            )
-            if self.light:
-                light_manager.attach_to_entity(self.light, self)
-                # Configure sunlight properties
-                self.light.color = self.color  # Warm sunlight color
-                self.light.intensity = 2.0  # High intensity for star light
 
 class Star(CelestialBody):
     """Class representing stars (e.g., the Sun)"""

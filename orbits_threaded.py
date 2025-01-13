@@ -6,10 +6,14 @@ offloading intensive computations to a separate thread.
 """
 
 import time
+import logging
 from threading import Lock
 from queue import Queue
 from orbits import calculate_orbit_position, calculate_orbital_velocity
 from ursina import lerp
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 class OrbitalCalculator:
     def __init__(self, stop_event):

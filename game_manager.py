@@ -219,15 +219,24 @@ class GameManager:
     
     def cleanup(self):
         """Clean up resources when closing the application"""
-        # Stop all threads first
-        self.thread_manager.stop_threads()
-        
-        # Disable all lights
-        self.light_manager.toggle_all_lights(False)
-        
-        # Remove all lights
-        for light in self.light_manager.lights[:]:  # Create a copy of the list to iterate
-            self.light_manager.remove_light(light)
+        try:
+            # Stop all threads first
+            if hasattr(self, 'thread_manager') and self.thread_manager:
+                self.thread_manager.stop_threads()
+            
+            # Disable all lights
+            if hasattr(self, 'light_manager') and self.light_manager:
+                self.light_manager.toggle_all_lights(False)
+                
+                # Remove all lights
+                if hasattr(self.light_manager, 'lights'):
+                    for light in self.light_manager.lights[:]:  # Create a copy of the list to iterate
+                        try:
+                            self.light_manager.remove_light(light)
+                        except Exception as e:
+                            print(f"Error removing light: {str(e)}")
+        except Exception as e:
+            print(f"Error during cleanup: {str(e)}")
 
 if __name__ == "__main__":
     GameManager()
