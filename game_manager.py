@@ -67,9 +67,10 @@ class GameManager:
         self.sun = Star(
             name="Sun",
             radius=SUN_RADIUS,
-            texture="sun",
+            color=color.rgb(255, 253, 208),  # Yellowish-white color for the Sun
             rotation_speed=SUN_ROTATION_SPEED,
-            light_manager=self.light_manager
+            light_manager=self.light_manager,
+            texture="sun"
         )
         
         print("\nInitializing planets...")
@@ -82,7 +83,8 @@ class GameManager:
                 'orbit_radius': MERCURY_ORBIT_RADIUS,
                 'orbit_speed': MERCURY_ORBIT_SPEED,
                 'rotation_speed': MERCURY_ROTATION_SPEED,
-                'start_angle': 0
+                'start_angle': 0,
+                'color': color.gray
             },
             {
                 'name': 'Venus',
@@ -91,7 +93,8 @@ class GameManager:
                 'orbit_radius': VENUS_ORBIT_RADIUS,
                 'orbit_speed': VENUS_ORBIT_SPEED,
                 'rotation_speed': VENUS_ROTATION_SPEED,
-                'start_angle': 45
+                'start_angle': 45,
+                'color': color.orange
             },
             {
                 'name': 'Earth',
@@ -100,7 +103,8 @@ class GameManager:
                 'orbit_radius': EARTH_ORBIT_RADIUS,
                 'orbit_speed': EARTH_ORBIT_SPEED,
                 'rotation_speed': EARTH_ROTATION_SPEED,
-                'start_angle': 90
+                'start_angle': 90,
+                'color': color.blue
             },
             {
                 'name': 'Mars',
@@ -109,7 +113,8 @@ class GameManager:
                 'orbit_radius': MARS_ORBIT_RADIUS,
                 'orbit_speed': MARS_ORBIT_SPEED,
                 'rotation_speed': MARS_ROTATION_SPEED,
-                'start_angle': 135
+                'start_angle': 135,
+                'color': color.red
             },
             {
                 'name': 'Jupiter',
@@ -118,7 +123,8 @@ class GameManager:
                 'orbit_radius': JUPITER_ORBIT_RADIUS,
                 'orbit_speed': JUPITER_ORBIT_SPEED,
                 'rotation_speed': JUPITER_ROTATION_SPEED,
-                'start_angle': 180
+                'start_angle': 180,
+                'color': color.orange
             },
             {
                 'name': 'Saturn',
@@ -127,7 +133,8 @@ class GameManager:
                 'orbit_radius': SATURN_ORBIT_RADIUS,
                 'orbit_speed': SATURN_ORBIT_SPEED,
                 'rotation_speed': SATURN_ROTATION_SPEED,
-                'start_angle': 225
+                'start_angle': 225,
+                'color': color.yellow
             },
             {
                 'name': 'Uranus',
@@ -136,7 +143,8 @@ class GameManager:
                 'orbit_radius': URANUS_ORBIT_RADIUS,
                 'orbit_speed': URANUS_ORBIT_SPEED,
                 'rotation_speed': URANUS_ROTATION_SPEED,
-                'start_angle': 270
+                'start_angle': 270,
+                'color': color.cyan
             },
             {
                 'name': 'Neptune',
@@ -145,7 +153,8 @@ class GameManager:
                 'orbit_radius': NEPTUNE_ORBIT_RADIUS,
                 'orbit_speed': NEPTUNE_ORBIT_SPEED,
                 'rotation_speed': NEPTUNE_ROTATION_SPEED,
-                'start_angle': 315
+                'start_angle': 315,
+                'color': color.blue
             }
         ]
         
@@ -154,10 +163,11 @@ class GameManager:
             planet = Planet(
                 name=data['name'],
                 radius=data['radius'],
-                texture=data['texture'],
+                color=data['color'],
                 orbit_radius=data['orbit_radius'],
                 orbit_speed=data['orbit_speed'],
-                rotation_speed=data['rotation_speed']
+                rotation_speed=data['rotation_speed'],
+                texture=data['texture']
             )
             planet.position = calculate_orbit_position(data['orbit_radius'], data['start_angle'])
             self.planets.append(planet)
