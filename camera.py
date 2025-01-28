@@ -142,6 +142,7 @@ class Camera(EditorCamera):
         # Force initial position and rotation
         self.world_position = Vec3(0, 100, -500)  # Further back initial position
         self.rotation = Vec3(30, 0, 0)  # Initial look angle
+        self.mouse_control_active = False  # Toggle state for rotation control
         
         self.setup_debug_overlay()
         
@@ -242,18 +243,19 @@ class CameraZoom:
         
     def zoom(self):
         """Handle zoom functionality with space-scale considerations"""
-        if not mouse.wheel:
+        scroll_y = mouse.wheel[1] if mouse.wheel else 0
+        if not scroll_y:
             return
             
         # Calculate zoom speed based on current position
         zoom_speed = self.calculate_dynamic_zoom_speed()
-        zoom_amount = mouse.wheel * zoom_speed * time.dt * 60  # Normalize for framerate
+        zoom_amount = scroll_y * zoom_speed * time.dt * 60  # Normalize for framerate
         
         # Get current forward direction for zoom
         forward = self.camera.forward
         
         # Calculate new position
-        if mouse.wheel > 0:  # Zoom in
+        if scroll_y > 0:  # Zoom in
             target_pos = self.camera.world_position + forward * zoom_amount
             # Check minimum zoom
             if target_pos.length() < self.camera.min_zoom:

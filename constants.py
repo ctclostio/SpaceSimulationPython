@@ -10,15 +10,15 @@ throughout the simulation. This includes:
 """
 
 # Celestial body radii (relative to Earth's radius)
-SUN_RADIUS = 10.0
-MERCURY_RADIUS = 0.38
-VENUS_RADIUS = 0.95
-EARTH_RADIUS = 1.0
-MARS_RADIUS = 0.53
-JUPITER_RADIUS = 11.2
-SATURN_RADIUS = 9.45
-URANUS_RADIUS = 4.0
-NEPTUNE_RADIUS = 3.88
+SUN_RADIUS = 20.0  # Increased size
+MERCURY_RADIUS = 1.0  # Increased size
+VENUS_RADIUS = 1.5  # Increased size
+EARTH_RADIUS = 2.0  # Increased size
+MARS_RADIUS = 1.2  # Increased size
+JUPITER_RADIUS = 15.0  # Increased size
+SATURN_RADIUS = 12.0  # Increased size
+URANUS_RADIUS = 6.0  # Increased size
+NEPTUNE_RADIUS = 5.5  # Increased size
 
 # Orbital parameters
 # Distances in AU (scaled), speeds calculated for periods

@@ -1,0 +1,21 @@
+Looking at the code structure, here are some potential issues and the files that would need to be modified to fix them:
+
+ 1 Thread Safety Issues:
+
+ • assets_loader.py - The ThreadedAssetsManager could have race conditions
+ • orbits_threaded.py - The OrbitalCalculator needs proper thread synchronization
+
+ 2 Resource Management:
+
+ • game_manager.py - Missing proper cleanup of resources
+ • thread_manager.py - No thread cleanup on application exit
+
+ 3 Error Handling:
+
+ • main.py - Incomplete error handling in GameLoop
+ • camera.py - CameraLogger could have better error handling
+
+ 4 Performance Optimization:
+
+ • celestial_bodies.py - Planet class could optimize position updates
+ • frustum_culling.py - Could optimize visibility checks

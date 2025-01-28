@@ -18,7 +18,7 @@ from threading import Lock
 
 class CelestialBody(Entity):
     """Base class for all celestial bodies"""
-    def __init__(self, name, radius, color, rotation_speed, **kwargs):
+    def __init__(self, name, radius, color, rotation_speed, buffer_manager=None, **kwargs):
         """
         Initialize a celestial body
         
@@ -27,6 +27,7 @@ class CelestialBody(Entity):
             radius (float): Radius of the body
             color (color): Color of the body
             rotation_speed (float): Rotation speed in degrees per second
+            buffer_manager (BufferManager): Position buffer system manager
         """
         super().__init__(
             model='icosphere',
@@ -37,7 +38,9 @@ class CelestialBody(Entity):
         )
         self.name = name
         self.rotation_speed = rotation_speed
-        self.position_lock = Lock()
+        self.buffer_manager = buffer_manager
+        if buffer_manager:
+            self.buffer_manager.register_entity(self.name)
         
     def update_rotation(self):
         """Update rotation each frame using consistent time tracking"""

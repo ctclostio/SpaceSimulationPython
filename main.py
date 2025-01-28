@@ -79,30 +79,13 @@ def main():
                     logger.error(traceback.format_exc())
             logger.info("Cleanup complete")
             
-        # Create game loop entity
-        logger.debug("Creating game loop entity")
-        game_loop = GameLoop()
-        logger.debug("Game loop entity created")
-        
         # Register cleanup handler
         application.on_shutdown = on_shutdown
-        
-        # Enable update loop and manually step the application
-        application.do_update = True
-        logger.debug("Manually stepping application")
-        application.step()
-        logger.debug("Application stepped")
         
         # Run the application
         logger.info("Starting application")
         application.run()
         logger.info("Application started")
-        
-        # Manually call update in a loop
-        while True:
-            update()
-            application.step()
-            time.sleep(1/60)  # Target 60 FPS
         
     except Exception as e:
         logger.critical(f"Fatal error: {str(e)}")
@@ -122,4 +105,5 @@ def main():
             sys.exit(1)
 
 if __name__ == "__main__":
+
     main()

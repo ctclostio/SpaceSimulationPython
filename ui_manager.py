@@ -41,7 +41,7 @@ class UIManager:
         
         # Add enhanced camera controls display
         self.camera_text = Text(
-            text="Camera Controls:\nRight click + drag: Rotate\nScroll: Zoom\nWASD: Move\nQ/E: Up/Down",
+            text="Camera Controls:\nRight click: Toggle rotation\nScroll: Zoom\nWASD: Move\nQ/E: Up/Down",
             position=(-0.9, 0.35),
             scale=1,
             color=color.gray,
